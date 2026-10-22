@@ -4,13 +4,14 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;500;600;700&family=Caveat:wght@500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   /* Layout: one 16:10 screen that behaves like the booth monitor, with the knob and crank drawn underneath as on-screen stand-ins. */
   :root {
     --bg: #FFFEF2; --fg: #3A3833; --muted: #7A766B; --line: #D9D3BE; --panel: #FBF7E6; --accent: #612826;
-    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
-    --sans: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+    --head: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --serif: "DM Sans", "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+    --sans: "DM Sans", "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) { --bg: #1D1B17; --fg: #ECE6D6; --muted: #A29C8D; --line: #3A362E; --panel: #26231E; --accent: #D9806F; color-scheme: dark; }
@@ -21,7 +22,7 @@
     padding-block: 24px 44px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   .page { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
   .eyebrow { font: 600 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0; }
-  h1 { font-weight: 300; font-size: clamp(26px, 4.6vw, 40px); line-height: 1.1; text-transform: uppercase; margin: 6px 0 0; letter-spacing: .02em; text-wrap: balance; }
+  h1 { font-family: var(--head); font-weight: 300; font-size: clamp(26px, 4.6vw, 40px); line-height: 1.1; text-transform: uppercase; margin: 6px 0 0; letter-spacing: .02em; text-wrap: balance; }
 
   /* ---- the screen */
   .stage { container-type: inline-size; position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 10px; border: 2px solid var(--fg);
@@ -34,7 +35,7 @@
   .dots i { width: 1cqw; height: 1cqw; border-radius: 50%; border: .12cqw solid #FFF6DC; display: block; }
   .dots i.on { background: #E8A94A; border-color: #E8A94A; }
   .ttl { position: absolute; left: 4.2cqw; top: 6.4cqw; right: 4cqw; }
-  .ttl h2 { margin: 0; font-weight: 400; font-size: 3.2cqw; line-height: 1.2; text-transform: uppercase; letter-spacing: .03em; }
+  .ttl h2 { font-family: var(--head); margin: 0; font-weight: 400; font-size: 3.2cqw; line-height: 1.2; text-transform: uppercase; letter-spacing: .03em; }
   .ttl p { margin: .8cqw 0 0; font: 500 1.5cqw/1.3 var(--sans); color: #FFF6DC; }
   .card { position: absolute; left: 22cqw; top: 16.5cqw; width: 62cqw; background: #FFFBEE; color: #2B2A27; border-radius: .8cqw; padding: 2.4cqw 2.6cqw;
     display: flex; flex-direction: column; gap: 1.6cqw; box-shadow: 0 1cqw 3cqw rgba(0,0,0,.45); will-change: transform; }
@@ -45,6 +46,7 @@
   .fld { font: 400 1.35cqw/1.4 var(--sans); color: #5A5548; border-bottom: .1cqw solid #D8CDA8; padding-bottom: .5cqw; }
   .fld b { color: #2B2A27; font-weight: 600; }
   .foot { display: flex; justify-content: space-between; align-items: center; gap: 1.6cqw; }
+  .btn.wait { opacity: .4; cursor: default; }
   .btn { font: 700 1.4cqw/1 var(--sans); background: #612826; color: #FFF6DC; border: .15cqw solid #612826; border-radius: .6cqw; padding: 1cqw 1.8cqw; cursor: pointer; }
   .btn.alt { background: transparent; color: #2B2A27; border-color: #2B2A27; }
   .btn.sel, .opt.sel { outline: .22cqw solid #E8A94A; outline-offset: .25cqw; }
@@ -97,11 +99,6 @@
   .putcard .door { height: 19cqw; flex: 1; min-width: 0; }
   .putcard .shbox { height: 3.4cqw; width: 20%; } .putcard .shbox b { font-size: .7cqw; padding: .15cqw .4cqw; margin-top: .5cqw; }
   .shbox.slot { opacity: 0; transform: translate(-200%, -100%); } .shbox.slot.in { opacity: 1; transform: translateY(-100%); }
-  /* put-away screen: clear the subtitle and give the table, door, bar and button room to breathe */
-  @container (min-width: 641px) {
-    .card.putcard { left: 19cqw; width: 62cqw; top: 15.5cqw; gap: 2cqw; }
-    .putcard .put { gap: 2cqw; } .putcard .tbl2 { flex-basis: 21cqw; height: 21cqw; } .putcard .door { height: 21cqw; }
-  }
   .crankhint { width: 6.4cqw; height: 6.4cqw; display: block; flex: none; }
   .crankhint .ring, .crankhint .ch { transform-origin: 30px 30px; }
   .crankhint .ring { animation: crankring 3.2s linear infinite; }
@@ -116,11 +113,39 @@
   .note { position: relative; } .note.cw p { opacity: 0; } .note.cw { background: transparent; }
   .note canvas.crumple { position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer; filter: drop-shadow(0 .5cqw .9cqw rgba(0,0,0,.38)); }
   .tools { display: flex; flex-direction: column; gap: .8cqw; flex: 1; }
+  .shelf2 { position: relative; height: 36cqw; aspect-ratio: 662 / 696; margin: 0 auto; background: url(stk/shelf.jpg) center / 100% 100% no-repeat; box-shadow: 0 1.4cqw 3cqw rgba(0,0,0,.55); }
+  .shelf2 .bx2 { position: absolute; left: 9%; right: 9%; display: flex; align-items: flex-end; gap: 1.2cqw; padding: 0; background: none; border: 0; box-shadow: none; transform: none; z-index: 0; cursor: pointer; }
+  .shelf2 .bx2:nth-child(1) { top: 9%; height: 25%; } .shelf2 .bx2:nth-child(2) { top: 39%; height: 25.5%; } .shelf2 .bx2:nth-child(3) { top: 71%; height: 20.5%; }
+  .shelf2 .cb { position: relative; width: 11.2cqw; height: 6.5cqw; margin-bottom: .1cqw; background: linear-gradient(#E9DCC3, #D5C19D); border: .15cqw solid #B9A47F; border-radius: .3cqw; box-shadow: 0 .3cqw .6cqw rgba(0,0,0,.4); transition: transform .25s, box-shadow .25s; }
+  .shelf2 .cb::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1cqw; background: #E3D4B7; border-bottom: .15cqw solid #B9A47F; }
+  .shelf2 .cb::after { content: ""; position: absolute; left: 50%; top: 2.7cqw; width: 2.6cqw; height: .8cqw; margin-left: -1.3cqw; background: #2B2A27; border-radius: .4cqw; }
+  .shelf2 .pill { white-space: nowrap; align-self: center; margin: 0 auto 0 auto; background: #FFFBEE; color: #2B2A27; border: .18cqw solid #2B2A27; border-radius: 1.2cqw; padding: .5cqw 1.4cqw; font: italic 2cqw/1.2 var(--serif); box-shadow: 0 .3cqw .6cqw rgba(0,0,0,.3); }
+  .shelf2 .bx2:hover .cb, .shelf2 .bx2.sel .cb { transform: translate(1cqw, -.7cqw); box-shadow: 0 0 2cqw rgba(232,169,74,.95), 0 1cqw 1.6cqw rgba(0,0,0,.5); }
+  .shelf2 .bx2.right .cb { box-shadow: 0 0 2.2cqw rgba(110,200,120,.95); } .shelf2 .bx2.wrong .cb { box-shadow: 0 0 2.2cqw rgba(200,80,60,.95); }
+  .doorcard .door.dshelf { height: 36cqw; aspect-ratio: 662 / 696; width: auto; margin: 0 auto; border: 0; outline: 0; border-radius: 0; background: url(stk/shelf.jpg) center / 100% 100% no-repeat; box-shadow: 0 1.4cqw 3cqw rgba(0,0,0,.55); overflow: hidden; }
+  .dshelf .bx2 { pointer-events: none; }
+  .arrive .shelf2 .bx2.sel .cb { transform: none !important; box-shadow: 0 .3cqw .6cqw rgba(0,0,0,.4) !important; transition: none; }
+  .doorcard .side { position: absolute; left: calc(50% + 19.4cqw); top: 5cqw; width: 17.5cqw; box-sizing: border-box; padding: 1.8cqw 1.4cqw 1.6cqw; display: flex; flex-direction: column; align-items: center; gap: 1.4cqw; text-align: center; background: rgba(26,19,13,.84); border: .12cqw solid rgba(255,246,220,.22); border-radius: 1cqw; color: #FFF6DC; box-shadow: 0 1cqw 2.4cqw rgba(0,0,0,.45); }
+  .doorcard .side .msg { font: 500 2cqw/1.3 var(--sans); min-height: 0; margin: 0; text-wrap: balance; }
+  .doorcard .side .hint { color: #FFF6DC; border-color: rgba(255,246,220,.85); font-size: .8cqw; padding: .6cqw .8cqw; letter-spacing: .05em; }
+  .dshelf .bx2.slot2 { opacity: 0; transition: opacity .6s; } .dshelf .bx2.slot2.in { opacity: 1; }
+  .putcard.doorcard .door.dshelf { height: 22cqw; flex: none; margin: 0 auto; }
+  .putcard .dshelf .cb { width: 6.8cqw; height: 4cqw; } .putcard .dshelf .cb::before { height: .6cqw; } .putcard .dshelf .cb::after { top: 1.6cqw; width: 1.5cqw; height: .5cqw; margin-left: -.75cqw; }
+  .putcard .dshelf .pill { font-size: 1.15cqw; padding: .3cqw .8cqw; border-width: .12cqw; }
+  .doorcard > .foot.sidefoot { position: absolute; left: calc(50% + 19.4cqw); top: 5cqw; width: 17.5cqw; box-sizing: border-box; padding: 1.8cqw 1.4cqw 1.6cqw; flex-direction: column; align-items: center; justify-content: flex-start; gap: 1.4cqw; text-align: center; background: rgba(26,19,13,.84); border: .12cqw solid rgba(255,246,220,.22); border-radius: 1cqw; color: #FFF6DC; box-shadow: 0 1cqw 2.4cqw rgba(0,0,0,.45); }
+  .doorcard.putcard > .foot.sidefoot { left: calc(100% + 1.4cqw); top: 0; }
+  .sidefoot .msg { font: 500 2cqw/1.3 var(--sans); margin: 0; min-height: 0; color: #FFF6DC; text-wrap: balance; }
+  .sidefoot .hint { color: #FFF6DC; border-color: rgba(255,246,220,.85); font-size: .8cqw; padding: .6cqw .8cqw; letter-spacing: .05em; }
+  .sidefoot .btn { background: #FFF6DC; color: #2B2A27; border-color: #FFF6DC; font-size: 1.4cqw; padding: .9cqw 1.2cqw; }
+  .sidefoot .crankhint { filter: brightness(0) invert(.96); width: 5.4cqw; height: 5.4cqw; }
+  .side .knobrow { display: flex; align-items: center; gap: 1cqw; }
+  .side .knobico { width: 2.6cqw; height: 2.6cqw; flex: none; color: #FFF6DC; }
+  .side .knobrow .hint { white-space: normal; text-align: center; line-height: 1.4; max-width: 11cqw; padding: .7cqw .9cqw; }
   .bx { cursor: pointer; padding: 0; font: inherit; z-index: 1; }
   .door .bx.sel, .door .bx:hover { transform: translateY(-112%) scale(1.16); z-index: 5; box-shadow: 0 0 2.2cqw rgba(232,169,74,.9), 0 1cqw 1.6cqw rgba(0,0,0,.6); transition-delay: 0s; }
   .bx.right { box-shadow: 0 0 2.2cqw rgba(110,200,120,.95); } .bx.wrong { box-shadow: 0 0 2.2cqw rgba(200,80,60,.95); }
   .bx.nope { animation: nope .45s; } @keyframes nope { 20%, 60% { margin-left: -.8cqw; } 40%, 80% { margin-left: .8cqw; } }
-  .bx .tip { position: absolute; left: calc(100% + 1.4cqw); top: .5cqw; white-space: nowrap; background: #FFFBEE; color: #2B2A27; border: .2cqw solid #2B2A27; border-radius: 1.2cqw; padding: .7cqw 1.5cqw; font: italic 1.9cqw/1.2 var(--serif); opacity: 0; transform: translateX(-1cqw) scale(.85); transition: opacity .2s, transform .25s cubic-bezier(.3,1.5,.5,1); pointer-events: none; box-shadow: 0 .4cqw 1cqw rgba(0,0,0,.45); }
+  .bx .tip { position: absolute; left: calc(100% + 1.4cqw); top: -2.2cqw; white-space: nowrap; background: #FFFBEE; color: #2B2A27; border: .2cqw solid #2B2A27; border-radius: 1.2cqw; padding: .7cqw 1.5cqw; font: italic 1.9cqw/1.2 var(--serif); opacity: 0; transform: translateX(-1cqw) scale(.85); transition: opacity .2s, transform .25s cubic-bezier(.3,1.5,.5,1); pointer-events: none; box-shadow: 0 .4cqw 1cqw rgba(0,0,0,.45); }
   .bx .tip::before { content: ""; position: absolute; left: -1.1cqw; top: 1.6cqw; border: .6cqw solid transparent; border-right: .9cqw solid #2B2A27; border-left: 0; }
   .bx .tip.l { left: auto; right: calc(100% + 1.4cqw); transform: translateX(1cqw) scale(.85); }
   .bx .tip.l::before { left: auto; right: -1.1cqw; border-right: 0; border-left: .9cqw solid #2B2A27; }
@@ -135,6 +160,11 @@
   .items .chip.ico { background: transparent; }
   .putcard .chip.ico img { height: 5cqw; }
   .tools .chip.ico img { height: 7.6cqw; max-width: 9cqw; }
+  .steps3 { display: flex; gap: 2.4cqw; align-items: flex-start; }
+  .st3 { flex: 1 1 0; margin: 0; text-align: center; }
+  .st3 figcaption { font: 700 1.55cqw/1.25 var(--serif, Georgia, serif); color: #3A362D; min-height: 3.9cqw; display: flex; align-items: center; justify-content: center; }
+  .ph3 { margin-top: .8cqw; height: 11.5cqw; border: .18cqw dashed #8A8470; border-radius: 1.2cqw; background: #F5EBC9; display: flex; align-items: center; justify-content: center; font: 600 1.3cqw var(--sans); color: #6B6451; }
+  #wsq { font-size: 2.1cqw; }
   .note { flex: 1 1 22cqw; min-width: 22cqw; } .tools { flex: 0 0 17cqw; } .howto { width: 13cqw; }
   .icorow { display: flex; gap: 1cqw; }
   .chip { font: 600 1.2cqw/1 var(--sans); border: .14cqw dashed #8A8470; border-radius: .5cqw; padding: .8cqw 1.2cqw; align-self: flex-start; }
@@ -142,13 +172,6 @@
   .sticker { position: absolute; left: 4.5cqw; bottom: 6cqw; width: 12cqw; transform: rotate(-6deg); filter: drop-shadow(0 .4cqw .8cqw rgba(0,0,0,.5)); }
   .sticker img { width: 100%; display: block; }
   .tag { position: absolute; left: 1.4cqw; top: -1.1cqw; width: 5cqw; height: 1.8cqw; background: rgba(232,217,160,.8); }
-  /* plain content cards (not the shelf or the pile) sit higher, wider and with larger type so they fill the screen */
-  @container (min-width: 641px) {
-    .card.std { left: 19cqw; top: 14.5cqw; width: 68cqw; padding: 2.8cqw 3.2cqw; gap: 1.8cqw; }
-    .card.std p { font-size: 1.85cqw; } .card.std .fld { font-size: 1.65cqw; } .card.std .btn { font-size: 1.65cqw; } .card.std .hint { font-size: 1.15cqw; }
-    .card.std .opt em { font-size: 2.4cqw; } .card.std .opt small { font-size: 1.1cqw; } .card.std .msg { font-size: 1.65cqw; }
-    .card.std .tbl .tr { font-size: 1.75cqw; } .card.std .tbl .th { font-size: 1.2cqw; } .card.std .note p { font-size: 1.65cqw; } .card.std .chip { font-size: 1.4cqw; }
-  }
   @container (max-width: 640px) {
     .stage { aspect-ratio: auto; min-height: 620px; }
     .hdr b { font-size: 10px; } .dots i { width: 8px; height: 8px; } .dots { gap: 8px; }
@@ -164,10 +187,15 @@
 
   .bookwrap { position: absolute; left: 0; right: 0; top: 11cqw; bottom: 0; cursor: default; }
   .bookwrap canvas { width: 100%; height: 100%; display: block; }
-  .bookcta { position: absolute; left: 50%; bottom: 2.2cqw; transform: translateX(-50%); display: flex; gap: 1.4cqw; align-items: center; animation: rise .5s ease-out both; }
+  .bookcta { position: absolute; left: 27.5cqw; width: 21cqw; top: 25cqw; display: flex; flex-direction: column; gap: 1.4cqw; align-items: stretch; text-align: center; animation: rise2 .5s ease-out both; }
+  @keyframes rise2 { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
   .bookcta[hidden] { display: none; }
   @keyframes rise { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
   .bookcta .hint { color: #FFF6DC; border-color: #FFF6DC99; }
+  .bookcta .btn, .bookcta .hbtn { background: rgba(26,19,13,.86); color: #FFF6DC; border: .12cqw solid rgba(255,246,220,.28); border-radius: 1cqw; box-shadow: 0 1cqw 2.4cqw rgba(0,0,0,.45); cursor: pointer; transition: transform .2s, border-color .2s, box-shadow .2s; }
+  .bookcta .btn { font: 500 1.6cqw/1.3 var(--sans); padding: 1.2cqw 1.4cqw; }
+  .bookcta .hbtn { font: 700 .9cqw/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; border: .12cqw dashed rgba(255,246,220,.85); padding: 1cqw 1.4cqw; }
+  .bookcta .btn:hover, .bookcta .hbtn:hover, .bookcta .btn.sel { transform: translateY(-.25cqw); border-color: #FFF6DC; box-shadow: 0 0 1.8cqw rgba(232,169,74,.7), 0 1cqw 2.4cqw rgba(0,0,0,.45); }
   @container (max-width: 640px) { .bookwrap { top: 90px; } .bookcta { bottom: 12px; flex-direction: column; gap: 8px; } }
 
   /* ---- controls under the screen */
@@ -263,9 +291,9 @@
     ['You got a response!', 'The museum has answered.'],
     ['The visitors’ book', 'Write your name in the notebook on your table. Then press the knob to go to the shelf.'],
     ['Open the shelf', 'Turn the crank to slide the door open.'],
-    ['Which box?', 'Find the box with wolf bones. Pull a box out to read its Latin name.'],
+    ['Which box?', 'Find the box with wolf bones. Each label shows the Latin name.'],
     ['At the workstation', 'Measure the width across the hip bones with the caliper.'],
-    ['', 'Your wolf dropped onto the pile of adult males.'],
+    ['', 'Your wolf dropped in among the adult males.'],
     ['Put everything back', 'Pack the box, put it on the shelf, then turn the crank to close the door.'],
     ['All put away', 'Thank you. Your finding is now part of the research.']
   ];
@@ -277,7 +305,7 @@
   var BookTex = (function () {
   /* ---------- page content (canvas textures) ---------- */
   const TW = 640, TH = 860;
-  const SERIF = '"Source Serif 4", Georgia, serif', SANS = '"Source Sans 3", system-ui, sans-serif';
+  const SERIF = '"Source Serif 4", Georgia, serif', SANS = '"DM Sans", "Source Sans 3", system-ui, sans-serif';
   const PAPER = '#f4ebd9', INK = '#2a2118', MUTE = '#6a5b46', RED = '#6e1f2a';
 
   function mk(){ const c = document.createElement('canvas'); c.width = TW; c.height = TH; return [c, c.getContext('2d')]; }
@@ -610,22 +638,24 @@
     if (i === 2) return '<div class="tbl"><div class="tr th"><span>Name</span><span>Hometown</span><span>Time</span></div><div class="tr"><span>Aino</span><span>Kemi</span><span>09:12</span></div><div class="tr"><span>Jonas</span><span>Oulu</span><span>09:40</span></div><div class="tr"><span>Lea</span><span>Tampere</span><span>10:05</span></div><div class="tr me"><span>Mira</span><span>Rovaniemi</span><span>10:32 (you)</span></div></div>' +
       '<p class="muted">Your name came from your email. Researchers always sign in before touching anything.</p>' +
       '<div class="foot"><button class="btn opt-b" data-act="next">I have signed</button>' + hint('Paper book') + '</div>';
-    if (i === 3) return '<div class="door" id="door"><div class="sh" style="top:22%"></div><div class="sh" style="top:48%"></div><div class="sh" style="top:74%"></div><div class="shbox" style="top:22%;left:24%;--i:0"><b>Box 1</b></div><div class="shbox" style="top:48%;left:44%;--i:1"><b>Box 2</b></div><div class="shbox" style="top:74%;left:62%;--i:2"><b>Box 3</b></div><div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div>' +
+    if (i === 3) return '<div class="door dshelf shelf2" id="door">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b) {
+        return '<div class="bx2"><span class="cb"></span><span class="pill">' + b[1] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">CRANK</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">0%</b></div>' +
-      '<div class="foot"><span id="cmsg" class="msg muted"></span>' + '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the crank clockwise"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>' + '</div>';
-    if (i === 4) return '<div class="door lit" id="boxes"><div class="sh" style="top:22%"></div><div class="sh" style="top:48%"></div><div class="sh" style="top:74%"></div>' + [['Box 1', 'Ursus arctos', 22, 24, ''], ['Box 2', 'Canis lupus', 48, 44, ''], ['Box 3', 'Vulpes vulpes', 74, 62, ' l']].map(function (b, n) {
-        return '<button class="shbox bx" data-box="' + n + '" style="top:' + b[2] + '%;left:' + b[3] + '%;--i:' + n + '" aria-label="' + b[0] + '"><b>' + b[0] + '</b><span class="tip' + b[4] + '">' + b[1] + '</span></button>'; }).join('') + '</div>' +
-      '<div class="row"><div class="msg" id="bmsg">Hover over a box, or turn the knob, to read its label.</div></div><div class="foot"><span></span>' + hint('Turn and press the knob') + '</div>';
-    if (i === 5) return '<div class="row"><div class="note"><p><b>Welcome, researcher.</b><br>1 Open the box<br>2 Hold each bone with both hands<br>3 Measure the width across the hip bones<br>4 Put everything back</p></div><div class="tools"><span class="sans" style="font:700 1cqw var(--sans);letter-spacing:.1em;color:#5A5548">IN THE SUITCASE</span><div class="icorow">' + icos() + '</div></div>' + HOWTO + '</div>' +
-      '<p id="wsq"><b>How wide is it?</b> Pick the range your caliper shows.</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' +
+      '<div class="foot sidefoot"><p id="cmsg" class="msg">Turn the crank. The boxes are behind the door.</p>' + '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the crank clockwise"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>' + '</div>';
+    if (i === 4) return '<div class="shelf2" id="boxes">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b, n) {
+        return '<button class="bx bx2" data-box="' + n + '" aria-label="' + b[0] + ', ' + b[1] + '"><span class="cb"></span><span class="pill">' + b[1] + '</span></button>'; }).join('') + '</div>' +
+      '<aside class="side"><p class="msg" id="bmsg">Pick the box that holds the wolf bones.</p><div class="knobrow"><svg class="knobico" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="11.5" fill="none" stroke="currentColor" stroke-width="3"/><line x1="15" y1="15" x2="21" y2="9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>' + hint('Turn to choose and press to select') + '</div></aside>';
+    if (i === 5) return '<div class="steps3">' + ['Open the box on the table', 'Carefully take the bones out of the box', 'Measure the width'].map(function (t, n) { return '<figure class="st3"><figcaption>' + t + '</figcaption><div class="ph3" role="img" aria-label="Image ' + (n + 1) + ' goes here">Image ' + (n + 1) + '</div></figure>'; }).join('') + '</div>' +
+      '<p id="wsq"><b>How wide is it?</b> Pick the range the caliper shows below</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' +
       '<div class="foot"><span></span>' + hint('Turn and press the knob') + '</div>';
-    if (i === 6) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 288" role="img" aria-label="Your wolf dropped onto a pile of adult male wolf pelvis widths"></svg></div>' +
+    if (i === 6) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 318" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
       '<p class="muted" id="fact"></p><div class="foot"><button class="btn opt-b" data-act="next">Put everything back</button>' + hint('Press the knob') + '</div>';
     if (i === 7) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items" id="items">' + icos() + '</div></div>' +
-      '<div class="door" id="door"><div class="sh" style="top:22%"></div><div class="sh" style="top:48%"></div><div class="sh" style="top:74%"></div><div class="shbox" style="top:22%;left:14%;--i:0"><b>Box 1</b></div><div class="shbox slot" id="slot" style="top:48%;left:40%;--i:1"><b>Box 2</b></div><div class="shbox" style="top:74%;left:66%;--i:2"><b>Box 3</b></div><div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
+      '<div class="door dshelf shelf2" id="door">' + [['Ursus arctos', ''], ['Canis lupus', ' slot2'], ['Vulpes vulpes', '']].map(function (b, n) {
+        return '<div class="bx2' + b[1] + '"' + (b[1] ? ' id="slot"' : '') + '><span class="cb"></span><span class="pill">' + b[0] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
-      '<div class="foot"><div style="display:flex;gap:1.2cqw;align-items:center"><button class="btn opt-b" id="putbtn" data-act="put">Put the things in the box</button><span id="cmsg" class="msg muted"></span></div><span id="phint">' + hint('Press the knob') + '</span></div>';
-    return '<div class="row" style="align-items:center"><div style="flex:1"><p style="font-size:2.5cqw;font-weight:600;line-height:1.3">Adult male grey wolf, pelvis width: ' + ranges[range].t + '.</p><p style="font-size:2.4cqw;line-height:1.3;margin-top:1cqw">For a moment, you were an osteologist.</p><p class="muted" style="margin-top:1cqw">Take your sticker from the tray.</p></div><div id="stk" style="width:13cqw;flex:none">' + '<img alt="" src="' + STK.skull + '" style="width:100%;display:block">' + '</div></div>' +
+      '<div class="foot sidefoot"><p id="cmsg" class="msg">Put your tools back in the box.</p><button class="btn opt-b" id="putbtn" data-act="put">Put the things in the box</button><span id="phint">' + hint('Press the knob') + '</span></div>';
+    return '<div class="row" style="align-items:center"><div style="flex:1"><p style="font-size:1.9cqw;font-weight:600;line-height:1.3">Adult male grey wolf, pelvis width: ' + ranges[range].t + '.</p><p style="font-size:1.6cqw;margin-top:.8cqw">For a moment, you were an osteologist.</p><p class="muted" style="margin-top:.8cqw">Take your sticker from the tray.</p></div><div id="stk" style="width:11cqw;flex:none">' + '<img alt="" src="' + STK.skull + '" style="width:100%;display:block">' + '</div></div>' +
       '<div class="foot"><button class="btn opt-b" data-act="restart">Start again</button>' + hint('Press the knob') + '</div>';
   }
 
@@ -739,7 +769,9 @@ void main(){
     crumpleCtl = { replay: replay, stop: function () { alive = false; cancelAnimationFrame(raf); if (io) io.disconnect(); var lose = gl.getExtension('WEBGL_lose_context'); if (lose) lose.loseContext(); } };
   }
 
+  var lastCur = -1;
   function render() {
+    if (pileCtl) { pileCtl.stop(); pileCtl = null; }
     if (crumpleCtl) { crumpleCtl.stop(); crumpleCtl = null; }
     if (bookCtl) { bookCtl.dispose(); bookCtl = null; }
     confirming = false; putStep = 0;
@@ -751,10 +783,11 @@ void main(){
       stickerHTML(cur) +
       '<div class="hdr"><b>Osteologia</b><div class="dots">' + titles.map(function (_, n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
       '<div class="ttl"><h2>' + (t[0] || verdict) + '</h2><p>' + t[1] + '</p></div>' +
-      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><span class="hint">Press the knob</span></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 7 ? ' doorcard putcard' : cur === 6 ? ' pilecard' : ' std') + '" id="card">' + body(cur) + '</div>');
+      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><button class="hint hbtn" data-act="next">Press the knob</button></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 7 ? ' doorcard putcard' : cur === 6 ? ' pilecard' : '') + '" id="card">' + body(cur) + '</div>');
     document.querySelectorAll('#steps button').forEach(function (b, n) { b.setAttribute('aria-current', n === cur ? 'true' : 'false'); });
-    var card = $('#card');
-    if (card) spring(0, 1, 'wobbly', function (p) { card.style.opacity = Math.min(1, p * 1.6); card.style.transform = 'translateY(' + ((1 - p) * 60) + 'px) scale(' + (0.96 + 0.04 * p) + ')'; });
+    var card = $('#card'), seamless = (lastCur === 3 && cur === 4); lastCur = cur;
+    stage.classList.toggle('arrive', seamless);
+    if (card && !seamless) spring(0, 1, 'wobbly', function (p) { card.style.opacity = Math.min(1, p * 1.6); card.style.transform = 'translateY(' + ((1 - p) * 60) + 'px) scale(' + (0.96 + 0.04 * p) + ')'; });
     collect(); setup();
     if (cur === 5) crumple();
   }
@@ -777,7 +810,7 @@ void main(){
       ready.then(function () { if (tok !== bookToken || cur !== 2) return; bookCtl = mountBook(wrapEl, function () { var c = $('#bookcta'); if (c) { c.hidden = false; collect(); } }); });
     }
     if (cur === 3) { doorProg = crank / 100; applyDoor(doorProg); doorSp = spring(doorProg, doorProg, 'slow', applyDoor); doorSp.to(crank / 100); }
-    if (cur === 4) opts.forEach(function (o, n) { o.addEventListener('mouseenter', function () { sel = n; markSel(); }); o.addEventListener('click', function () { sel = n; markSel(); press(); }); });
+    if (cur === 4) opts.forEach(function (o, n) { o.addEventListener('mouseenter', function () { stage.classList.remove('arrive'); sel = n; markSel(); }); o.addEventListener('click', function () { sel = n; markSel(); press(); }); });
     if (cur === 6) buildPile();
     if (cur === 7) { crank = 100; $('#crank').value = 100; applyDoor(1); doorSp = spring(1, 1, 'slow', applyDoor); }
     if (cur === 8) { var s = $('#stk'); if (s) spring(0, 1, 'wobbly', function (p) { s.style.transform = 'scale(' + p + ') rotate(' + ((1 - p) * -40) + 'deg)'; }); }
@@ -799,45 +832,174 @@ void main(){
     }
     if (cur === 3) {
       if (doorSp) doorSp.to(crank / 100);
-      var m = $('#cmsg'); if (m) { m.textContent = crank >= 98 ? 'The shelf is open. Here are the boxes.' : ''; }
-      if (crank >= 98 && !stage.dataset.adv) { stage.dataset.adv = '1'; var dd = $('#door'); if (dd) dd.classList.add('lit'); setTimeout(function () { stage.dataset.adv = ''; if (cur === 3 && crank >= 98) go(4); }, 2200); }
+      var m = $('#cmsg'); if (m) { m.textContent = crank >= 98 ? 'The shelf is open. Here are the boxes.' : 'Turn the crank. The boxes are behind the door.'; }
+      if (crank >= 98 && !stage.dataset.adv) { stage.dataset.adv = '1'; var dd = $('#door'); if (dd) dd.classList.add('lit'); setTimeout(function () { stage.dataset.adv = ''; if (cur === 3 && crank >= 98) go(4); }, 900); }
     }
   }
 
-  // ---------- pile with gravity
+  // ---------- bubble cluster (study measurements) with physics. Knob turn or scroll moves between the three views.
+  var pileCtl = null;
   function buildPile() {
-    var svg = $('#pile'), floor = 190, x = function (v) { return 20 + (v - 70) / 70 * 720; };
-    var h = '<rect x="' + x(MEAN - SD) + '" y="14" width="' + (x(MEAN + SD) - x(MEAN - SD)) + '" height="' + (floor - 14) + '" fill="#AED0EA" opacity=".4" rx="4"/><line x1="20" x2="740" y1="' + floor + '" y2="' + floor + '" stroke="#2B2A27" stroke-width="2"/>';
-    for (var tk = 70; tk <= 140; tk += 10) h += '<text x="' + x(tk) + '" y="216" text-anchor="middle" font-size="13" fill="#5A5548" font-family="Source Sans 3, Arial, sans-serif">' + tk + '</text>';
-    svg.innerHTML = h;
-    var vals = [], i; for (i = 0; i < 17; i++) { var p = (i + .5) / 17, lo = -6, hi = 6, m; for (var k = 0; k < 40; k++) { m = (lo + hi) / 2; var t = 1 / (1 + .2316419 * Math.abs(m)), d = .3989423 * Math.exp(-m * m / 2), q = d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); (m > 0 ? 1 - q : q) < p ? lo = m : hi = m; } vals.push(MEAN + ((lo + hi) / 2) * .92 * SD); }
-    var placed = [];
-    vals.forEach(function (v, n) {
-      var r = 10 + (n * 37) % 7, cx = x(v), cy = floor - r;
-      while (cy > 24 && placed.some(function (o) { return Math.hypot(o[0] - cx, o[1] - cy) < o[2] + r + 1; })) cy--;
-      placed.push([cx, cy, r]);
-      var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); c.setAttribute('cx', cx); c.setAttribute('r', r); c.setAttribute('fill', '#612826'); c.setAttribute('cy', -40); c.style.opacity = 0; svg.appendChild(c);
-      drop(-40 - Math.random() * 60, cy, 120 + (floor - cy) * 7 + Math.random() * 120, function (y, on) { c.setAttribute('cy', y); if (on !== false) c.style.opacity = 1; });
+    var svg = $('#pile'), NS = 'http://www.w3.org/2000/svg', FONT = 'DM Sans, Arial, sans-serif';
+    var X = function (v) { return 78 + (v - 85) * 16.4; }, FLOOR = 205, CY = 128, N = 90, bodies = [], phase = -1, alive = true, raf = 0, wolfB = null, timers = [], last = 0, acc = 0;
+    function el(n, a, p) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); (p || svg).appendChild(e); return e; }
+    function qn(p) { var lo = -6, hi = 6, m; for (var k = 0; k < 40; k++) { m = (lo + hi) / 2; var t = 1 / (1 + .2316419 * Math.abs(m)), d = .3989423 * Math.exp(-m * m / 2), q = d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); (m > 0 ? 1 - q : q) < p ? lo = m : hi = m; } return (lo + hi) / 2; }
+    var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    var grp = function (v) { return v < 90 ? 0 : v < 100 ? 1 : v < 110 ? 2 : 3; };
+    svg.innerHTML = '';
+    var cl = [0, 0, 0, 0];
+    var bg = el('g', {});
+    for (var i = 0; i < N; i++) {
+      var v = MEAN + qn((i + .5) / N) * 1.12 * SD, r = 6.5 + Math.max(0, Math.min(1, (v - 88) / 34)) * 9, g = grp(v); cl[g]++;
+      var b = { x: 300 + rnd() * 160, y: -70 - rnd() * 330, vx: 0, vy: 0, r: r, m: r * r, g: g, v: v, el: el('circle', { r: r, fill: '#612826', opacity: 0 }, bg) };
+      bodies.push(b);
+    }
+    var lab0 = el('text', { x: 380, y: 132, 'text-anchor': 'middle', 'font-size': 22, 'font-weight': 800, 'letter-spacing': '.14em', fill: '#F5EBC8', stroke: '#2B2A27', 'stroke-width': 5, 'paint-order': 'stroke', 'font-family': FONT }); lab0.style.opacity = 0; lab0.style.transition = 'opacity .8s ease'; lab0.textContent = 'ADULT MALE WOLVES';
+    var labs = el('g', {}); labs.style.opacity = 0; labs.style.transition = 'opacity 1.2s ease';
+    var bandG = el('g', {}, labs), bandR = el('rect', { y: 34, height: FLOOR - 34, fill: '#AED0EA', rx: 4 }, bandG); bandR.style.opacity = 0; bandR.style.transition = 'opacity 1s ease';
+    [90, 100, 110].forEach(function (t) { el('line', { x1: X(t), x2: X(t), y1: 34, y2: FLOOR, stroke: '#2B2A27', 'stroke-width': 1.2, 'stroke-dasharray': '4 4', opacity: .45 }, labs); });
+    el('line', { x1: 44, x2: X(126), y1: FLOOR + 1, y2: FLOOR + 1, stroke: '#2B2A27', 'stroke-width': 2 }, labs);
+    el('line', { x1: 44, x2: 44, y1: FLOOR + 1, y2: 14, stroke: '#2B2A27', 'stroke-width': 2 }, labs);
+    el('path', { d: 'M38 22 L44 12 L50 22', fill: 'none', stroke: '#2B2A27', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, labs);
+    el('text', { transform: 'translate(16 ' + (FLOOR / 2 + 20) + ') rotate(-90)', 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 700, 'letter-spacing': '.08em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = 'NUMBER OF WOLVES';
+    [80, 90, 100, 110, 120].forEach(function (t) { el('line', { x1: X(t), x2: X(t), y1: FLOOR + 1, y2: FLOOR + 7, stroke: '#2B2A27', 'stroke-width': 2 }, labs); el('text', { x: X(t), y: FLOOR + 23, 'text-anchor': 'middle', 'font-size': 13, fill: '#5A5548', 'font-family': FONT }, labs).textContent = t; });
+    el('text', { x: X(103), y: FLOOR + 46, 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 700, 'letter-spacing': '.08em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = 'PELVIS WIDTH (MM)';
+    [[52, 'UNDER 90'], [90, '90 TO 100'], [100, '100 TO 110'], [110, 'OVER 110']].forEach(function (t, n) {
+      el('text', { x: (t[0] < 60 ? t[0] : X(t[0])) + 8, y: 13, 'text-anchor': 'start', 'font-size': 11.5, 'font-weight': 800, 'letter-spacing': '.1em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = t[1];
+      el('text', { x: (t[0] < 60 ? t[0] : X(t[0])) + 8, y: 27, 'text-anchor': 'start', 'font-size': 11.5, fill: '#5A5548', 'font-family': FONT }, labs).textContent = cl[n] + (cl[n] === 1 ? ' wolf' : ' wolves');
     });
-    var mid = ranges[range].mid, wx = x(mid), g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.style.opacity = 0;
-    g.innerHTML = '<svg x="-26" y="-26" width="52" height="52" viewBox="0 0 100 100">' + wolf(100).replace(/^<svg[^>]*>/, '').replace('</svg>', '') + '</svg>'; svg.appendChild(g);
-    var topY = Math.min.apply(null, placed.filter(function (o) { return Math.abs(o[0] - wx) < 30; }).map(function (o) { return o[1] - o[2]; }).concat([floor])) - 20;
-    drop(-60, Math.max(topY, 28), 1500, function (y, on) { g.setAttribute('transform', 'translate(' + wx + ' ' + y + ')'); if (on !== false) g.style.opacity = 1; }, 0.42);
-    var z = (mid - MEAN) / SD, az2 = Math.abs(z), wy = Math.max(topY, 28);
+    svg.insertBefore(labs, bg);
+    var fact = $('#fact'), mid = ranges[range].mid, rg = grp(mid);
+    var BL = [82, 90, 100, 110], BR = [90, 100, 110, 127]; bandR.setAttribute('x', X(BL[rg])); bandR.setAttribute('width', X(BR[rg]) - X(BL[rg]));
+    var z = (mid - MEAN) / SD, az2 = Math.abs(z);
     var where = az2 <= 1 ? 'in the average male range' : az2 <= 2 ? (z > 0 ? 'bigger than most males' : 'smaller than most males') : (z > 0 ? 'far bigger than most males' : 'far smaller than most males');
-    var bw = 470, bx = wx < 380 ? 270 : 20, sx = wx < 380 ? bx + 30 : bx + bw - 30, dir = wx < 380 ? 1 : -1;
-    var co = document.createElementNS('http://www.w3.org/2000/svg', 'g'); co.style.opacity = 0; co.style.transition = 'opacity .6s';
-    co.innerHTML = '<rect x="' + bx + '" y="-54" width="' + bw + '" height="42" rx="8" fill="#F5EBC8" stroke="#612826" stroke-width="2"/>' +
-      '<text x="' + (bx + bw / 2) + '" y="-25" text-anchor="middle" font-size="24" fill="#2B2A27" font-family="Caveat, cursive" font-weight="500" textLength="' + (bw - 36) + '" lengthAdjust="spacingAndGlyphs">Your wolf lies here, ' + where + '</text>' +
-      '<path d="M' + sx + ' -12 C' + sx + ' 26, ' + (wx + dir * 70) + ' ' + (wy - 62) + ', ' + (wx + dir * 14) + ' ' + (wy - 30) + '" fill="none" stroke="#612826" stroke-width="2.6" stroke-linecap="round"/>' +
-      '<path d="M' + (wx + dir * 14) + ' ' + (wy - 30) + ' l' + (dir * 4) + ' -13 M' + (wx + dir * 14) + ' ' + (wy - 30) + ' l' + (dir * -12) + ' -7" stroke="#612826" stroke-width="2.6" stroke-linecap="round" fill="none"/>';
-    svg.appendChild(co); setTimeout(function () { co.style.opacity = 1; }, 1900);
-    $('#fact').textContent = 'You picked ' + ranges[range].t + '. Most adult males in the study measure ' + Math.round(MEAN - SD) + ' to ' + Math.round(MEAN + SD) + ' mm. Fun fact: male wolf hips are only about 8 mm wider than female ones on average, so one bone rarely tells the sex.';
+    var captions = ['Each circle is one adult male wolf pelvis measured in the study. Bigger circle, wider bones.',
+      'Sorted by width, in the same ranges the caliper gave you.',
+      'You picked ' + ranges[range].t + '. Most adult males in the study measure ' + Math.round(MEAN - SD) + ' to ' + Math.round(MEAN + SD) + ' mm. Fun fact: male wolf hips are only about 8 mm wider than female ones on average, so one bone rarely tells the sex.'];
+    var callout = null, still = false, quiet = 0, pending = false, ticks = 0, mv = 0, anim = null, wfr = null, wi = 0, wacc = 0;
+    function run(rec) { still = false; quiet = 0; ticks = 0; for (var n = 0; n < 700 && !still; n++) { tick(); if (rec) rec.push([wolfB.x, wolfB.y]); } still = true; }
+    function morph() {
+      var from = bodies.map(function (b) { return [b.x, b.y]; });
+      bodies.forEach(function (b) { b.vx = b.vy = 0; b.fixed = false; });
+      run();
+      var to = bodies.map(function (b) { return [b.x, b.y]; });
+      if (reduce) return;
+      bodies.forEach(function (b, i) { b.x = from[i][0]; b.y = from[i][1]; });
+      anim = { t0: performance.now(), from: from, to: to, bodies: bodies.slice() };
+    }
+    function spawnWolf() {
+      pending = false; if (wolfB) return;
+      var saved = null; if (anim) { saved = bodies.map(function (b) { return [b.x, b.y]; }); anim.bodies.forEach(function (b, i) { b.x = anim.to[i][0]; b.y = anim.to[i][1]; }); }
+      bodies.forEach(function (b) { b.fixed = true; b.vx = b.vy = 0; });
+      var wg = el('g', {}); el('circle', { r: 20, fill: '#E8A94A', stroke: '#2B2A27', 'stroke-width': 3 }, wg);
+      var wi2 = el('svg', { x: -14, y: -14, width: 28, height: 28, viewBox: '0 0 100 100' }, wg); wi2.innerHTML = wolf(100).replace(/^<svg[^>]*>/, '').replace('</svg>', '');
+      wolfB = { x: X(mid) + (rnd() - .5) * 6, y: -52, vx: 0, vy: 2, r: 20, m: 20 * 20 * 9, g: rg, el: wg, wolf: true };
+      bodies.push(wolfB);
+      var rec = []; run(rec);
+      if (saved) bodies.forEach(function (b, i) { if (saved[i]) { b.x = saved[i][0]; b.y = saved[i][1]; } });
+      if (reduce) { wolfB.x = rec[rec.length - 1][0]; wolfB.y = rec[rec.length - 1][1]; draw(); showCallout(); return; }
+      wolfB.x = rec[0][0]; wolfB.y = rec[0][1]; wfr = rec; wi = 0; wacc = 0;
+      wg.style.opacity = 0; wg.style.transition = 'opacity .35s ease'; requestAnimationFrame(function () { wg.style.opacity = 1; });
+    }
+    function setPhase(p) {
+      p = Math.max(0, Math.min(2, p)); if (p === phase) return; var prev = phase; phase = p; pending = false; if (!(prev === 1 && p === 2)) anim = null; wfr = null;
+      timers.forEach(clearTimeout); timers = [];
+      fact.textContent = captions[p];
+      lab0.style.opacity = p === 0 ? 1 : 0; labs.style.opacity = p >= 1 ? 1 : 0;
+      bodies.forEach(function (b) { b.el.style.transition = 'opacity 1s ease'; });
+      if (p !== 2) {
+        bandR.style.opacity = 0;
+        if (callout) { var oc = callout; oc.style.opacity = 0; setTimeout(function () { oc.remove(); }, 500); callout = null; }
+        if (wolfB) { var ow = wolfB.el; ow.style.transition = 'opacity .4s ease'; ow.style.opacity = 0; setTimeout(function () { ow.remove(); }, 450); bodies.splice(bodies.indexOf(wolfB), 1); wolfB = null; }
+        bodies.forEach(function (b) { b.dim = false; b.fixed = false; });
+      }
+      if (p === 0) { still = false; quiet = 0; ticks = 0; }
+      else if (p === 1) { if (prev !== 2) morph(); else still = true; }
+      else { bodies.forEach(function (b) { b.dim = b.g !== rg; }); bandR.style.opacity = .4; pending = true; if (reduce) spawnWolf(); }
+    }
+    function showCallout() {
+      if (!wolfB || callout) return;
+      var wx = wolfB.x, wy = wolfB.y - wolfB.r - 4, bw = 470, bx = wx < 380 ? 270 : 20, sx = wx < 380 ? bx + 30 : bx + bw - 30, dir = wx < 380 ? 1 : -1;
+      callout = el('g', {}); callout.style.opacity = 0; callout.style.transition = 'opacity .7s ease';
+      var d = 'M' + sx + ' -12 C' + sx + ' 20, ' + (wx + dir * 60) + ' ' + (wy - 50) + ', ' + wx + ' ' + (wy - 4);
+      el('path', { d: d, fill: 'none', stroke: '#F5EBC8', 'stroke-width': 7, 'stroke-linecap': 'round' }, callout);
+      el('rect', { x: bx, y: -54, width: bw, height: 42, rx: 8, fill: '#F5EBC8', stroke: '#612826', 'stroke-width': 2 }, callout);
+      var tx = el('text', { x: bx + bw / 2, y: -25, 'text-anchor': 'middle', 'font-size': 24, fill: '#2B2A27', 'font-family': 'Caveat, cursive', 'font-weight': 500, textLength: bw - 36, lengthAdjust: 'spacingAndGlyphs' }, callout); tx.textContent = 'Your wolf lies here, ' + where;
+      el('path', { d: d, fill: 'none', stroke: '#612826', 'stroke-width': 2.6, 'stroke-linecap': 'round' }, callout);
+      el('path', { d: 'M' + (wx - 8) + ' ' + (wy - 14) + ' L' + wx + ' ' + (wy - 3) + ' L' + (wx + 8) + ' ' + (wy - 14), fill: 'none', stroke: '#612826', 'stroke-width': 2.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, callout);
+      requestAnimationFrame(function () { if (callout) callout.style.opacity = 1; });
+      unlock();
+    }
+    function tick() {
+      var n = bodies.length, i, j, b, o; mv = 0; ticks++;
+      for (i = 0; i < n; i++) {
+        b = bodies[i]; if (b.fixed) continue; b._x = b.x; b._y = b.y;
+        if (b.wolf) { b.vx += (X(mid) - b.x) * .025; b.vy += .5; }
+        else if (phase === 0) { b.vx += (380 - b.x) * .012; b.vy += (CY - b.y) * .014; }
+        else { b.vx += (X(b.v) - b.x) * .012; b.vy += .55; }
+        var dmp = (phase === 0 || ticks < 100) ? .8 : Math.max(.3, .8 - (ticks - 100) * .004); b.vx *= dmp; b.vy *= dmp; b.x += b.vx; b.y += b.vy;
+        if (phase > 0 && b.y > FLOOR - b.r) { b.y = FLOOR - b.r; b.vy = 0; b.vx *= .6; }
+      }
+      for (var it = 0; it < 3; it++) for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {
+        b = bodies[i]; o = bodies[j]; var dx = o.x - b.x, dy = o.y - b.y, min = b.r + o.r + 1.4, d2 = dx * dx + dy * dy;
+        if (d2 < min * min && d2 > 1e-6) { var d = Math.sqrt(d2), p = (min - d) / d, wi = b.fixed ? 0 : o.fixed ? 1 : o.m / (b.m + o.m), wj = 1 - wi; b.x -= dx * p * wi; b.y -= dy * p * wi; o.x += dx * p * wj; o.y += dy * p * wj; }
+      }
+      for (i = 0; i < n; i++) { b = bodies[i]; if (b.fixed) continue; if (phase > 0 && b.y > FLOOR - b.r) b.y = FLOOR - b.r; mv = Math.max(mv, Math.abs(b.x - b._x), Math.abs(b.y - b._y)); }
+      quiet = (mv < (phase === 0 ? .25 : .12) && ticks > 30 && (!wolfB || wolfB.y > 0 || phase < 2)) ? quiet + 1 : 0;
+      if (quiet > 10 || ticks > 450) still = true;
+    }
+    function draw() {
+      bodies.forEach(function (b) {
+        if (b.wolf) { b.el.setAttribute('transform', 'translate(' + b.x.toFixed(1) + ' ' + b.y.toFixed(1) + ')'); return; }
+        b.el.setAttribute('cx', b.x.toFixed(1)); b.el.setAttribute('cy', b.y.toFixed(1));
+        b.el.style.opacity = b.y < -50 ? 0 : (b.dim ? .28 : 1);
+      });
+    }
+    function frame(t) {
+      if (!alive) return; raf = requestAnimationFrame(frame);
+      var dt = Math.min(64, t - last || 16); last = t; var now = performance.now();
+      if (phase === 0 && !still) { acc += dt; var guard = 0; while (acc >= 16.7 && guard++ < 4) { tick(); acc -= 16.7; if (still) break; } }
+      if (autoMode && phase === 0 && still) setPhase(1);
+      if (autoMode && phase === 1 && anim && (now - anim.t0) / 1800 > .5) setPhase(2);
+      if (pending && phase === 2 && anim && (now - anim.t0) / 1800 > .68) spawnWolf();
+      if (anim) {
+        var el2 = now - anim.t0, done = true;
+        anim.bodies.forEach(function (b, i) { var pr = Math.max(0, Math.min(1, (el2 - (anim.to[i][0] / 760) * 300) / 1500)); if (pr < 1) done = false; var e = pr < .5 ? 4 * pr * pr * pr : 1 - Math.pow(-2 * pr + 2, 3) / 2; b.x = anim.from[i][0] + (anim.to[i][0] - anim.from[i][0]) * e; b.y = anim.from[i][1] + (anim.to[i][1] - anim.from[i][1]) * e; });
+        if (done) anim = null;
+      } else if (pending && phase === 2) spawnWolf();
+      if (wfr) {
+        wacc += dt; while (wacc >= 16.7 && wi < wfr.length - 1) { wi++; wacc -= 16.7; }
+        wolfB.x = wfr[wi][0]; wolfB.y = wfr[wi][1];
+        if (wi >= wfr.length - 1) { wfr = null; showCallout(); }
+      }
+      draw();
+    }
+    var autoMode = false, lastNudge = 0, finished = false, goBtn = stage.querySelector('[data-act="next"]');
+    function lock() { finished = false; if (goBtn) { goBtn.classList.add('wait'); goBtn.setAttribute('aria-disabled', 'true'); } }
+    function unlock() { finished = true; if (goBtn) { goBtn.classList.remove('wait'); goBtn.removeAttribute('aria-disabled'); } }
+    function schedule() {
+      lock(); autoOff();
+      autoMode = true; auto.push(setTimeout(function () { if (phase === 0) lab0.style.opacity = 1; }, 300));
+    }
+    pileCtl = {
+      done: function () { return finished; },
+      replay: function () { if (!finished) return; setPhase(0); schedule(); },
+      stop: function () { alive = false; cancelAnimationFrame(raf); timers.forEach(clearTimeout); },
+      nudge: function (d) { if (finished && d < 0) pileCtl.replay(); },
+      phase: function () { return phase; }
+    };
+    function autoOff() { auto.forEach(clearTimeout); auto = []; }
+    var auto = [];
+    setPhase(0);
+    if (reduce) { setPhase(1); setPhase(2); draw(); unlock(); return; }
+    schedule();
+    raf = requestAnimationFrame(frame);
   }
 
   // ---------- flow control
   function go(n) { cur = (n + titles.length) % titles.length; if (cur === 0) { boxState = null; crank = 0; $('#crank').value = 0; } render(); }
   function press() {
+    if (cur === 6 && pileCtl && !pileCtl.done()) return;
     var o = opts[sel]; if (!o || !o.offsetParent) return;
     if (o.dataset.act === 'next') go(cur + 1);
     else if (o.dataset.act === 'restart') go(0);
@@ -865,7 +1027,7 @@ void main(){
   function undoConfirm() {
     var rg = $('#ranges'), q = $('#wsq'); if (!rg || !q) return;
     confirming = false;
-    q.innerHTML = '<b>How wide is it?</b> Pick the range your caliper shows.';
+    q.innerHTML = '<b>How wide is it?</b> Pick the range the caliper shows below';
     rg.innerHTML = ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('');
     opts = [].slice.call(rg.querySelectorAll('.opt-r')); sel = range; markSel();
   }
@@ -885,7 +1047,9 @@ void main(){
   function turn(d) {
     if (cur === 3) { setCrank(crank + d * 12); return; }
     if (cur === 7) { if (putStep >= 2) setCrank(crank - d * 12); return; }
+    if (cur === 6) { if (pileCtl) pileCtl.nudge(d); return; }
     if (!opts.length) return;
+    stage.classList.remove('arrive');
     sel = (sel + d + opts.length) % opts.length; markSel();
     if (cur === 5 && !confirming) range = sel;
   }
@@ -895,9 +1059,10 @@ void main(){
   $('#kR').addEventListener('click', function () { turn(1); });
   $('#kP').addEventListener('click', press);
   $('#crank').addEventListener('input', function (e) { setCrank(+e.target.value); });
-  stage.addEventListener('wheel', function (e) { if (cur === 3) { e.preventDefault(); setCrank(crank + (e.deltaY > 0 ? 4 : -4)); } else if (cur === 7 && putStep >= 2) { e.preventDefault(); setCrank(crank - (e.deltaY > 0 ? 4 : -4)); } }, { passive: false });
+  stage.addEventListener('wheel', function (e) { if (cur === 3) { e.preventDefault(); setCrank(crank + (e.deltaY > 0 ? 4 : -4)); } else if (cur === 7 && putStep >= 2) { e.preventDefault(); setCrank(crank - (e.deltaY > 0 ? 4 : -4)); } else if (cur === 6 && pileCtl) { e.preventDefault(); pileCtl.nudge(e.deltaY > 0 ? 1 : -1); } }, { passive: false });
   stage.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('button'); if (!b) return;
+    if (b.classList.contains('hbtn')) { if (cur === 6 && pileCtl && !pileCtl.done()) return; go(cur + 1); return; }
     var i = opts.indexOf(b); if (i >= 0) { sel = i; markSel(); if (cur === 5 && !confirming) range = sel; press(); }
   });
   document.addEventListener('keydown', function (e) {

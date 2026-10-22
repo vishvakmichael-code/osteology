@@ -97,6 +97,11 @@
   .putcard .door { height: 19cqw; flex: 1; min-width: 0; }
   .putcard .shbox { height: 3.4cqw; width: 20%; } .putcard .shbox b { font-size: .7cqw; padding: .15cqw .4cqw; margin-top: .5cqw; }
   .shbox.slot { opacity: 0; transform: translate(-200%, -100%); } .shbox.slot.in { opacity: 1; transform: translateY(-100%); }
+  /* put-away screen: clear the subtitle and give the table, door, bar and button room to breathe */
+  @container (min-width: 641px) {
+    .card.putcard { left: 19cqw; width: 62cqw; top: 15.5cqw; gap: 2cqw; }
+    .putcard .put { gap: 2cqw; } .putcard .tbl2 { flex-basis: 21cqw; height: 21cqw; } .putcard .door { height: 21cqw; }
+  }
   .crankhint { width: 6.4cqw; height: 6.4cqw; display: block; flex: none; }
   .crankhint .ring, .crankhint .ch { transform-origin: 30px 30px; }
   .crankhint .ring { animation: crankring 3.2s linear infinite; }
@@ -111,11 +116,39 @@
   .note { position: relative; } .note.cw p { opacity: 0; } .note.cw { background: transparent; }
   .note canvas.crumple { position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer; filter: drop-shadow(0 .5cqw .9cqw rgba(0,0,0,.38)); }
   .tools { display: flex; flex-direction: column; gap: .8cqw; flex: 1; }
+  .bx { cursor: pointer; padding: 0; font: inherit; z-index: 1; }
+  .door .bx.sel, .door .bx:hover { transform: translateY(-112%) scale(1.16); z-index: 5; box-shadow: 0 0 2.2cqw rgba(232,169,74,.9), 0 1cqw 1.6cqw rgba(0,0,0,.6); transition-delay: 0s; }
+  .bx.right { box-shadow: 0 0 2.2cqw rgba(110,200,120,.95); } .bx.wrong { box-shadow: 0 0 2.2cqw rgba(200,80,60,.95); }
+  .bx.nope { animation: nope .45s; } @keyframes nope { 20%, 60% { margin-left: -.8cqw; } 40%, 80% { margin-left: .8cqw; } }
+  .bx .tip { position: absolute; left: calc(100% + 1.4cqw); top: .5cqw; white-space: nowrap; background: #FFFBEE; color: #2B2A27; border: .2cqw solid #2B2A27; border-radius: 1.2cqw; padding: .7cqw 1.5cqw; font: italic 1.9cqw/1.2 var(--serif); opacity: 0; transform: translateX(-1cqw) scale(.85); transition: opacity .2s, transform .25s cubic-bezier(.3,1.5,.5,1); pointer-events: none; box-shadow: 0 .4cqw 1cqw rgba(0,0,0,.45); }
+  .bx .tip::before { content: ""; position: absolute; left: -1.1cqw; top: 1.6cqw; border: .6cqw solid transparent; border-right: .9cqw solid #2B2A27; border-left: 0; }
+  .bx .tip.l { left: auto; right: calc(100% + 1.4cqw); transform: translateX(1cqw) scale(.85); }
+  .bx .tip.l::before { left: auto; right: -1.1cqw; border-right: 0; border-left: .9cqw solid #2B2A27; }
+  .bx.sel .tip, .bx:hover .tip { opacity: 1; transform: none; }
+  .note { flex: 1 1 24cqw; min-width: 24cqw; } .tools { flex: 0 0 12.5cqw; } .icorow { flex-wrap: wrap; gap: .8cqw; }
+  .howto { margin: 0 0 0 auto; width: 15cqw; flex: none; background: #fff; border: .18cqw dashed #8A8470; border-radius: .6cqw; padding: .8cqw; text-align: center; }
+  .howto svg { width: 100%; display: block; } .howto figcaption { font: 600 .95cqw/1.25 var(--sans); color: #5A5548; margin-top: .4cqw; }
+  .chip.ico { display: inline-flex; align-items: center; justify-content: center; padding: .9cqw; color: #3A382F; }
+  .chip.ico svg { width: 3.4cqw; height: 3.4cqw; display: block; }
+  .chip.ico { border: 0; background: transparent; padding: .3cqw; }
+  .chip.ico img { height: 6.2cqw; width: auto; max-width: 8.5cqw; object-fit: contain; display: block; filter: drop-shadow(0 .3cqw .5cqw rgba(0,0,0,.35)); }
+  .items .chip.ico { background: transparent; }
+  .putcard .chip.ico img { height: 5cqw; }
+  .tools .chip.ico img { height: 7.6cqw; max-width: 9cqw; }
+  .note { flex: 1 1 22cqw; min-width: 22cqw; } .tools { flex: 0 0 17cqw; } .howto { width: 13cqw; }
+  .icorow { display: flex; gap: 1cqw; }
   .chip { font: 600 1.2cqw/1 var(--sans); border: .14cqw dashed #8A8470; border-radius: .5cqw; padding: .8cqw 1.2cqw; align-self: flex-start; }
   .chart > svg { width: 100%; height: auto; display: block; overflow: visible; }
   .sticker { position: absolute; left: 4.5cqw; bottom: 6cqw; width: 12cqw; transform: rotate(-6deg); filter: drop-shadow(0 .4cqw .8cqw rgba(0,0,0,.5)); }
   .sticker img { width: 100%; display: block; }
   .tag { position: absolute; left: 1.4cqw; top: -1.1cqw; width: 5cqw; height: 1.8cqw; background: rgba(232,217,160,.8); }
+  /* plain content cards (not the shelf or the pile) sit higher, wider and with larger type so they fill the screen */
+  @container (min-width: 641px) {
+    .card.std { left: 19cqw; top: 14.5cqw; width: 68cqw; padding: 2.8cqw 3.2cqw; gap: 1.8cqw; }
+    .card.std p { font-size: 1.85cqw; } .card.std .fld { font-size: 1.65cqw; } .card.std .btn { font-size: 1.65cqw; } .card.std .hint { font-size: 1.15cqw; }
+    .card.std .opt em { font-size: 2.4cqw; } .card.std .opt small { font-size: 1.1cqw; } .card.std .msg { font-size: 1.65cqw; }
+    .card.std .tbl .tr { font-size: 1.75cqw; } .card.std .tbl .th { font-size: 1.2cqw; } .card.std .note p { font-size: 1.65cqw; } .card.std .chip { font-size: 1.4cqw; }
+  }
   @container (max-width: 640px) {
     .stage { aspect-ratio: auto; min-height: 620px; }
     .hdr b { font-size: 10px; } .dots i { width: 8px; height: 8px; } .dots { gap: 8px; }
@@ -230,7 +263,7 @@
     ['You got a response!', 'The museum has answered.'],
     ['The visitors’ book', 'Write your name in the notebook on your table. Then press the knob to go to the shelf.'],
     ['Open the shelf', 'Turn the crank to slide the door open.'],
-    ['Which box?', 'Find the box with wolf bones. Labels show the Latin name only.'],
+    ['Which box?', 'Find the box with wolf bones. Pull a box out to read its Latin name.'],
     ['At the workstation', 'Measure the width across the hip bones with the caliper.'],
     ['', 'Your wolf dropped onto the pile of adult males.'],
     ['Put everything back', 'Pack the box, put it on the shelf, then turn the crank to close the door.'],
@@ -555,6 +588,16 @@
     return '<svg width="' + w + '" height="' + w + '" viewBox="0 0 100 100" aria-hidden="true"><path d="M18 30 L22 6 L40 21 Q50 19 60 21 L78 6 L82 30 Q90 50 77 67 Q66 87 50 89 Q34 87 23 67 Q10 50 18 30 Z" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><path d="M18 30 L22 8 L40 22 Q50 20 60 22 L78 8 L82 30 Q88 50 76 66 Q66 84 50 86 Q34 84 24 66 Q12 50 18 30 Z" fill="#6F7780"/><path d="M26 15 L35 24 L25 29 Z M74 15 L65 24 L75 29 Z" fill="#E7A9A0"/><path d="M30 52 Q36 40 50 46 Q64 40 70 52 Q73 72 50 79 Q27 72 30 52 Z" fill="#EAE1CF"/><path d="M33 46 Q38 42 43 46 M57 46 Q62 42 67 46" fill="none" stroke="#2A2A2A" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="50" cy="59" rx="5.5" ry="3.8" fill="#2A2A2A"/><path d="M50 63 V67 M43 68 Q50 74 57 68" fill="none" stroke="#2A2A2A" stroke-width="2.2" stroke-linecap="round"/></svg>';
   }
   function hint(t) { return '<span class="hint">' + t + '</span>'; }
+  var IC = {
+    Gloves: '<path d="M7 21v-6L4.5 11.5a1.6 1.6 0 0 1 2.6-1.9L8.5 12V4.5a1.4 1.4 0 0 1 2.8 0V10m0-1.5V3.5a1.4 1.4 0 0 1 2.8 0V10m0-5a1.4 1.4 0 0 1 2.8 0v6m0-3a1.4 1.4 0 0 1 2.8 0v6.5c0 3-1.5 5-3.8 6H7"/>',
+    'Bubble wrap': '<circle cx="6.5" cy="6.5" r="2.8"/><circle cx="15.5" cy="6.5" r="2.8"/><circle cx="6.5" cy="15.5" r="2.8"/><circle cx="15.5" cy="15.5" r="2.8"/><path d="M5.5 5.5l1-1M14.5 5.5l1-1M5.5 14.5l1-1M14.5 14.5l1-1"/>',
+    Caliper: '<path d="M3 20V4M3 6h13l5 0M3 18h4l3-6"/><path d="M6 20h15M10 12h8M7 20v-2M12 20v-2M17 20v-2"/>'
+  };
+  var TOOL_IMG = { Gloves: 'stk/gloves.png', 'Bubble wrap': 'stk/bubble.png', Caliper: 'stk/caliper.png' };
+  function ico(n) { return '<span class="chip ico" role="img" aria-label="' + n + '" title="' + n + '"><img src="' + TOOL_IMG[n] + '" alt="' + n + '" draggable="false"></span>'; }
+  // Rough placeholder for the measuring guide. The exact landmarks are still to be agreed with the researcher.
+  var HOWTO = '<figure class="howto"><svg viewBox="0 0 200 140" role="img" aria-label="Rough sketch: measure straight across the widest part of the hip bones"><g fill="#EFE6CC" stroke="#2B2A27" stroke-width="2.2" stroke-linejoin="round"><path d="M62 18C22 18 8 66 32 100C44 114 62 102 72 90L82 56Z"/><path d="M138 18C178 18 192 66 168 100C156 114 138 102 128 90L118 56Z"/><path d="M82 56C82 36 118 36 118 56L124 108C114 128 86 128 76 108Z"/><ellipse cx="100" cy="88" rx="11" ry="15" fill="#17120e"/></g><g stroke="#612826" stroke-width="3" stroke-linecap="round" fill="none"><path d="M14 66H186"/><path d="M24 58L13 66L24 74M176 58L187 66L176 74"/></g></svg><figcaption>Measure straight across the widest part. Rough sketch.</figcaption></figure>';
+  function icos() { return ico('Gloves') + ico('Bubble wrap') + ico('Caliper'); }
 
   // ---------- screens
   function body(i) {
@@ -570,19 +613,19 @@
     if (i === 3) return '<div class="door" id="door"><div class="sh" style="top:22%"></div><div class="sh" style="top:48%"></div><div class="sh" style="top:74%"></div><div class="shbox" style="top:22%;left:24%;--i:0"><b>Box 1</b></div><div class="shbox" style="top:48%;left:44%;--i:1"><b>Box 2</b></div><div class="shbox" style="top:74%;left:62%;--i:2"><b>Box 3</b></div><div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">CRANK</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">0%</b></div>' +
       '<div class="foot"><span id="cmsg" class="msg muted"></span>' + '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the crank clockwise"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>' + '</div>';
-    if (i === 4) return '<div class="row" id="boxes">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b, n) {
-        return '<button class="opt" data-box="' + n + '"><small>' + b[0] + '</small><em>' + b[1] + '</em></button>'; }).join('') + '</div>' +
-      '<div class="msg" id="bmsg"></div><div class="foot"><span></span>' + hint('Turn and press the knob') + '</div>';
-    if (i === 5) return '<div class="row"><div class="note"><p><b>Welcome, researcher.</b><br>1 Open the box<br>2 Hold each bone with both hands<br>3 Measure the width across the hip bones<br>4 Put everything back</p></div><div class="tools"><span class="sans" style="font:700 1cqw var(--sans);letter-spacing:.1em;color:#5A5548">IN THE SUITCASE</span><span class="chip">Gloves</span><span class="chip">Bubble wrap</span><span class="chip">Caliper</span></div></div>' +
+    if (i === 4) return '<div class="door lit" id="boxes"><div class="sh" style="top:22%"></div><div class="sh" style="top:48%"></div><div class="sh" style="top:74%"></div>' + [['Box 1', 'Ursus arctos', 22, 24, ''], ['Box 2', 'Canis lupus', 48, 44, ''], ['Box 3', 'Vulpes vulpes', 74, 62, ' l']].map(function (b, n) {
+        return '<button class="shbox bx" data-box="' + n + '" style="top:' + b[2] + '%;left:' + b[3] + '%;--i:' + n + '" aria-label="' + b[0] + '"><b>' + b[0] + '</b><span class="tip' + b[4] + '">' + b[1] + '</span></button>'; }).join('') + '</div>' +
+      '<div class="row"><div class="msg" id="bmsg">Hover over a box, or turn the knob, to read its label.</div></div><div class="foot"><span></span>' + hint('Turn and press the knob') + '</div>';
+    if (i === 5) return '<div class="row"><div class="note"><p><b>Welcome, researcher.</b><br>1 Open the box<br>2 Hold each bone with both hands<br>3 Measure the width across the hip bones<br>4 Put everything back</p></div><div class="tools"><span class="sans" style="font:700 1cqw var(--sans);letter-spacing:.1em;color:#5A5548">IN THE SUITCASE</span><div class="icorow">' + icos() + '</div></div>' + HOWTO + '</div>' +
       '<p id="wsq"><b>How wide is it?</b> Pick the range your caliper shows.</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' +
       '<div class="foot"><span></span>' + hint('Turn and press the knob') + '</div>';
     if (i === 6) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 288" role="img" aria-label="Your wolf dropped onto a pile of adult male wolf pelvis widths"></svg></div>' +
       '<p class="muted" id="fact"></p><div class="foot"><button class="btn opt-b" data-act="next">Put everything back</button>' + hint('Press the knob') + '</div>';
-    if (i === 7) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items" id="items"><span class="chip">Gloves</span><span class="chip">Bubble wrap</span><span class="chip">Caliper</span></div></div>' +
+    if (i === 7) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items" id="items">' + icos() + '</div></div>' +
       '<div class="door" id="door"><div class="sh" style="top:22%"></div><div class="sh" style="top:48%"></div><div class="sh" style="top:74%"></div><div class="shbox" style="top:22%;left:14%;--i:0"><b>Box 1</b></div><div class="shbox slot" id="slot" style="top:48%;left:40%;--i:1"><b>Box 2</b></div><div class="shbox" style="top:74%;left:66%;--i:2"><b>Box 3</b></div><div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
       '<div class="foot"><div style="display:flex;gap:1.2cqw;align-items:center"><button class="btn opt-b" id="putbtn" data-act="put">Put the things in the box</button><span id="cmsg" class="msg muted"></span></div><span id="phint">' + hint('Press the knob') + '</span></div>';
-    return '<div class="row" style="align-items:center"><div style="flex:1"><p style="font-size:1.9cqw;font-weight:600;line-height:1.3">Adult male grey wolf, pelvis width: ' + ranges[range].t + '.</p><p style="font-size:1.6cqw;margin-top:.8cqw">For a moment, you were an osteologist.</p><p class="muted" style="margin-top:.8cqw">Take your sticker from the tray.</p></div><div id="stk" style="width:11cqw;flex:none">' + '<img alt="" src="' + STK.skull + '" style="width:100%;display:block">' + '</div></div>' +
+    return '<div class="row" style="align-items:center"><div style="flex:1"><p style="font-size:2.5cqw;font-weight:600;line-height:1.3">Adult male grey wolf, pelvis width: ' + ranges[range].t + '.</p><p style="font-size:2.4cqw;line-height:1.3;margin-top:1cqw">For a moment, you were an osteologist.</p><p class="muted" style="margin-top:1cqw">Take your sticker from the tray.</p></div><div id="stk" style="width:13cqw;flex:none">' + '<img alt="" src="' + STK.skull + '" style="width:100%;display:block">' + '</div></div>' +
       '<div class="foot"><button class="btn opt-b" data-act="restart">Start again</button>' + hint('Press the knob') + '</div>';
   }
 
@@ -708,7 +751,7 @@ void main(){
       stickerHTML(cur) +
       '<div class="hdr"><b>Osteologia</b><div class="dots">' + titles.map(function (_, n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
       '<div class="ttl"><h2>' + (t[0] || verdict) + '</h2><p>' + t[1] + '</p></div>' +
-      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><span class="hint">Press the knob</span></div>' : '<div class="card' + (cur === 3 ? ' doorcard' : cur === 7 ? ' doorcard putcard' : cur === 6 ? ' pilecard' : '') + '" id="card">' + body(cur) + '</div>');
+      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><span class="hint">Press the knob</span></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 7 ? ' doorcard putcard' : cur === 6 ? ' pilecard' : ' std') + '" id="card">' + body(cur) + '</div>');
     document.querySelectorAll('#steps button').forEach(function (b, n) { b.setAttribute('aria-current', n === cur ? 'true' : 'false'); });
     var card = $('#card');
     if (card) spring(0, 1, 'wobbly', function (p) { card.style.opacity = Math.min(1, p * 1.6); card.style.transform = 'translateY(' + ((1 - p) * 60) + 'px) scale(' + (0.96 + 0.04 * p) + ')'; });
@@ -717,7 +760,7 @@ void main(){
   }
 
   function collect() {
-    opts = [].slice.call(stage.querySelectorAll('.opt-b, .opt[data-box], .opt-r'));
+    opts = [].slice.call(stage.querySelectorAll('.opt-b, [data-box], .opt-r'));
     if (cur === 4 || cur === 5) sel = cur === 5 ? range : Math.min(sel, 2); else sel = 0;
     markSel();
   }
@@ -725,7 +768,7 @@ void main(){
     opts.forEach(function (o, n) { o.classList.toggle('sel', n === sel); });
     if (cur === 4 || cur === 5) opts.forEach(function (o, n) { if (n === sel) bump(o); });
   }
-  function bump(el) { spring(1, 1.045, 'snappy', function (s) { el.style.transform = 'scale(' + s + ')'; }); }
+  function bump(el) { if (el.classList.contains('bx')) return; spring(1, 1.045, 'snappy', function (s) { el.style.transform = 'scale(' + s + ')'; }); }
 
   function setup() {
     if (cur === 2) {
@@ -734,6 +777,7 @@ void main(){
       ready.then(function () { if (tok !== bookToken || cur !== 2) return; bookCtl = mountBook(wrapEl, function () { var c = $('#bookcta'); if (c) { c.hidden = false; collect(); } }); });
     }
     if (cur === 3) { doorProg = crank / 100; applyDoor(doorProg); doorSp = spring(doorProg, doorProg, 'slow', applyDoor); doorSp.to(crank / 100); }
+    if (cur === 4) opts.forEach(function (o, n) { o.addEventListener('mouseenter', function () { sel = n; markSel(); }); o.addEventListener('click', function () { sel = n; markSel(); press(); }); });
     if (cur === 6) buildPile();
     if (cur === 7) { crank = 100; $('#crank').value = 100; applyDoor(1); doorSp = spring(1, 1, 'slow', applyDoor); }
     if (cur === 8) { var s = $('#stk'); if (s) spring(0, 1, 'wobbly', function (p) { s.style.transform = 'scale(' + p + ') rotate(' + ((1 - p) * -40) + 'deg)'; }); }
@@ -830,11 +874,10 @@ void main(){
     var m = $('#bmsg');
     if (n === 1) {
       el.classList.add('right'); m.textContent = 'Right box. Bring it to the table.';
-      spring(0, 1, 'wobbly', function (p) { el.style.transform = 'translateY(' + (-p * 26) + 'px) scale(' + (1 + p * .06) + ')'; });
       setTimeout(function () { if (cur === 4) go(5); }, 1300);
     } else {
-      el.classList.add('wrong'); m.textContent = msgs[n];
-      shake(el);
+      el.classList.add('wrong', 'nope'); m.textContent = msgs[n];
+      setTimeout(function () { el.classList.remove('nope'); }, 500);
       setTimeout(function () { el.classList.remove('wrong'); }, 1400);
     }
   }

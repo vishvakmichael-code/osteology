@@ -183,7 +183,15 @@
     .opt em { font-size: 15px; } .opt small { font-size: 9px; } .opt { padding: 10px; border-width: 1.5px; } .msg { font-size: 13px; min-height: 18px; }
     .row { gap: 8px; flex-wrap: wrap; } .tbl .th { font-size: 9px; } .door { height: 120px; } .chip { font-size: 11px; }
     .sticker { display: none; }
+    /* phones: the card joins the normal flow so the screen grows with its content instead of clipping it */
+    .stage .card, .stage .card.doorcard, .stage .card.pilecard, .stage .card.putcard, .stage .card.std { position: relative; left: auto; right: auto; top: auto; width: auto; margin: 124px 12px 16px; }
+    .stage .doorcard .side, .stage .doorcard > .foot.sidefoot, .stage .doorcard.putcard > .foot.sidefoot { position: relative; left: auto; top: auto; width: auto; margin: 0; }
+    .stage .doorcard .door.dshelf, .stage .shelf2 { height: 300px; } .stage .putcard.doorcard .door.dshelf { height: 200px; }
+    .stage .doorcard .side .msg, .stage .sidefoot .msg { font-size: 15px; } .stage .sidefoot .btn { font-size: 14px; }
   }
+  /* the stage cannot resize itself from its own container query, so the page is the container for its height */
+  .page { container-type: inline-size; }
+  @container (max-width: 644px) { .stage { aspect-ratio: auto; min-height: 560px; } }
 
   .bookwrap { position: absolute; left: 0; right: 0; top: 11cqw; bottom: 0; cursor: default; }
   .bookwrap canvas { width: 100%; height: 100%; display: block; }
@@ -999,7 +1007,8 @@ void main(){
     function autoOff() { auto.forEach(clearTimeout); auto = []; }
     var auto = [];
     setPhase(0);
-    if (reduce) { setPhase(1); setPhase(2); draw(); unlock(); return; }
+    // reduced motion: settle the cluster first, as the animated version does, so the circles start from the screen and land on the floor
+    if (reduce) { run(); setPhase(1); setPhase(2); draw(); unlock(); return; }
     schedule();
     raf = requestAnimationFrame(frame);
   }

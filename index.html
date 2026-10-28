@@ -166,6 +166,15 @@
   .ph3 { display: block; width: 100%; object-fit: cover; margin-top: .8cqw; height: 13cqw; border: .18cqw solid rgba(58,54,45,.25); border-radius: 1.2cqw; background: #F5EBC9; font: 600 1.3cqw var(--sans); color: #6B6451; }
   #wsq { font-size: 2.1cqw; }
   .note { flex: 1 1 22cqw; min-width: 22cqw; } .tools { flex: 0 0 17cqw; } .howto { width: 13cqw; }
+  /* last screen: publish your reading (numbered steps + why publish) */
+  .card.pubcard { left: 22.4cqw; top: 16.7cqw; width: 66.5cqw; padding: 2.6cqw 2.6cqw 2.4cqw; gap: 2.2cqw; }
+  .pub { display: flex; gap: 2.8cqw; align-items: flex-start; }
+  .pub ol { list-style: none; margin: 0; padding: 0; flex: 1; display: flex; flex-direction: column; gap: 1.7cqw; }
+  .pub li { display: flex; align-items: center; gap: 1.6cqw; font: 600 1.6cqw/1.4 var(--sans); color: #2B2A27; }
+  .pub li b { flex: none; width: 3.4cqw; height: 3.4cqw; border-radius: 50%; background: #612826; color: #FFF6DC; display: grid; place-items: center; font: 600 1.5cqw/1 var(--sans); }
+  .pub .why { flex: 0 0 29.5cqw; background: #F3E7C4; border-radius: 1.2cqw; padding: 1.6cqw 1.8cqw; }
+  .pub .why h3 { margin: 0 0 .6cqw; font: 700 1.6cqw/1.3 var(--sans); color: #2B2A27; }
+  .card .pub .why p { margin: 0; font: 400 1.3cqw/1.55 var(--sans); color: #3A382F; }
   .icorow { display: flex; gap: 1cqw; }
   .chip { font: 600 1.2cqw/1 var(--sans); border: .14cqw dashed #8A8470; border-radius: .5cqw; padding: .8cqw 1.2cqw; align-self: flex-start; }
   .chart > svg { width: 100%; height: auto; display: block; overflow: visible; }
@@ -188,6 +197,9 @@
     .stage .doorcard .side, .stage .doorcard > .foot.sidefoot, .stage .doorcard.putcard > .foot.sidefoot { position: relative; left: auto; top: auto; width: auto; margin: 0; }
     .stage .doorcard .door.dshelf, .stage .shelf2 { height: 300px; } .stage .putcard.doorcard .door.dshelf { height: 200px; }
     .stage .doorcard .side .msg, .stage .sidefoot .msg { font-size: 15px; } .stage .sidefoot .btn { font-size: 14px; }
+    .pub { flex-direction: column; gap: 14px; } .pub ol { gap: 10px; } .pub li { font-size: 14px; gap: 10px; }
+    .pub li b { width: 26px; height: 26px; font-size: 13px; } .pub .why { flex: none; padding: 12px 14px; border-radius: 8px; }
+    .pub .why h3 { font-size: 15px; } .card .pub .why p { font-size: 13px; }
   }
   /* the stage cannot resize itself from its own container query, so the page is the container for its height */
   .page { container-type: inline-size; }
@@ -308,7 +320,7 @@
     ['Measure the width', 'Measure across the hip bones with the caliper, then pick the range it shows.'],
     ['', 'Your wolf dropped in among the adult males.'],
     ['Put everything back', 'Pack the box, put it on the shelf, then turn the crank to close the door.'],
-    ['All put away', 'Thank you. Your finding is now part of the research.']
+    ['Publish your reading', 'Take a sticky, write your reading and put it on the wall.']
   ];
   var confirming = false, putStep = 0;
   var cur = 0, sel = 0, range = 2, crank = 0, boxState = null, doorSp = null, doorProg = 0;
@@ -671,7 +683,8 @@
         return '<div class="bx2' + b[1] + '"' + (b[1] ? ' id="slot"' : '') + '><span class="cb"></span><span class="pill">' + b[0] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
       '<div class="foot sidefoot"><p id="cmsg" class="msg">Put your tools back in the box.</p><button class="btn opt-b" id="putbtn" data-act="put">Put the things in the box</button><span id="phint">' + hint('Press the knob') + '</span></div>';
-    return '<div class="row" style="align-items:center"><div style="flex:1"><p style="font-size:1.9cqw;font-weight:600;line-height:1.3">Adult male grey wolf, pelvis width: ' + ranges[range].t + '.</p><p style="font-size:1.6cqw;margin-top:.8cqw">For a moment, you were an osteologist.</p><p class="muted" style="margin-top:.8cqw">Take your sticker from the tray.</p></div><div id="stk" style="width:11cqw;flex:none">' + '<img alt="" src="' + STK.skull + '" style="width:100%;display:block">' + '</div></div>' +
+    return '<div class="pub"><ol>' + ['Take a sticky from the table.', 'Write your reading on it.', 'Stick it on the wall with the bone facing out, then draw your face next to it.'].map(function (t, n) { return '<li><b>' + (n + 1) + '</b><span>' + t + '</span></li>'; }).join('') + '</ol>' +
+      '<div class="why"><h3>Why publish?</h3><p>Science only works when other people can check it. If your reading is on the wall, the next osteologist can lift your bone, see your number and compare it with theirs. Same number or different, both are worth knowing.</p></div></div>' +
       '<div class="foot"><button class="btn opt-b" data-act="restart">Start again</button>' + hint('Press the knob') + '</div>';
   }
 
@@ -799,7 +812,7 @@ void main(){
       stickerHTML(cur) +
       '<div class="hdr"><b>Osteologia</b><div class="dots">' + titles.map(function (_, n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
       '<div class="ttl"><h2>' + (t[0] || verdict) + '</h2><p>' + t[1] + '</p></div>' +
-      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><button class="hint hbtn" data-act="next">Press the knob</button></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 8 ? ' doorcard putcard' : cur === 7 ? ' pilecard' : '') + '" id="card">' + body(cur) + '</div>');
+      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><button class="hint hbtn" data-act="next">Press the knob</button></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 8 ? ' doorcard putcard' : cur === 7 ? ' pilecard' : cur === 9 ? ' pubcard' : '') + '" id="card">' + body(cur) + '</div>');
     document.querySelectorAll('#steps button').forEach(function (b, n) { b.setAttribute('aria-current', n === cur ? 'true' : 'false'); });
     var card = $('#card'), seamless = (lastCur === 3 && cur === 4); lastCur = cur;
     stage.classList.toggle('arrive', seamless);

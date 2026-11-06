@@ -207,8 +207,7 @@
   .pub li { display: flex; align-items: center; gap: 1.8cqw; }
   .pub li > b { flex: none; width: 3.8cqw; height: 3.8cqw; border-radius: 50%; background: #612826; color: #FFF6DC; display: grid; place-items: center; font: 600 1.7cqw/1 var(--sans); }
   .pub li p { margin: 0; font: 600 1.85cqw/1.35 var(--sans); color: #2B2A27; }
-  .pub .note { display: inline-flex; align-items: center; gap: .9cqw; margin-top: .9cqw; background: #EDB9C5; color: #2B2A27; font: 700 1.4cqw/1 var(--sans); padding: .8cqw 1.2cqw; border-radius: .25cqw; transform: rotate(-2deg); box-shadow: 0 .4cqw .9cqw rgba(0,0,0,.25); }
-  .pub .note i { font-style: normal; font-weight: 600; font-size: 1.2cqw; border: .14cqw solid #612826; border-radius: 50%; padding: .2cqw .7cqw; }
+  .pub .note { display: flex; width: max-content; align-items: center; gap: .9cqw; margin-top: .9cqw; background: #EDB9C5; color: #2B2A27; font: 700 1.4cqw/1 var(--sans); padding: .8cqw 1.2cqw; border-radius: .25cqw; transform: rotate(-2deg); box-shadow: 0 .4cqw .9cqw rgba(0,0,0,.25); }
   .pub .right { display: flex; flex-direction: column; gap: 1.8cqw; }
   .pub .wall { background: #5C2A26; border-radius: 1.2cqw; padding: 2cqw 1.8cqw; display: flex; justify-content: space-around; gap: 1.2cqw; }
   .pub .wall figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .9cqw; width: 30%; }
@@ -820,14 +819,14 @@
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
       '<div class="foot sidefoot"><p id="cmsg" class="msg">Put your tools back in the box.</p><button class="btn opt-b" id="putbtn" data-act="put">Put the things in the box</button><span id="phint">' + hint('Press the knob') + '</span></div>';
     return '<div class="pub"><ol>' +
-        '<li><b>1</b><div><p>Peel off your sticky note with the reading you wrote.</p><span class="note">About ____ <i>mm</i> <i>cm</i></span></div></li>' +
+        '<li><b>1</b><div><p>Peel off your sticky note with the reading you wrote.</p><span class="note">About ____ mm</span></div></li>' +
         '<li><b>2</b><div><p>Stick it on the wall under a portrait circle.</p></div></li>' +
         '<li><b>3</b><div><p>Draw your fun portrait in the circle.</p></div></li>' +
-      '</ol><div class="right"><div class="wall" role="img" aria-label="Three portraits on the wall with their readings: about 105 mm, 10.4 cm and about 100 mm">' +
+      '</ol><div class="right"><div class="wall" role="img" aria-label="Three portraits on the wall with their readings: about 105 mm, 104 mm and about 100 mm">' +
         '<figure><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="45" fill="#FFF6DC" stroke="#E8A94A" stroke-width="5"/><circle cx="38" cy="42" r="4.5" fill="#612826"/><circle cx="62" cy="42" r="4.5" fill="#612826"/><path d="M31 62 Q50 78 69 62" fill="none" stroke="#612826" stroke-width="5" stroke-linecap="round"/></svg><figcaption>about 105 mm</figcaption></figure>' +
-        '<figure><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="45" fill="#FFF6DC" stroke="#E8A94A" stroke-width="5"/><circle cx="38" cy="42" r="4.5" fill="#612826"/><circle cx="62" cy="42" r="4.5" fill="#612826"/><path d="M24 24 Q34 14 44 22 M56 22 Q66 14 76 24" fill="none" stroke="#612826" stroke-width="5" stroke-linecap="round"/><path d="M31 62 Q50 78 69 62" fill="none" stroke="#612826" stroke-width="5" stroke-linecap="round"/></svg><figcaption>10.4 cm</figcaption></figure>' +
+        '<figure><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="45" fill="#FFF6DC" stroke="#E8A94A" stroke-width="5"/><circle cx="38" cy="42" r="4.5" fill="#612826"/><circle cx="62" cy="42" r="4.5" fill="#612826"/><path d="M24 24 Q34 14 44 22 M56 22 Q66 14 76 24" fill="none" stroke="#612826" stroke-width="5" stroke-linecap="round"/><path d="M31 62 Q50 78 69 62" fill="none" stroke="#612826" stroke-width="5" stroke-linecap="round"/></svg><figcaption>104 mm</figcaption></figure>' +
         '<figure><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="45" fill="#FFF6DC" stroke="#E8A94A" stroke-width="5"/><circle cx="37" cy="42" r="9" fill="none" stroke="#612826" stroke-width="4.5"/><circle cx="63" cy="42" r="9" fill="none" stroke="#612826" stroke-width="4.5"/><circle cx="37" cy="42" r="3.5" fill="#612826"/><circle cx="63" cy="42" r="3.5" fill="#612826"/><path d="M31 62 Q50 78 69 62" fill="none" stroke="#612826" stroke-width="5" stroke-linecap="round"/></svg><figcaption>about 100 mm</figcaption></figure>' +
-        '</div><div class="why"><h3>Why publish?</h3><p>Science only works when other people can check it. Look at the stickers on the wall and compare your reading with theirs. Some write mm and some cm, so scientists agree on one unit to keep results comparable.</p></div></div></div>' +
+        '</div><div class="why"><h3>Why publish?</h3><p>Science only works when other people can check it. Look at the stickers on the wall and compare your reading with theirs. Readings that sit close together show the measurement can be trusted, and one that stands out is worth measuring again.</p></div></div></div>' +
       '<div class="foot"><button class="btn opt-b" data-act="restart">Start again</button>' + hint('Press the knob') + '</div>';
   }
 

@@ -69,10 +69,9 @@
   .door .leaf { position: absolute; top: 0; bottom: 0; width: 50%; background: #B8B6AE; display: grid; place-items: center; }
   .door .leaf i { width: .9cqw; height: 8cqw; border-radius: .6cqw; background: rgba(40,18,8,.6); box-shadow: 0 0 .5cqw rgba(255,200,140,.35); }
   .door .l { left: 0; border-right: .2cqw solid #2B2A27; } .door .r { right: 0; border-left: .2cqw solid #2B2A27; }
-  .door { --door-img: url("images/shelf/door-wood.jpg"); }
-  .door .leaf { background-color: #8a4a22; overflow: hidden; }
-  .door .leaf::before { content: ""; position: absolute; inset: 0; background: var(--door-img) center / cover no-repeat; }
-  .door .r::before { transform: scaleX(-1); }
+  /* plain warm-brown door leaves, slightly lighter in the middle of each panel */
+  .door .leaf { background: linear-gradient(90deg, #6b3d1f 0%, #7d4a28 22%, #84502c 50%, #7d4a28 78%, #6b3d1f 100%); overflow: hidden; }
+  .door .leaf::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.12), rgba(0,0,0,0) 18%, rgba(0,0,0,0) 82%, rgba(0,0,0,.14)); }
   .door .leaf i { position: relative; z-index: 1; }
   /* shelf screen: the whole card is a heavy arched door in a stone frame */
   .card.doorcard { left: 24cqw; top: 13cqw; width: 52cqw; background: transparent; box-shadow: none; padding: 0; gap: 1.2cqw; color: #FFF6DC; }

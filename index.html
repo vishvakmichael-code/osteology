@@ -754,8 +754,8 @@
   }
   // a photo from images/; until the file is there, a labelled placeholder shows instead of a broken image
   function photo(src, alt, cls) { return '<img' + (cls ? ' class="' + cls + '"' : '') + ' alt="' + alt + '" src="' + src + '" onerror="this.outerHTML=\'<span class=&quot;' + (cls || '') + ' ph-missing&quot;>' + src + '</span>\'">'; }
-  // two green points across the tips of the hip-bone wings, drawn over images/measure/pelvis-top.jpg (2000 x 1500)
-  var PELVIS_MARKS = '<svg class="marks" viewBox="0 0 2000 1500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><line x1="1405" y1="95" x2="1405" y2="1125" stroke="#3CCB5A" stroke-width="14" stroke-dasharray="40 30"/><circle cx="1405" cy="95" r="42" fill="#3CCB5A" stroke="#fff" stroke-width="10"/><circle cx="1405" cy="1125" r="42" fill="#3CCB5A" stroke="#fff" stroke-width="10"/></svg>';
+  // two green points across the widest edges of the hip-bone wings, drawn over images/measure/pelvis-top.jpg (4:3, in a 2000 x 1500 box)
+  var PELVIS_MARKS = '<svg class="marks" viewBox="0 0 2000 1500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><line x1="1438" y1="258" x2="1419" y2="1138" stroke="#3CCB5A" stroke-width="14" stroke-dasharray="40 30"/><circle cx="1438" cy="258" r="42" fill="#3CCB5A" stroke="#fff" stroke-width="10"/><circle cx="1419" cy="1138" r="42" fill="#3CCB5A" stroke="#fff" stroke-width="10"/></svg>';
   function hint(t) { return '<span class="hint">' + t + '</span>'; }
   var IC = {
     Gloves: '<path d="M7 21v-6L4.5 11.5a1.6 1.6 0 0 1 2.6-1.9L8.5 12V4.5a1.4 1.4 0 0 1 2.8 0V10m0-1.5V3.5a1.4 1.4 0 0 1 2.8 0V10m0-5a1.4 1.4 0 0 1 2.8 0v6m0-3a1.4 1.4 0 0 1 2.8 0v6.5c0 3-1.5 5-3.8 6H7"/>',

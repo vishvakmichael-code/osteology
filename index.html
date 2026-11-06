@@ -279,7 +279,7 @@
       <div class="steps" id="steps"></div>
     </div>
   </div>
-  <p class="foot-note">On a keyboard, the arrow keys turn the knob and Enter presses it. The mouse wheel over the screen turns the crank on screen 4. Study figures come from Csanády, Križovský and Hlôška (2019): 17 adult male grey wolf pelvises, average 104.9 mm across the hip bones. The dots are placed from that average and spread, so they show the shape of the group and are not the real 17 measurements.</p>
+  <p class="foot-note">On a keyboard, the arrow keys turn the knob and Enter presses it. The mouse wheel over the screen turns the crank on screen 4. Study figures come from Csanády, Križovský and Hlôška (2019): 17 adult male grey wolf pelvises, average 104.9 mm across the hip bones. The dots are placed from that average and spread, so they show the shape of the group and are not the real 17 measurements. 3D model: “<a href="https://sketchfab.com/3d-models/wolf-skeleton-1b447d8c2f7c4e69b40db888fbe3b187" style="color:inherit">Wolf Skeleton</a>” by Ahnaf Tauseef, licensed under <a href="http://creativecommons.org/licenses/by/4.0/" style="color:inherit">CC BY 4.0</a>, simplified for the web.</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -767,7 +767,7 @@
       '<div class="row"><button class="btn opt-b" data-act="next">Ready to measure</button></div>' +
       '<div class="foot" style="justify-content:flex-start">' + hint('Press the knob') + '</div>';
     if (i === 6) return '<div class="m3side">' + [['Choose the pelvis from the box', HOWTO_IMGS[0], '50% 50%'], ['Measure across the top right of the pelvis as shown here', HOWTO_IMGS[1], '50% 0%'], ['Read the number on the caliper', HOWTO_IMGS[2], '50% 50%']].map(function (t) { return '<figure><figcaption>' + t[0] + '</figcaption><img alt="' + t[0] + '" src="' + t[1] + '" style="object-position:' + t[2] + '"></figure>'; }).join('') + '</div>' +
-      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><span class="m3hint">Turn the knob, scroll or drag to rotate</span><span class="m3credit">3D model: “Wolf Skeleton” by Ahnaf Tauseef, CC BY 4.0</span></div>' +
+      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><span class="m3hint">Turn the knob, scroll or drag to rotate</span></div>' +
       '<div class="m3bar"><p id="wsq"><b>How wide is it?</b> Pick the range the caliper shows</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' + hint('Click your range') + '</div>';
     if (i === 7) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 318" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
       '<p class="muted" id="fact"></p><div class="foot"><button class="btn opt-b" data-act="next">Put everything back</button>' + hint('Press the knob') + '</div>';

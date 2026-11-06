@@ -78,29 +78,41 @@ for (let t = 0; t < fIdx.length; t += 3) {
 }
 for (let i = 0; i < n; i++) { const l = Math.hypot(nrm[i * 3], nrm[i * 3 + 1], nrm[i * 3 + 2]) || 1; for (let c = 0; c < 3; c++) nrm[i * 3 + c] /= l; }
 
-// 4. write one GLB
+// 4. write one compact GLB (KHR_mesh_quantization): positions as int16 in a box the node scales back up,
+//    normals as int8 with the pelvis tag in the fourth byte of the same 4-byte slot, indices as uint32
 const pad4 = (b) => Buffer.concat([b, Buffer.alloc((4 - (b.length % 4)) % 4)]);
-const pBuf = Buffer.from(fPos.buffer), nBuf = Buffer.from(nrm.buffer), iBuf = Buffer.from(fIdx.buffer), mBuf = Buffer.from(fMask.buffer);
-const body = pad4(Buffer.concat([pBuf, nBuf, iBuf, mBuf]));
 const fmin = [Infinity, Infinity, Infinity], fmax = [-Infinity, -Infinity, -Infinity];
 for (let i = 0; i < fPos.length; i += 3) for (let c = 0; c < 3; c++) { fmin[c] = Math.min(fmin[c], fPos[i + c]); fmax[c] = Math.max(fmax[c], fPos[i + c]); }
+const centre = fmin.map((v, c) => (v + fmax[c]) / 2), half = Math.max(...fmax.map((v, c) => (v - fmin[c]) / 2));
+const pBuf = Buffer.alloc(n * 8), nBuf = Buffer.alloc(n * 4);
+const qmin = [32767, 32767, 32767], qmax = [-32767, -32767, -32767];
+for (let i = 0; i < n; i++) {
+  for (let c = 0; c < 3; c++) {
+    const q = Math.max(-32767, Math.min(32767, Math.round(((fPos[i * 3 + c] - centre[c]) / half) * 32767)));
+    pBuf.writeInt16LE(q, i * 8 + c * 2); qmin[c] = Math.min(qmin[c], q); qmax[c] = Math.max(qmax[c], q);
+    nBuf.writeInt8(Math.max(-127, Math.min(127, Math.round(nrm[i * 3 + c] * 127))), i * 4 + c);
+  }
+  nBuf.writeUInt8(fMask[i] > 0.5 ? 255 : 0, i * 4 + 3);
+}
+const iBuf = Buffer.from(fIdx.buffer);
+const body = pad4(Buffer.concat([pBuf, nBuf, iBuf]));
 const doc = {
   asset: { version: "2.0", generator: "optimize-model.mjs", copyright: "Wolf Skeleton by Ahnaf Tauseef (sketchfab.com/ahnaftauseef), CC-BY-4.0" },
-  scene: 0, scenes: [{ nodes: [0] }], nodes: [{ mesh: 0, name: "wolf_skeleton" }],
+  extensionsUsed: ["KHR_mesh_quantization"], extensionsRequired: ["KHR_mesh_quantization"],
+  scene: 0, scenes: [{ nodes: [0] }], nodes: [{ mesh: 0, name: "wolf_skeleton", translation: centre, scale: [half, half, half] }],
   meshes: [{ name: "wolf_skeleton", primitives: [{ attributes: { POSITION: 0, NORMAL: 1, _PELVIS: 3 }, indices: 2, material: 0 }] }],
   materials: [{ name: "bone", pbrMetallicRoughness: { baseColorFactor: [0.86, 0.82, 0.74, 1], metallicFactor: 0, roughnessFactor: 0.8 } }],
   buffers: [{ byteLength: body.length }],
   bufferViews: [
-    { buffer: 0, byteOffset: 0, byteLength: pBuf.length, target: 34962 },
-    { buffer: 0, byteOffset: pBuf.length, byteLength: nBuf.length, target: 34962 },
+    { buffer: 0, byteOffset: 0, byteLength: pBuf.length, byteStride: 8, target: 34962 },
+    { buffer: 0, byteOffset: pBuf.length, byteLength: nBuf.length, byteStride: 4, target: 34962 },
     { buffer: 0, byteOffset: pBuf.length + nBuf.length, byteLength: iBuf.length, target: 34963 },
-    { buffer: 0, byteOffset: pBuf.length + nBuf.length + iBuf.length, byteLength: mBuf.length, target: 34962 },
   ],
   accessors: [
-    { bufferView: 0, componentType: 5126, count: n, type: "VEC3", min: fmin, max: fmax },
-    { bufferView: 1, componentType: 5126, count: n, type: "VEC3" },
+    { bufferView: 0, componentType: 5122, normalized: true, count: n, type: "VEC3", min: qmin, max: qmax },
+    { bufferView: 1, componentType: 5120, normalized: true, count: n, type: "VEC3" },
     { bufferView: 2, componentType: 5125, count: fIdx.length, type: "SCALAR" },
-    { bufferView: 3, componentType: 5126, count: n, type: "SCALAR" },
+    { bufferView: 1, byteOffset: 3, componentType: 5121, normalized: true, count: n, type: "SCALAR" },
   ],
 };
 const json = pad4(Buffer.from(JSON.stringify(doc)));

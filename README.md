@@ -4,7 +4,7 @@ An interactive booth screen for the Osteologia exhibit: a visitor writes to a mu
 
 Live site: https://vishvakmichael-code.github.io/osteology/
 
-The screen fills the browser window (16:10, centred). For the booth, put the browser in full screen (Ctrl+Cmd+F on Mac, F11 on Windows). The page loads three.js and fonts from CDNs, so it needs an internet connection, and the 3D model only loads from the website (or a local web server), not from a double-clicked file.
+The screen fills the browser window (16:10, centred). Once the first screen is up, the page quietly loads the later screens' images and the 3D model in the background, so the measure screen opens without waiting. For the booth, put the browser in full screen (Ctrl+Cmd+F on Mac, F11 on Windows). The page loads three.js and fonts from CDNs, so it needs an internet connection, and the 3D model only loads from the website (or a local web server), not from a double-clicked file.
 
 ## Screens
 
@@ -52,7 +52,7 @@ To replace a photo, save the new one under the same file name. Until a photo is 
 
 ## The 3D model
 
-`model/wolf-skeleton.glb` was made from "Wolf Skeleton" with `tools/model/optimize-model.mjs`: the 51 Sketchfab chunks were merged, simplified from 2.79 million to about 413,000 triangles, and the pelvis bones (both hip bones and the sacrum, found with `tools/model/original-shells.mjs`) were tagged so a shader can colour them in the brand maroon.
+`model/wolf-skeleton.glb` was made from "Wolf Skeleton" with `tools/model/optimize-model.mjs`: the 51 Sketchfab chunks were merged, simplified from 2.79 million to about 413,000 triangles, stored compactly (KHR_mesh_quantization: 16-bit positions, 8-bit normals; about 3.3 MB to download), and the pelvis bones (both hip bones and the sacrum, found with `tools/model/original-shells.mjs`) were tagged so a shader can colour them in the brand maroon.
 
 ```
 node --max-old-space-size=8192 tools/model/optimize-model.mjs <scene.gltf> model/wolf-skeleton.glb 540 1489562,2244336

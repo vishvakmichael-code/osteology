@@ -4,6 +4,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" href="images/background/museum-wall.jpg" as="image">
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Sans+3:wght@400;500;600;700&family=Caveat:wght@500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   /* Layout: one 16:10 screen that behaves like the booth monitor, with the knob and crank drawn underneath as on-screen stand-ins. */
@@ -618,10 +620,14 @@
     var controls = new T.OrbitControls(camera, cvs);
     controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false; controls.enableZoom = false; controls.maxPolarAngle = Math.PI * 0.49;
     controls.target.set(0, 0.5, 0); camera.position.set(2.15, 0.98, 0.84);
-    var yaw = 0, yawTarget = 0, idleUntil = 0, alive = true, last = performance.now(), t0 = last;
-    var touch = function () { idleUntil = performance.now() + 6000; };
+    // it always turns slowly by itself; the knob, scroll or a drag takes over, and 0.9 s after the visitor stops
+    // the slow turn eases back in from where they left it
+    var AUTO = 0.12, yaw = 0, yawTarget = 0, idleUntil = 0, autoSpeed = AUTO, alive = true, last = performance.now(), t0 = last;
+    var touch = function () { idleUntil = performance.now() + 900; autoSpeed = 0; };
     cvs.addEventListener('wheel', function (e) { e.preventDefault(); e.stopPropagation(); yawTarget += (e.deltaY + e.deltaX) * 0.004; touch(); }, { passive: false });
-    controls.addEventListener('start', touch);
+    var dragging = false;
+    controls.addEventListener('start', function () { dragging = true; touch(); });
+    controls.addEventListener('end', function () { dragging = false; touch(); });
     function resize() { var w = host.clientWidth || 800, h = host.clientHeight || 400; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
     window.addEventListener('resize', resize); resize();
     var rafId = 0;
@@ -629,7 +635,7 @@
       if (!alive) return;
       var dt = Math.min(0.05, (now - last) / 1000); last = now;
       uniforms.uTime.value = (now - t0) / 1000;
-      if (!reduce && now > idleUntil) yawTarget += dt * 0.12;
+      if (!reduce && !dragging && now > idleUntil) { autoSpeed += (AUTO - autoSpeed) * (1 - Math.exp(-dt / 0.8)); yawTarget += dt * autoSpeed; }
       yaw = reduce ? yawTarget : yaw + (yawTarget - yaw) * (1 - Math.exp(-dt / 0.18));
       pivot.rotation.y = yaw;
       controls.update(); renderer.render(scene, camera); rafId = requestAnimationFrame(frame);
@@ -1229,7 +1235,23 @@ void main(){
   $('#steps').innerHTML = titles.map(function (_, n) { return '<button type="button" data-n="' + n + '">' + (n + 1) + '</button>'; }).join('');
   $('#steps').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) go(+b.dataset.n); });
 
-  function start() { render(); }
+  // Load ahead: once the first screen is up and the browser is idle, fetch every later screen's images and the
+  // 3D skeleton (with its loader scripts), so the workstation, measure and put-away screens open without waiting.
+  var LATER_IMAGES = ['images/shelf/shelf.jpg', 'images/workstation/box-closed.jpg', 'images/workstation/box-open.jpg',
+    'images/measure/pelvis-top.jpg', 'images/measure/sticky-note.jpg', 'images/tools/gloves.png', 'images/tools/bubble.png',
+    'images/tools/caliper.png', 'images/stickers/fox.png', 'images/stickers/skeleton.png', 'images/stickers/yawn.png', 'images/stickers/skull.png'];
+  var warmed = [];
+  function loadAhead() {
+    LATER_IMAGES.forEach(function (src) { var im = new Image(); im.decoding = 'async'; im.src = src; warmed.push(im); });
+    loadWolf().catch(function () {}); // the parsed model is kept, so the measure screen mounts it at once
+  }
+  var preloadStarted = false;
+  function startLoadAhead() {
+    if (preloadStarted) return; preloadStarted = true;
+    var go = function () { (window.requestIdleCallback || function (f) { setTimeout(f, 200); })(loadAhead, { timeout: 3000 }); };
+    if (document.readyState === 'complete') setTimeout(go, 800); else window.addEventListener('load', function () { setTimeout(go, 800); });
+  }
+  function start() { render(); startLoadAhead(); }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
   setTimeout(function () { if (!stage.firstChild) start(); }, 1200);
 })();

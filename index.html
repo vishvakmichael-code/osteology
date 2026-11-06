@@ -252,6 +252,14 @@
   .steps button[aria-current="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
   .foot-note { font: 400 14px/1.5 var(--sans); color: var(--muted); margin: 0; max-width: 72ch; }
   button:focus-visible, input:focus-visible { outline: 3px solid #AED0EA; outline-offset: 2px; }
+
+  /* booth display: the screen fills the window (largest 16:10 that fits, centred); the page heading, controls panel and notes are hidden.
+     Clicks, the arrow keys, Enter and the mouse wheel still drive every screen. */
+  html, body { height: 100%; }
+  body { margin: 0; padding: 0 !important; background: #0d0a07; overflow: hidden; display: grid; place-items: center; }
+  .page { width: 100vw; max-width: none; gap: 0; align-items: center; }
+  .page > header, .page > .deck, .page > .foot-note { display: none; }
+  .stage { width: min(100vw, 160vh); border: 0; border-radius: 0; }
 </style>
 
 <div class="page">

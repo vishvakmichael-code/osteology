@@ -165,6 +165,26 @@
   .st3 figcaption { font: 700 1.55cqw/1.25 var(--serif, Georgia, serif); color: #3A362D; min-height: 5.8cqw; display: flex; align-items: center; justify-content: center; }
   .ph3 { display: block; width: 100%; object-fit: cover; margin-top: .8cqw; height: 13cqw; border: .18cqw solid rgba(58,54,45,.25); border-radius: 1.2cqw; background: #F5EBC9; font: 600 1.3cqw var(--sans); color: #6B6451; }
   #wsq { font-size: 2.1cqw; }
+  /* measure screen: steps down the left, the 3D skeleton on the right, the range buttons along the bottom */
+  .card.measure3d { left: 3.6cqw; right: 3cqw; width: auto; top: 14cqw; bottom: 2.4cqw; padding: 0; gap: 0; background: transparent; box-shadow: none; color: #FFF6DC;
+    display: grid; grid-template-columns: 17.5cqw 1fr; grid-template-rows: 1fr auto; column-gap: 2.4cqw; row-gap: 1.2cqw; }
+  .m3side { grid-row: 1 / 3; display: flex; flex-direction: column; gap: 1.1cqw; min-height: 0; }
+  .m3side figure { margin: 0; display: flex; flex-direction: column; gap: .6cqw; flex: 1 1 0; min-height: 0; }
+  .m3side figcaption { font: 600 1.2cqw/1.25 var(--sans); color: #FFF6DC; text-align: center; text-wrap: balance; }
+  .m3side img { flex: 1 1 0; min-height: 0; width: 100%; object-fit: cover; border-radius: .9cqw; border: .15cqw dashed rgba(255,246,220,.55); background: #F5EBC9; }
+  .m3view { position: relative; min-height: 0; border-radius: 1cqw; overflow: hidden; }
+  .m3view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+  .m3view canvas:active { cursor: grabbing; }
+  .m3view .m3hint { position: absolute; left: 50%; bottom: .8cqw; transform: translateX(-50%); font: 700 .8cqw/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #FFF6DC; border: .1cqw dashed rgba(255,246,220,.6); border-radius: .5cqw; padding: .6cqw .9cqw; white-space: nowrap; pointer-events: none; background: rgba(23,18,14,.55); }
+  .m3view .m3msg { position: absolute; inset: 0; display: grid; place-items: center; font: 500 1.3cqw/1.4 var(--sans); color: #A29C8D; text-align: center; padding: 0 4cqw; }
+  .m3key { position: absolute; right: 1cqw; top: .8cqw; display: flex; align-items: center; gap: .7cqw; font: 600 1.1cqw/1 var(--sans); color: #FFF6DC; pointer-events: none; }
+  .m3key i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #612826; box-shadow: 0 0 0 .18cqw #E8A94A; }
+  .m3bar { display: flex; align-items: center; gap: 1.2cqw; background: #FFFBEE; color: #2B2A27; border-radius: .8cqw; padding: .9cqw 1.4cqw; }
+  .m3bar #wsq { margin: 0; font-size: 1.4cqw; flex: 0 1 auto; min-width: 0; }
+  .m3bar #ranges { flex: 1 1 auto; gap: .8cqw; flex-wrap: nowrap; }
+  .m3bar .btn { font-size: 1.2cqw; padding: .8cqw 1.1cqw; white-space: nowrap; }
+  .m3bar .hint { margin-left: auto; }
+  .m3credit { position: absolute; right: 1cqw; bottom: .9cqw; pointer-events: none; font: 400 .75cqw/1 var(--sans); color: #A29C8D; }
   .note { flex: 1 1 22cqw; min-width: 22cqw; } .tools { flex: 0 0 17cqw; } .howto { width: 13cqw; }
   /* last screen: publish your reading (numbered steps + why publish) */
   .card.pubcard { left: 22.4cqw; top: 16.7cqw; width: 66.5cqw; padding: 2.6cqw 2.6cqw 2.4cqw; gap: 2.2cqw; }
@@ -534,6 +554,78 @@
 
     return { FACES: FACES, LEAVES: LEAVES, get visP() { return visP; }, set visP(v) { visP = v; }, get writeStart() { return writeStart; }, set writeStart(v) { writeStart = v; } };
   })();
+  // ---------- 3D wolf skeleton (measure screen): model "Wolf Skeleton" by Ahnaf Tauseef, CC BY 4.0, simplified for the web.
+  // The pelvis bones carry a _PELVIS vertex tag; the shader paints them in the brand maroon with an amber rim.
+  var wolfCtl = null, wolfAsset = null;
+  function loadScript(src) { return new Promise(function (ok, fail) { var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = fail; document.head.appendChild(s); }); }
+  function loadWolf() {
+    if (wolfAsset) return wolfAsset;
+    var T = window.THREE; if (!T) return Promise.reject(new Error('three.js missing'));
+    var base = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/';
+    wolfAsset = (T.GLTFLoader ? Promise.resolve() : loadScript(base + 'loaders/GLTFLoader.js'))
+      .then(function () { return T.OrbitControls ? null : loadScript(base + 'controls/OrbitControls.js'); })
+      .then(function () { return new Promise(function (ok, fail) { new T.GLTFLoader().load('model/wolf-skeleton.glb', ok, undefined, fail); }); });
+    wolfAsset.catch(function () { wolfAsset = null; });
+    return wolfAsset;
+  }
+  function mountWolf(host, gltf) {
+    var T = window.THREE; if (!host || !T) return null;
+    var cvs = document.createElement('canvas'); host.insertBefore(cvs, host.firstChild);
+    var renderer; try { renderer = new T.WebGLRenderer({ canvas: cvs, antialias: true, alpha: true }); } catch (e) { return null; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.outputEncoding = T.sRGBEncoding;
+    renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = T.PCFSoftShadowMap;
+    var lin = function (hex) { return new T.Color(hex).convertSRGBToLinear(); };
+    var scene = new T.Scene(), camera = new T.PerspectiveCamera(30, 1, 0.05, 20);
+    scene.add(new T.HemisphereLight(0xfff1d6, 0x2a1d10, 0.9));
+    var key = new T.DirectionalLight(0xfff0d8, 2.2); key.position.set(1.6, 2.4, 1.2); key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
+    Object.assign(key.shadow.camera, { left: -1.2, right: 1.2, top: 1.2, bottom: -1.2, near: 0.5, far: 6 }); key.shadow.bias = -0.0004; scene.add(key);
+    var rimL = new T.DirectionalLight(0xe8a94a, 0.8); rimL.position.set(-1.8, 1.2, -1.6); scene.add(rimL);
+    var floor = new T.Mesh(new T.CircleGeometry(1.6, 64), new T.ShadowMaterial({ opacity: 0.45 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+    var uniforms = { uMaroon: { value: lin('#612826') }, uAmber: { value: lin('#E8A94A') }, uTime: { value: 0 }, uPulse: { value: reduce ? 0 : 1 } };
+    var mat = new T.MeshStandardMaterial({ color: lin('#E9DCC3'), roughness: 0.78, metalness: 0 });
+    mat.onBeforeCompile = function (sh) {
+      Object.assign(sh.uniforms, uniforms);
+      sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nattribute float _pelvis;\nvarying float vPelvis;').replace('#include <begin_vertex>', '#include <begin_vertex>\nvPelvis = _pelvis;');
+      sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying float vPelvis; uniform vec3 uMaroon, uAmber; uniform float uTime, uPulse;')
+        .replace('#include <color_fragment>', '#include <color_fragment>\nfloat pm = step(0.5, vPelvis);\ndiffuseColor.rgb = mix(diffuseColor.rgb, uMaroon, pm);')
+        .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\nfloat fres = pow(1.0 - clamp(dot(normalize(vNormal), normalize(vViewPosition)), 0.0, 1.0), 2.5);\nfloat glow = 0.55 + 0.45 * (uPulse > 0.5 ? 0.5 + 0.5 * sin(uTime * 2.2) : 1.0);\ntotalEmissiveRadiance += uAmber * pm * (fres * 0.9 * glow + 0.06);');
+    };
+    var model = gltf.scene.clone(true);
+    model.traverse(function (o) { if (o.isMesh) { o.material = mat; o.castShadow = true; o.receiveShadow = true; } });
+    var box = new T.Box3().setFromObject(model), c = box.getCenter(new T.Vector3());
+    model.position.set(-c.x, -box.min.y, -c.z);
+    var pivot = new T.Group(); pivot.add(model); scene.add(pivot);
+    var controls = new T.OrbitControls(camera, cvs);
+    controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false; controls.enableZoom = false; controls.maxPolarAngle = Math.PI * 0.49;
+    controls.target.set(0, 0.5, 0); camera.position.set(2.15, 0.98, 0.84);
+    var yaw = 0, yawTarget = 0, idleUntil = 0, alive = true, last = performance.now(), t0 = last;
+    var touch = function () { idleUntil = performance.now() + 6000; };
+    cvs.addEventListener('wheel', function (e) { e.preventDefault(); e.stopPropagation(); yawTarget += (e.deltaY + e.deltaX) * 0.004; touch(); }, { passive: false });
+    controls.addEventListener('start', touch);
+    function resize() { var w = host.clientWidth || 800, h = host.clientHeight || 400; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+    window.addEventListener('resize', resize); resize();
+    var rafId = 0;
+    function frame(now) {
+      if (!alive) return;
+      var dt = Math.min(0.05, (now - last) / 1000); last = now;
+      uniforms.uTime.value = (now - t0) / 1000;
+      if (!reduce && now > idleUntil) yawTarget += dt * 0.12;
+      yaw = reduce ? yawTarget : yaw + (yawTarget - yaw) * (1 - Math.exp(-dt / 0.18));
+      pivot.rotation.y = yaw;
+      controls.update(); renderer.render(scene, camera); rafId = requestAnimationFrame(frame);
+    }
+    rafId = requestAnimationFrame(frame);
+    return {
+      spin: function (amount) { yawTarget += amount; touch(); },
+      setYaw: function (a) { yawTarget = a; touch(); },
+      dispose: function () {
+        alive = false; cancelAnimationFrame(rafId); window.removeEventListener('resize', resize); controls.dispose();
+        mat.dispose(); floor.geometry.dispose(); floor.material.dispose(); try { renderer.dispose(); } catch (e) {}
+        if (cvs.parentNode) cvs.parentNode.removeChild(cvs);
+      }
+    };
+  }
   // ---------- 3D notebook (screen 3)
   function mountBook(host, onDone) {
     var T = window.THREE; if (!T) { onDone(); return null; }
@@ -636,7 +728,8 @@
   };
   var STK_W = { fox: 15, skeleton: 17, yawn: 11, skull: 10 };
   var STK_BY_SCREEN = ['yawn', 'fox', 'skull', 'skeleton', 'fox', 'skull', 'fox', 'wolf', 'yawn', 'skeleton'];
-  function stickerHTML(i) { var k = STK_BY_SCREEN[i]; if (k === 'wolf') return '<div class="sticker" style="width:12cqw"><span class="tag"></span>' + wolf(200).replace('width="200" height="200"', 'width="100%" height="100%"') + '</div>'; return '<div class="sticker" style="width:' + STK_W[k] + 'cqw"><img alt="" src="' + STK[k] + '"></div>'; }
+  function stickerHTML(i) { var k = STK_BY_SCREEN[i]; if (i === 6) return ''; // the measure screen's left column sits where the sticker goes
+  if (k === 'wolf') return '<div class="sticker" style="width:12cqw"><span class="tag"></span>' + wolf(200).replace('width="200" height="200"', 'width="100%" height="100%"') + '</div>'; return '<div class="sticker" style="width:' + STK_W[k] + 'cqw"><img alt="" src="' + STK[k] + '"></div>'; }
   function wolf(w) {
     return '<svg width="' + w + '" height="' + w + '" viewBox="0 0 100 100" aria-hidden="true"><path d="M18 30 L22 6 L40 21 Q50 19 60 21 L78 6 L82 30 Q90 50 77 67 Q66 87 50 89 Q34 87 23 67 Q10 50 18 30 Z" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><path d="M18 30 L22 8 L40 22 Q50 20 60 22 L78 8 L82 30 Q88 50 76 66 Q66 84 50 86 Q34 84 24 66 Q12 50 18 30 Z" fill="#6F7780"/><path d="M26 15 L35 24 L25 29 Z M74 15 L65 24 L75 29 Z" fill="#E7A9A0"/><path d="M30 52 Q36 40 50 46 Q64 40 70 52 Q73 72 50 79 Q27 72 30 52 Z" fill="#EAE1CF"/><path d="M33 46 Q38 42 43 46 M57 46 Q62 42 67 46" fill="none" stroke="#2A2A2A" stroke-width="2.6" stroke-linecap="round"/><ellipse cx="50" cy="59" rx="5.5" ry="3.8" fill="#2A2A2A"/><path d="M50 63 V67 M43 68 Q50 74 57 68" fill="none" stroke="#2A2A2A" stroke-width="2.2" stroke-linecap="round"/></svg>';
   }
@@ -673,9 +766,9 @@
     if (i === 5) return '<div class="steps3">' + [['Open the box on the table', WS_IMGS[0]], ['Carefully take the bones out of the box', WS_IMGS[1]]].map(function (t) { return '<figure class="st3"><figcaption>' + t[0] + '</figcaption><img class="ph3" alt="' + t[0] + '" src="' + t[1] + '" style="height:auto;aspect-ratio:452/214"></figure>'; }).join('') + '</div>' +
       '<div class="row"><button class="btn opt-b" data-act="next">Ready to measure</button></div>' +
       '<div class="foot" style="justify-content:flex-start">' + hint('Press the knob') + '</div>';
-    if (i === 6) return '<div class="steps3">' + [['Choose the pelvis from the box', HOWTO_IMGS[0], '50% 50%'], ['Measure across the top right of the pelvis as shown here', HOWTO_IMGS[1], '50% 0%'], ['Read the number on the caliper', HOWTO_IMGS[2], '50% 50%']].map(function (t, n) { return '<figure class="st3"><figcaption>' + t[0] + '</figcaption><img class="ph3" alt="' + t[0] + '" src="' + t[1] + '" style="object-position:' + t[2] + '"></figure>'; }).join('') + '</div>' +
-      '<p id="wsq"><b>How wide is it?</b> Pick the range the caliper shows below</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' +
-      '<div class="foot"><span></span>' + hint('Turn and press the knob') + '</div>';
+    if (i === 6) return '<div class="m3side">' + [['Choose the pelvis from the box', HOWTO_IMGS[0], '50% 50%'], ['Measure across the top right of the pelvis as shown here', HOWTO_IMGS[1], '50% 0%'], ['Read the number on the caliper', HOWTO_IMGS[2], '50% 50%']].map(function (t) { return '<figure><figcaption>' + t[0] + '</figcaption><img alt="' + t[0] + '" src="' + t[1] + '" style="object-position:' + t[2] + '"></figure>'; }).join('') + '</div>' +
+      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><span class="m3hint">Turn the knob, scroll or drag to rotate</span><span class="m3credit">3D model: “Wolf Skeleton” by Ahnaf Tauseef, CC BY 4.0</span></div>' +
+      '<div class="m3bar"><p id="wsq"><b>How wide is it?</b> Pick the range the caliper shows</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' + hint('Click your range') + '</div>';
     if (i === 7) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 318" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
       '<p class="muted" id="fact"></p><div class="foot"><button class="btn opt-b" data-act="next">Put everything back</button>' + hint('Press the knob') + '</div>';
     if (i === 8) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items" id="items">' + icos() + '</div></div>' +
@@ -803,6 +896,7 @@ void main(){
     if (pileCtl) { pileCtl.stop(); pileCtl = null; }
     if (crumpleCtl) { crumpleCtl.stop(); crumpleCtl = null; }
     if (bookCtl) { bookCtl.dispose(); bookCtl = null; }
+    if (wolfCtl) { wolfCtl.dispose(); wolfCtl = null; }
     confirming = false; putStep = 0;
     bookToken++;
     var t = titles[cur];
@@ -812,7 +906,7 @@ void main(){
       stickerHTML(cur) +
       '<div class="hdr"><b>Osteologia</b><div class="dots">' + titles.map(function (_, n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
       '<div class="ttl"><h2>' + (t[0] || verdict) + '</h2><p>' + t[1] + '</p></div>' +
-      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><button class="hint hbtn" data-act="next">Press the knob</button></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 8 ? ' doorcard putcard' : cur === 7 ? ' pilecard' : cur === 9 ? ' pubcard' : '') + '" id="card">' + body(cur) + '</div>');
+      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><button class="hint hbtn" data-act="next">Press the knob</button></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 8 ? ' doorcard putcard' : cur === 7 ? ' pilecard' : cur === 9 ? ' pubcard' : cur === 6 ? ' measure3d' : '') + '" id="card">' + body(cur) + '</div>');
     document.querySelectorAll('#steps button').forEach(function (b, n) { b.setAttribute('aria-current', n === cur ? 'true' : 'false'); });
     var card = $('#card'), seamless = (lastCur === 3 && cur === 4); lastCur = cur;
     stage.classList.toggle('arrive', seamless);
@@ -833,6 +927,7 @@ void main(){
   function bump(el) { if (el.classList.contains('bx')) return; spring(1, 1.045, 'snappy', function (s) { el.style.transform = 'scale(' + s + ')'; }); }
 
   function setup() {
+    if (cur === 6) { var wTok = bookToken, wHost = $('#m3view'); loadWolf().then(function (asset) { if (wTok === bookToken && cur === 6) wolfCtl = mountWolf(wHost, asset); }, function () { var h = $('#m3view'); if (h && wTok === bookToken) h.insertAdjacentHTML('beforeend', '<p class="m3msg">The 3D skeleton needs the website version (it cannot load from a file opened on its own).</p>'); }); }
     if (cur === 2) {
       var tok = bookToken, wrapEl = $('#bookwrap');
       var ready = (document.fonts && document.fonts.load) ? document.fonts.load('500 38px Caveat').catch(function () {}) : Promise.resolve();
@@ -853,6 +948,7 @@ void main(){
   }
   function setCrank(v) {
     crank = Math.max(0, Math.min(100, v)); $('#crank').value = crank;
+    if (cur === 6) { if (wolfCtl) wolfCtl.setYaw(crank / 100 * Math.PI * 2); return; }
     if (cur === 8) {
       if (putStep < 2) { crank = 100; $('#crank').value = 100; return; }
       if (doorSp) doorSp.to(crank / 100);
@@ -1078,6 +1174,7 @@ void main(){
     if (cur === 3) { setCrank(crank + d * 12); return; }
     if (cur === 8) { if (putStep >= 2) setCrank(crank - d * 12); return; }
     if (cur === 7) { if (pileCtl) pileCtl.nudge(d); return; }
+    if (cur === 6) { if (wolfCtl) wolfCtl.spin(d * 0.35); return; } // the knob turns the skeleton; ranges are picked by clicking
     if (!opts.length) return;
     stage.classList.remove('arrive');
     sel = (sel + d + opts.length) % opts.length; markSel();
@@ -1087,9 +1184,9 @@ void main(){
   // ---------- inputs
   $('#kL').addEventListener('click', function () { turn(-1); });
   $('#kR').addEventListener('click', function () { turn(1); });
-  $('#kP').addEventListener('click', press);
+  $('#kP').addEventListener('click', function () { if (cur !== 6) press(); }); // on the measure screen visitors click a range instead
   $('#crank').addEventListener('input', function (e) { setCrank(+e.target.value); });
-  stage.addEventListener('wheel', function (e) { if (cur === 3) { e.preventDefault(); setCrank(crank + (e.deltaY > 0 ? 4 : -4)); } else if (cur === 8 && putStep >= 2) { e.preventDefault(); setCrank(crank - (e.deltaY > 0 ? 4 : -4)); } else if (cur === 7 && pileCtl) { e.preventDefault(); pileCtl.nudge(e.deltaY > 0 ? 1 : -1); } }, { passive: false });
+  stage.addEventListener('wheel', function (e) { if (cur === 3) { e.preventDefault(); setCrank(crank + (e.deltaY > 0 ? 4 : -4)); } else if (cur === 8 && putStep >= 2) { e.preventDefault(); setCrank(crank - (e.deltaY > 0 ? 4 : -4)); } else if (cur === 7 && pileCtl) { e.preventDefault(); pileCtl.nudge(e.deltaY > 0 ? 1 : -1); } else if (cur === 6 && wolfCtl) { e.preventDefault(); wolfCtl.spin((e.deltaY + e.deltaX) * 0.004); } }, { passive: false });
   stage.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('button'); if (!b) return;
     if (b.classList.contains('hbtn')) { if (cur === 7 && pileCtl && !pileCtl.done()) return; go(cur + 1); return; }
@@ -1099,7 +1196,7 @@ void main(){
     if (e.target && e.target.tagName === 'INPUT') return;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); turn(-1); }
     else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); turn(1); }
-    else if (e.key === 'Enter' && !(e.target && e.target.tagName === 'BUTTON')) { e.preventDefault(); press(); }
+    else if (e.key === 'Enter' && !(e.target && e.target.tagName === 'BUTTON')) { e.preventDefault(); if (cur !== 6) press(); }
   });
   window.fieldDesk = { go: go, turn: turn, press: press, setCrank: setCrank };
   window.onKnobPress = press;

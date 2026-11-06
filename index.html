@@ -179,11 +179,12 @@
   .m3view .m3msg { position: absolute; inset: 0; display: grid; place-items: center; font: 500 1.3cqw/1.4 var(--sans); color: #A29C8D; text-align: center; padding: 0 4cqw; }
   .m3key { position: absolute; right: 1cqw; top: .8cqw; display: flex; align-items: center; gap: .7cqw; font: 600 1.1cqw/1 var(--sans); color: #FFF6DC; pointer-events: none; }
   .m3key i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #612826; box-shadow: 0 0 0 .18cqw #E8A94A; }
-  .m3bar { display: flex; align-items: center; gap: 1.2cqw; background: #FFFBEE; color: #2B2A27; border-radius: .8cqw; padding: .9cqw 1.4cqw; }
+  .m3bar { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 1.2cqw; row-gap: .7cqw; background: #FFFBEE; color: #2B2A27; border-radius: .8cqw; padding: .9cqw 1.4cqw; }
+  .m3bar #wsq { grid-column: 1 / 3; }
   .m3bar #wsq { margin: 0; font-size: 1.4cqw; flex: 0 1 auto; min-width: 0; }
   .m3bar #ranges { flex: 1 1 auto; gap: .8cqw; flex-wrap: nowrap; }
   .m3bar .btn { font-size: 1.2cqw; padding: .8cqw 1.1cqw; white-space: nowrap; }
-  .m3bar .hint { margin-left: auto; }
+  .m3bar .hint { justify-self: end; }
   .m3credit { position: absolute; right: 1cqw; bottom: .9cqw; pointer-events: none; font: 400 .75cqw/1 var(--sans); color: #A29C8D; }
   .note { flex: 1 1 22cqw; min-width: 22cqw; } .tools { flex: 0 0 17cqw; } .howto { width: 13cqw; }
   /* last screen: publish your reading (numbered steps + why publish) */
@@ -279,7 +280,7 @@
       <div class="steps" id="steps"></div>
     </div>
   </div>
-  <p class="foot-note">On a keyboard, the arrow keys turn the knob and Enter presses it. The mouse wheel over the screen turns the crank on screen 4. Study figures come from Csanády, Križovský and Hlôška (2019): 17 adult male grey wolf pelvises, average 104.9 mm across the hip bones. The dots are placed from that average and spread, so they show the shape of the group and are not the real 17 measurements. 3D model: “<a href="https://sketchfab.com/3d-models/wolf-skeleton-1b447d8c2f7c4e69b40db888fbe3b187" style="color:inherit">Wolf Skeleton</a>” by Ahnaf Tauseef, licensed under <a href="http://creativecommons.org/licenses/by/4.0/" style="color:inherit">CC BY 4.0</a>, simplified for the web.</p>
+  <p class="foot-note">On a keyboard, the arrow keys turn the knob and Enter presses it. The mouse wheel over the screen turns the crank on screen 4. Study figures come from Csanády, Križovský and Hlôška (2019): 17 adult male grey wolf pelvises, average 104.9 mm across the hip bones. The dots are placed from that average and spread, so they show the shape of the group and are not the real 17 measurements.</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

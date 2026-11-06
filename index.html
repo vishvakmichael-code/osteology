@@ -193,7 +193,8 @@
   .rq .btn { font: 600 1.6cqw/1 var(--sans); padding: 1.3cqw 2.2cqw; white-space: nowrap; }
   /* the chart card fills the screen under the header */
   .card.pilecard { left: .8cqw; right: .8cqw; width: auto; top: 5cqw; bottom: .8cqw; padding: 2.4cqw 3.4cqw; gap: 1.6cqw; z-index: 2; justify-content: space-between; }
-  .card.pilecard .chart > svg { max-height: 36cqw; }
+  .card.pilecard .chart { display: flex; justify-content: center; }
+  .card.pilecard .chart > svg { width: 72%; max-height: 29cqw; }
   /* a photo that has not been added to images/ yet */
   .ph-missing { display: flex; align-items: center; justify-content: center; text-align: center; padding: 1cqw; box-sizing: border-box; background: #F5EBC9; color: #8A8470; font: 600 1cqw/1.3 var(--sans); border: .15cqw dashed #8A8470; border-radius: inherit; word-break: break-all; }
   .ph3.ph-missing { display: flex; aspect-ratio: 4 / 3; height: auto; }
@@ -1076,11 +1077,8 @@ void main(){
       var wx = wolfB.x, wy = wolfB.y - wolfB.r - 4, bw = 470, bx = wx < 380 ? 270 : 20, sx = wx < 380 ? bx + 30 : bx + bw - 30, dir = wx < 380 ? 1 : -1;
       callout = el('g', {}); callout.style.opacity = 0; callout.style.transition = 'opacity .7s ease';
       var d = 'M' + sx + ' -12 C' + sx + ' 20, ' + (wx + dir * 60) + ' ' + (wy - 50) + ', ' + wx + ' ' + (wy - 4);
-      el('path', { d: d, fill: 'none', stroke: '#F5EBC8', 'stroke-width': 7, 'stroke-linecap': 'round' }, callout);
       el('rect', { x: bx, y: -54, width: bw, height: 42, rx: 8, fill: '#F5EBC8', stroke: '#612826', 'stroke-width': 2 }, callout);
       var tx = el('text', { x: bx + bw / 2, y: -25, 'text-anchor': 'middle', 'font-size': 24, fill: '#2B2A27', 'font-family': 'Caveat, cursive', 'font-weight': 500, textLength: bw - 36, lengthAdjust: 'spacingAndGlyphs' }, callout); tx.textContent = 'Your wolf lies here, ' + where;
-      el('path', { d: d, fill: 'none', stroke: '#612826', 'stroke-width': 2.6, 'stroke-linecap': 'round' }, callout);
-      el('path', { d: 'M' + (wx - 8) + ' ' + (wy - 14) + ' L' + wx + ' ' + (wy - 3) + ' L' + (wx + 8) + ' ' + (wy - 14), fill: 'none', stroke: '#612826', 'stroke-width': 2.6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, callout);
       requestAnimationFrame(function () { if (callout) callout.style.opacity = 1; });
       unlock();
     }

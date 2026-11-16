@@ -53,12 +53,12 @@
   .sans { font-family: var(--sans); }
   .fld { font: 400 1.35cqw/1.4 var(--sans); color: #5A5548; border-bottom: .1cqw solid #D8CDA8; padding-bottom: .5cqw; }
   .fld b { color: #2B2A27; font-weight: 600; }
-  .foot { display: flex; justify-content: space-between; align-items: center; gap: 1.6cqw; }
+  .foot { display: flex; justify-content: flex-end; align-items: center; gap: 1.6cqw; }
   .btn.wait { opacity: .4; cursor: default; }
   .btn { font: 700 1.4cqw/1 var(--sans); background: #612826; color: #FFF6DC; border: .15cqw solid #612826; border-radius: .6cqw; padding: 1cqw 1.8cqw; cursor: pointer; }
   .btn.alt { background: transparent; color: #2B2A27; border-color: #2B2A27; }
   .btn.sel, .opt.sel { outline: .22cqw solid #E8A94A; outline-offset: .25cqw; }
-  .hint { font: 700 1cqw/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: #5A5548; border: .12cqw dashed #8A8470; padding: .7cqw 1.1cqw; border-radius: .4cqw; white-space: nowrap; }
+  .hint { font: 700 1cqw/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: #5A5548; border: 0; padding: .7cqw 1.1cqw; border-radius: .4cqw; white-space: nowrap; }
   .row { display: flex; gap: 1.4cqw; }
   .opt { flex: 1; min-width: 0; text-align: left; font: inherit; color: #2B2A27; background: #fff; border: .18cqw solid #2B2A27; border-radius: .6cqw; padding: 1.5cqw; cursor: pointer; display: flex; flex-direction: column; gap: .5cqw; will-change: transform; }
   .opt small { font: 700 .95cqw/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #5A5548; }
@@ -111,6 +111,20 @@
   .crankhint .ring { animation: crankring 3.2s linear infinite; }
   @keyframes crankring { to { transform: rotate(360deg); } }
   .reduce-motion .crankhint .ring { animation: none; }
+  /* the knob: a small knob inside the action button that keeps being pressed, and one that turns where the knob chooses */
+  .btn.kb { display: inline-flex; align-items: center; gap: 1.1cqw; }
+  .kp { position: relative; flex: none; width: 1.9cqw; height: 1.9cqw; }
+  .kp svg, svg.kt { display: block; width: 100%; height: 100%; }
+  .kp svg { animation: kpress 1.8s ease-in-out infinite; }
+  .kp::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: .16cqw solid #E8A94A; opacity: 0; animation: kring 1.8s ease-out infinite; }
+  @keyframes kpress { 0%, 24%, 100% { transform: scale(1); } 11% { transform: scale(.7); } }
+  @keyframes kring { 0%, 9% { opacity: 0; transform: scale(.9); } 13% { opacity: 1; } 60%, 100% { opacity: 0; transform: scale(2.2); } }
+  svg.kt { animation: kturn 2.6s ease-in-out infinite; } @keyframes kturn { 0%, 100% { transform: rotate(-40deg); } 50% { transform: rotate(40deg); } }
+  .reduce-motion .kp svg, .reduce-motion .kp::after, .reduce-motion svg.kt { animation: none; }
+  .knobtip { display: flex; align-items: center; gap: .9cqw; margin: 0; font: 600 1.3cqw/1.3 var(--sans); color: #5A5548; }
+  .knobtip svg.kt { width: 2.6cqw; height: 2.6cqw; flex: none; }
+  .side .knobrow svg.kt { width: 2.6cqw; height: 2.6cqw; flex: none; color: #FFF6DC; }
+  .side .knobrow .ktext { font: 600 1.15cqw/1.35 var(--sans); color: #FFF6DC; text-align: left; }
   .doorcard > .row, .doorcard > .foot { background: #FFFBEE; color: #2B2A27; border-radius: .6cqw; padding: .9cqw 1.6cqw; }
   .door .leaf i.cr { width: 3.4cqw; height: 3.4cqw; border-radius: 50%; background: rgba(255,246,220,.9); border: .2cqw solid #2B2A27; box-shadow: 0 .3cqw .7cqw rgba(0,0,0,.4); display: block; }
   .door .leaf i.cr b { position: absolute; left: 50%; top: .25cqw; width: .35cqw; height: 1.2cqw; margin-left: -.175cqw; border-radius: .2cqw; background: #612826; }
@@ -186,12 +200,12 @@
   .m3view { position: relative; min-height: 0; }
   .m3view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
   .m3view canvas:active { cursor: grabbing; }
-  .m3view .m3hint { position: absolute; left: 50%; bottom: .8cqw; transform: translateX(-50%); font: 700 .8cqw/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #FFF6DC; border: .1cqw dashed rgba(255,246,220,.6); border-radius: .5cqw; padding: .6cqw .9cqw; white-space: nowrap; pointer-events: none; background: rgba(23,18,14,.55); }
+  .m3view .m3hint { position: absolute; left: 50%; bottom: .8cqw; transform: translateX(-50%); font: 700 .8cqw/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #FFF6DC; border: 0; border-radius: .5cqw; padding: .6cqw .9cqw; white-space: nowrap; pointer-events: none; background: rgba(23,18,14,.55); }
   .m3view .m3msg { position: absolute; inset: 0; display: grid; place-items: center; font: 500 1.3cqw/1.4 var(--sans); color: #A29C8D; text-align: center; padding: 0 4cqw; }
   .m3key { position: absolute; right: 1cqw; top: .8cqw; display: flex; align-items: center; gap: .7cqw; font: 600 1.1cqw/1 var(--sans); color: #FFF6DC; pointer-events: none; }
   .m3key i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #612826; box-shadow: 0 0 0 .18cqw #E8A94A; }
-  .m3bar { display: flex; justify-content: center; padding: 1.2cqw 1.6cqw .4cqw; }
-  .m3bar .btn { min-width: 40%; background: #FFF6DC; color: #2B2A27; border-color: #FFF6DC; font: 600 1.5cqw/1 var(--sans); padding: 1.2cqw 2cqw; }
+  .m3bar { display: flex; justify-content: flex-end; padding: 1.2cqw 1.6cqw .4cqw; }
+  .m3bar .btn { justify-content: center; background: #FFF6DC; color: #2B2A27; border-color: #FFF6DC; font: 600 1.5cqw/1 var(--sans); padding: 1.2cqw 2cqw; }
   /* how wide is it: one cream panel over the whole screen */
   .card.rangecard { left: .8cqw; right: .8cqw; top: .8cqw; bottom: .8cqw; width: auto; padding: 0; border-radius: .8cqw; display: grid; place-items: center; z-index: 2; }
   .rq { display: flex; flex-direction: column; align-items: center; gap: 2.4cqw; }
@@ -384,9 +398,13 @@
     ['Measure the width', ''],
     ['How wide is it?', 'Pick the range your measurement lies in.'],
     ['', 'Your wolf dropped in among the adult males.'],
-    ['Put everything back', 'Pack the box, put it on the shelf, then turn the crank to close the door.'],
-    ['Publish your reading', 'Put your reading on the wall for the next osteologist.']
+    ['Put the bones back safely', 'Museum rule: the bones are delicate, so pack them away and close the door first.'],
+    ['Publish your reading', '']
   ];
+  // The order the visitor sees the screens in: right after measuring they pack the bones away and close the shelf, then work out the result.
+  var ORDER = [0, 1, 2, 3, 4, 5, 6, 9, 7, 8, 10];
+  function nextOf(c) { return ORDER[ORDER.indexOf(c) + 1]; }
+  function prevOf(c) { return ORDER[ORDER.indexOf(c) - 1]; }
   var confirming = false, putStep = 0;
   var cur = 0, sel = 0, range = 2, crank = 0, boxState = null, doorSp = null, doorProg = 0;
   var opts = [];
@@ -787,6 +805,9 @@
   // two green points across the widest edges of the hip-bone wings, drawn over images/measure/pelvis-top.jpg (4:3, in a 2000 x 1500 box)
   var PELVIS_MARKS = '<svg class="marks" viewBox="0 0 2000 1500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><line x1="1438" y1="258" x2="1419" y2="1138" stroke="#3CCB5A" stroke-width="14" stroke-dasharray="40 30"/><circle cx="1438" cy="258" r="42" fill="#3CCB5A" stroke="#fff" stroke-width="10"/><circle cx="1419" cy="1138" r="42" fill="#3CCB5A" stroke="#fff" stroke-width="10"/></svg>';
   function hint(t) { return '<span class="hint">' + t + '</span>'; }
+  // an action button with a little knob in it that keeps pressing itself: press the knob to do this
+  function kbtn(label, attrs) { return '<button class="btn opt-b kb" ' + attrs + '><span class="kl">' + label + '</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button>'; }
+  var TURNTIP = '<svg class="kt" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="11.5" fill="none" stroke="currentColor" stroke-width="3"/><line x1="15" y1="15" x2="15" y2="6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
   var IC = {
     Gloves: '<path d="M7 21v-6L4.5 11.5a1.6 1.6 0 0 1 2.6-1.9L8.5 12V4.5a1.4 1.4 0 0 1 2.8 0V10m0-1.5V3.5a1.4 1.4 0 0 1 2.8 0V10m0-5a1.4 1.4 0 0 1 2.8 0v6m0-3a1.4 1.4 0 0 1 2.8 0v6.5c0 3-1.5 5-3.8 6H7"/>',
     'Bubble wrap': '<circle cx="6.5" cy="6.5" r="2.8"/><circle cx="15.5" cy="6.5" r="2.8"/><circle cx="6.5" cy="15.5" r="2.8"/><circle cx="15.5" cy="15.5" r="2.8"/><path d="M5.5 5.5l1-1M14.5 5.5l1-1M5.5 14.5l1-1M14.5 14.5l1-1"/>',
@@ -802,49 +823,48 @@
   function body(i) {
     if (i === 0) return '<div class="fld">To: <b>Zoological Museum, collections</b></div><div class="fld">Subject: <b>Research visit, adult male wolf</b></div>' +
       '<p>Hello!<br>I am making an animal osteological study for my master’s thesis. I would like to come over to the Zoological Museum to research the bones of an <mark class="hl">adult male wolf</mark>.<br><br>Best regards,<br>Mira</p>' +
-      '<div class="foot"><button class="btn opt-b" data-act="next">Send</button>' + hint('Press the knob') + '</div>';
+      '<div class="foot">' + kbtn('Send', 'data-act="next"') + '</div>';
     if (i === 1) return '<div class="fld">From: <b>Zoological Museum</b></div><div class="fld">Re: <b>Research visit, adult male wolf</b></div>' +
       '<p>Hello, and welcome. We cannot help in person today, but your workstation is ready. Sign the visitor’s book, then you can start.</p>' +
-      '<div class="foot"><button class="btn opt-b" data-act="next">Visit the museum</button>' + hint('Press the knob') + '</div>';
+      '<div class="foot">' + kbtn('Visit the museum', 'data-act="next"') + '</div>';
     if (i === 2) return '<div class="tbl"><div class="tr th"><span>Name</span><span>Hometown</span><span>Time</span></div><div class="tr"><span>Aino</span><span>Kemi</span><span>09:12</span></div><div class="tr"><span>Jonas</span><span>Oulu</span><span>09:40</span></div><div class="tr"><span>Lea</span><span>Tampere</span><span>10:05</span></div><div class="tr me"><span>Mira</span><span>Rovaniemi</span><span>10:32 (you)</span></div></div>' +
       '<p class="muted">Your name came from your email. Researchers always sign in before touching anything.</p>' +
-      '<div class="foot"><button class="btn opt-b" data-act="next">I have signed</button>' + hint('Paper book') + '</div>';
+      '<div class="foot">' + kbtn('I have signed', 'data-act="next"') + '</div>';
     if (i === 3) return '<div class="door dshelf shelf2" id="door">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b) {
         return '<div class="bx2"><span class="cb"></span><span class="pill">' + b[1] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">CRANK</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">0%</b></div>' +
       '<div class="foot sidefoot"><p id="cmsg" class="msg">Turn the crank. The boxes are behind the door.</p>' + '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the crank clockwise"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>' + '</div>';
     if (i === 4) return '<div class="shelf2" id="boxes">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b, n) {
         return '<button class="bx bx2" data-box="' + n + '" aria-label="' + b[0] + ', ' + b[1] + '"><span class="cb"></span><span class="pill">' + b[1] + '</span></button>'; }).join('') + '</div>' +
-      '<aside class="side"><p class="msg" id="bmsg">Pick the box that holds the wolf bones.</p><div class="knobrow"><svg class="knobico" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="11.5" fill="none" stroke="currentColor" stroke-width="3"/><line x1="15" y1="15" x2="21" y2="9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>' + hint('Turn to choose and press to select') + '</div></aside>';
+      '<aside class="side"><p class="msg" id="bmsg">Pick the box that holds the wolf bones.</p><div class="knobrow">' + TURNTIP + '<span class="ktext">Turn the knob to choose, press it to pick</span></div></aside>';
     if (i === 5) return '<div class="steps3">' + [['Open the box on the table', 'images/workstation/box-closed.jpg'], ['Guess and pick the pelvis bone!', 'images/workstation/box-open.jpg']].map(function (t) { return '<figure class="st3"><figcaption>' + t[0] + '</figcaption>' + photo(t[1], t[0], 'ph3') + '</figure>'; }).join('') + '</div>' +
-      '<div class="row"><button class="btn opt-b" data-act="next">Ready to measure</button></div>' +
-      '<div class="foot" style="justify-content:flex-start">' + hint('Press the knob') + '</div>';
+      '<div class="foot">' + kbtn('Ready to measure', 'data-act="next"') + '</div>';
     // measure: numbered steps on a dark panel, the 3D skeleton (the knob turns it), then press the knob when done
     if (i === 6) return '<div class="m3side"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
       '</ol></div>' +
       '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><span class="m3hint">Turn the knob, scroll or drag to rotate</span></div>' +
-      '<div class="m3bar"><button class="btn opt-b" data-act="next">Press the knob when done</button></div>';
+      '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
     // how wide is it: one cream panel over the whole screen; the knob chooses, a press selects
-    if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' + hint('Turn to choose, press to select') + '<button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
+    if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div><p class="knobtip">' + TURNTIP + 'Turn the knob to choose, press it to pick</p><button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
     if (i === 8) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 318" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
-      '<p class="muted" id="fact"></p><div class="foot"><button class="btn opt-b" data-act="next">Put everything back</button>' + hint('Press the knob') + '</div>';
+      '<p class="muted" id="fact"></p><div class="foot">' + kbtn('Publish your reading', 'data-act="next"') + '</div>';
     if (i === 9) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items" id="items">' + icos() + '</div></div>' +
       '<div class="door dshelf shelf2" id="door">' + [['Ursus arctos', ''], ['Canis lupus', ' slot2'], ['Vulpes vulpes', '']].map(function (b, n) {
         return '<div class="bx2' + b[1] + '"' + (b[1] ? ' id="slot"' : '') + '><span class="cb"></span><span class="pill">' + b[0] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
-      '<div class="foot sidefoot"><p id="cmsg" class="msg">Put your tools back in the box.</p><button class="btn opt-b" id="putbtn" data-act="put">Put the things in the box</button><span id="phint">' + hint('Press the knob') + '</span></div>';
+      '<div class="foot sidefoot"><p id="cmsg" class="msg">Wrap the bones and put them back in the box.</p>' + kbtn('Put the bones in the box', 'id="putbtn" data-act="put"') + '<span id="phint"></span></div>';
     return '<div class="pub"><ol>' +
-        '<li><b>1</b><div><p>Peel off your sticky note with the reading you wrote.</p><span class="note">About ____ mm</span></div></li>' +
-        '<li><b>2</b><div><p>Stick it on the wall under a portrait circle.</p></div></li>' +
-        '<li><b>3</b><div><p>Draw your fun portrait in the circle.</p></div></li>' +
+        '<li><b>1</b><div><p>Peel off your sticky note.</p><span class="note">About ____ mm</span></div></li>' +
+        '<li><b>2</b><div><p>Stick it under a circle on the wall.</p></div></li>' +
+        '<li><b>3</b><div><p>Draw yourself in the circle.</p></div></li>' +
       '</ol><div class="right"><div class="wall" role="img" aria-label="Three hand-drawn portraits on the wall with their readings: about 105 mm, 104 mm and about 100 mm">' +
         '<figure><svg viewBox="0 0 100 100" role="img" aria-label="Portrait with big curly hair"><defs><clipPath id="pca"><circle cx="50" cy="50" r="45"/></clipPath></defs><circle cx="50" cy="50" r="45" fill="#F3E7C4"/><g clip-path="url(#pca)" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 104 Q18 84 50 82 Q82 84 84 104Z" fill="#FFF6DC"/><path d="M41 83 Q50 90 59 83" fill="none"/><circle cx="22" cy="50" r="10" fill="#2B2A27" stroke="none"/><circle cx="20" cy="38" r="10" fill="#2B2A27" stroke="none"/><circle cx="26" cy="26" r="11" fill="#2B2A27" stroke="none"/><circle cx="37" cy="17" r="11" fill="#2B2A27" stroke="none"/><circle cx="50" cy="14" r="12" fill="#2B2A27" stroke="none"/><circle cx="63" cy="17" r="11" fill="#2B2A27" stroke="none"/><circle cx="74" cy="26" r="11" fill="#2B2A27" stroke="none"/><circle cx="80" cy="38" r="10" fill="#2B2A27" stroke="none"/><circle cx="78" cy="50" r="10" fill="#2B2A27" stroke="none"/><circle cx="50" cy="26" r="16" fill="#2B2A27" stroke="none"/><path d="M30 46 Q28 62 34 72 Q41 82 50 82 Q59 82 66 72 Q72 62 70 46 Q70 30 50 30 Q30 30 30 46Z" fill="#FFF6DC"/><path d="M30 52 Q25 52 26 57 Q27 62 31 61 M70 52 Q75 52 74 57 Q73 62 69 61" fill="#FFF6DC"/><circle cx="33" cy="34" r="7" fill="#2B2A27" stroke="none"/><circle cx="44" cy="30" r="7" fill="#2B2A27" stroke="none"/><circle cx="56" cy="30" r="7" fill="#2B2A27" stroke="none"/><circle cx="67" cy="34" r="7" fill="#2B2A27" stroke="none"/><path d="M37 52 Q41 55 45 52 M55 52 Q59 55 63 52" fill="none"/><path d="M50 55 Q46 63 51 63" fill="none"/><path d="M42 68 Q50 76 58 68 Q50 71 42 68Z" fill="#2B2A27"/></g><circle cx="50" cy="50" r="45" fill="none" stroke="#E8A94A" stroke-width="5"/></svg><figcaption>about 105 mm</figcaption></figure>' +
         '<figure><svg viewBox="0 0 100 100" role="img" aria-label="Portrait with a beret and a bob"><defs><clipPath id="pcb"><circle cx="50" cy="50" r="45"/></clipPath></defs><circle cx="50" cy="50" r="45" fill="#F3E7C4"/><g clip-path="url(#pcb)" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 104 Q18 84 50 82 Q82 84 84 104Z" fill="#FFF6DC"/><path d="M41 83 Q50 90 59 83" fill="none"/><path d="M27 47 Q26 34 38 29 L62 29 Q74 34 73 47 L75 73 Q68 77 64 71 L62 54 L38 54 L36 71 Q32 77 25 73Z" fill="#2B2A27"/><path d="M28.5 68.5 V73.5 M32 69.5 V74.5 M68 69.5 V74.5 M71.5 68.5 V73.5" stroke="#FFF6DC" stroke-width="1.4"/><path d="M30 46 Q28 62 34 72 Q41 82 50 82 Q59 82 66 72 Q72 62 70 46 Q70 30 50 30 Q30 30 30 46Z" fill="#FFF6DC"/><path d="M30 52 Q25 52 26 57 Q27 62 31 61 M70 52 Q75 52 74 57 Q73 62 69 61" fill="#FFF6DC"/><path d="M31 45 Q36 35 50 37 Q63 35 69 45 Q60 41 51 44 Q41 41 31 45Z" fill="#2B2A27"/><ellipse cx="46" cy="29" rx="25" ry="11" transform="rotate(-9 46 29)" fill="#2B2A27"/><path d="M47 18 V14" stroke-width="3"/><ellipse cx="43" cy="55" rx="2.4" ry="3.2" fill="#2B2A27"/><ellipse cx="57" cy="55" rx="2.4" ry="3.2" fill="#2B2A27"/><path d="M39.5 49.5 Q43 47.5 46.5 49 M53.5 49 Q57 47.5 60.5 49.5" fill="none" stroke-width="2"/><circle cx="38" cy="62" r=".9" fill="#2B2A27" stroke="none"/><circle cx="41" cy="63.5" r=".9" fill="#2B2A27" stroke="none"/><circle cx="59" cy="63.5" r=".9" fill="#2B2A27" stroke="none"/><circle cx="62" cy="62" r=".9" fill="#2B2A27" stroke="none"/><path d="M50 58 Q48 63 51 63" fill="none"/><path d="M45 70 Q50 74 55 70 M46.5 69 Q48.5 67.5 50 69 Q51.5 67.5 53.5 69" fill="none"/></g><circle cx="50" cy="50" r="45" fill="none" stroke="#E8A94A" stroke-width="5"/></svg><figcaption>104 mm</figcaption></figure>' +
         '<figure><svg viewBox="0 0 100 100" role="img" aria-label="Portrait with glasses and a beard"><defs><clipPath id="pcc"><circle cx="50" cy="50" r="45"/></clipPath></defs><circle cx="50" cy="50" r="45" fill="#F3E7C4"/><g clip-path="url(#pcc)" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 104 Q18 84 50 82 Q82 84 84 104Z" fill="#FFF6DC"/><path d="M41 83 Q50 90 59 83" fill="none"/><path d="M30 46 Q28 62 34 72 Q41 82 50 82 Q59 82 66 72 Q72 62 70 46 Q70 30 50 30 Q30 30 30 46Z" fill="#FFF6DC"/><path d="M30 52 Q25 52 26 57 Q27 62 31 61 M70 52 Q75 52 74 57 Q73 62 69 61" fill="#FFF6DC"/><path d="M29 47 Q26 30 42 25 Q46 21 52 24 Q60 20 66 27 Q75 33 71 47 Q68 39 62 37 Q58 41 52 38 Q46 42 40 38 Q33 40 29 47Z" fill="#2B2A27"/><path d="M31 58 Q32 80 50 83 Q68 80 69 58 Q66 67 58 67 Q54 64 50 66 Q46 64 42 67 Q34 67 31 58Z" fill="#2B2A27"/><path d="M44 73 Q50 77 56 73" fill="none" stroke="#FFF6DC" stroke-width="2.2"/><circle cx="42" cy="52" r="6.5" fill="#FFF6DC"/><circle cx="58" cy="52" r="6.5" fill="#FFF6DC"/><path d="M48.5 51 Q50 49.5 51.5 51" fill="none"/><circle cx="42.5" cy="52.5" r="1.8" fill="#2B2A27" stroke="none"/><circle cx="58.5" cy="52.5" r="1.8" fill="#2B2A27" stroke="none"/><path d="M50 56 Q47.5 61.5 51 61.5" fill="none"/></g><circle cx="50" cy="50" r="45" fill="none" stroke="#E8A94A" stroke-width="5"/></svg><figcaption>about 100 mm</figcaption></figure>' +
-        '</div><div class="why"><h3>Why publish?</h3><p>Science only works when other people can check it. Look at the stickers on the wall and compare your reading with theirs. Readings that sit close together show the measurement can be trusted, and one that stands out is worth measuring again.</p></div></div></div>' +
-      '<div class="foot"><button class="btn opt-b" data-act="restart">Start again</button>' + hint('Press the knob') + '</div>';
+        '</div><div class="why"><h3>Why publish?</h3><p>Compare your reading with the others. Readings close together can be trusted.</p></div></div></div>' +
+      '<div class="foot">' + kbtn('Start again', 'data-act="restart"') + '</div>';
   }
 
   /* ---------- Crumpled paper reveal (WebGL2): the note starts as a paper ball and unfolds flat, creases stay.
@@ -970,9 +990,9 @@ void main(){
     if (cur === 8) { var z = (ranges[range].mid - MEAN) / SD, az = Math.abs(z); verdict = az <= 1 ? 'A typical male' : az <= 2 ? (z > 0 ? 'Bigger than most' : 'Smaller than most') : (z > 0 ? 'A very large pelvis' : 'A very small pelvis'); }
     stage.innerHTML = '<div class="bg"></div><div class="scrim"></div>' +
       stickerHTML(cur) +
-      '<div class="hdr"><div class="hdrl"><b>Osteologia</b>' + (cur > 0 && cur !== 7 ? '<button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' : '') + '</div><div class="dots">' + titles.map(function (_, n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
+      '<div class="hdr"><div class="hdrl"><b>Osteologia</b>' + (cur > 0 && cur !== 7 ? '<button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' : '') + '</div><div class="dots">' + ORDER.map(function (n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
       '<div class="ttl"><h2>' + (t[0] || verdict) + '</h2><p>' + t[1] + '</p></div>' +
-      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><button class="hint hbtn" data-act="next">Press the knob</button></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 9 ? ' doorcard putcard' : cur === 8 ? ' pilecard' : cur === 10 ? ' pubcard' : cur === 6 ? ' measure3d' : cur === 7 ? ' rangecard' : '') + '" id="card">' + body(cur) + '</div>');
+      (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden>' + kbtn('Go to the shelf', 'data-act="next"') + '</div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 9 ? ' doorcard putcard' : cur === 8 ? ' pilecard' : cur === 10 ? ' pubcard' : cur === 6 ? ' measure3d' : cur === 7 ? ' rangecard' : '') + '" id="card">' + body(cur) + '</div>');
     document.querySelectorAll('#steps button').forEach(function (b, n) { b.setAttribute('aria-current', n === cur ? 'true' : 'false'); });
     var card = $('#card'), seamless = (lastCur === 3 && cur === 4); lastCur = cur;
     stage.classList.toggle('arrive', seamless);
@@ -990,7 +1010,7 @@ void main(){
   }
   function withBack() { var b = stage.querySelector('.backbtn'); if (b) opts.push(b); }
   function backIndex() { var b = stage.querySelector('.backbtn'); return b ? opts.indexOf(b) : -1; }
-  function goBack() { if (cur <= 0) return; if (cur - 1 === 3) { crank = 0; $('#crank').value = 0; } go(cur - 1); }
+  function goBack() { if (cur <= 0) return; var p = prevOf(cur); if (p === 3) { crank = 0; $('#crank').value = 0; } go(p); }
   function markSel() {
     opts.forEach(function (o, n) { o.classList.toggle('sel', n === sel); });
     if (cur === 4 || cur === 7) opts.forEach(function (o, n) { if (n === sel) bump(o); });
@@ -1023,7 +1043,7 @@ void main(){
     if (cur === 9) {
       if (putStep < 2) { crank = 100; $('#crank').value = 100; return; }
       if (doorSp) doorSp.to(crank / 100);
-      if (crank <= 2 && !stage.dataset.adv) { stage.dataset.adv = '1'; setTimeout(function () { stage.dataset.adv = ''; if (cur === 9 && crank <= 2) go(10); }, 1100); }
+      if (crank <= 2 && !stage.dataset.adv) { stage.dataset.adv = '1'; setTimeout(function () { stage.dataset.adv = ''; if (cur === 9 && crank <= 2) go(nextOf(9)); }, 1100); }
       return;
     }
     if (cur === 3) {
@@ -1196,7 +1216,7 @@ void main(){
     if (cur === 8 && pileCtl && !pileCtl.done()) return;
     var o = opts[sel]; if (!o || !o.offsetParent) return;
     if (o.dataset.act === 'back') goBack();
-    else if (o.dataset.act === 'next') go(cur + 1);
+    else if (o.dataset.act === 'next') go(nextOf(cur));
     else if (o.dataset.act === 'restart') go(0);
     else if (o.dataset.act === 'put') putAway();
     else if (o.dataset.box !== undefined) pickBox(+o.dataset.box, o);
@@ -1208,8 +1228,8 @@ void main(){
   // Put everything back: pack the box, put it on the shelf, then close the door with the crank.
   function putAway() {
     var it = $('#items'), pb = $('#pbox'), btn = $('#putbtn'), m = $('#cmsg'); if (!it || !pb || !btn) return;
-    if (putStep === 0) { it.classList.add('packed'); pb.classList.add('full'); btn.textContent = 'Put the box on the shelf'; m.textContent = 'Everything is in the box.'; putStep = 1; }
-    else if (putStep === 1) { pb.classList.add('gone'); $('#slot').classList.add('in'); btn.hidden = true; m.textContent = 'Now turn the crank to close the shelf.'; $('#phint').innerHTML = CRANKHINT; putStep = 2; collect(); }
+    if (putStep === 0) { it.classList.add('packed'); pb.classList.add('full'); btn.querySelector('.kl').textContent = 'Put the box on the shelf'; m.textContent = 'The bones are safe in the box.'; putStep = 1; }
+    else if (putStep === 1) { pb.classList.add('gone'); $('#slot').classList.add('in'); btn.hidden = true; m.textContent = 'Now turn the crank to close the door. The bones are safe behind it.'; $('#phint').innerHTML = CRANKHINT; putStep = 2; collect(); }
   }
   // Pressing a range does not lock it in. The visitor answers yes or no first, and the default is No.
   function askConfirm() {
@@ -1280,7 +1300,7 @@ void main(){
   }, { passive: false });
   stage.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('button'); if (!b) return;
-    if (b.classList.contains('hbtn')) { if (cur === 8 && pileCtl && !pileCtl.done()) return; go(cur + 1); return; }
+    if (b.classList.contains('hbtn')) { if (cur === 8 && pileCtl && !pileCtl.done()) return; go(nextOf(cur)); return; }
     var i = opts.indexOf(b); if (i >= 0) { sel = i; markSel(); if (cur === 7 && !confirming && b.dataset.range !== undefined) range = +b.dataset.range; press(); }
   });
   document.addEventListener('keydown', function (e) {

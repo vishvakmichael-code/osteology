@@ -17,12 +17,12 @@ The screen fills the browser window (16:10, centred). Once the first screen is u
 | 5 | Which box? | Finds the box with the wolf bones (Canis lupus) |
 | 6 | At the workstation | Opens the box and picks the pelvis bone |
 | 7 | Measure the width | Measures between the green points, writes it on a sticky note; the 3D skeleton shows the pelvis |
-| 8 | How wide is it? | Picks the range the measurement lies in (the replica is over 110 mm) |
-| 9 | A typical male / Bigger than most | Sees where the wolf falls among 100 adult males |
-| 10 | Put everything back | Packs the box, shelves it, closes the door |
+| 8 | Put the bones back safely | Museum rule: packs the bones in the box, shelves it and closes the door with the crank |
+| 9 | How wide is it? | Picks the range the measurement lies in (the replica is over 110 mm) |
+| 10 | A typical male / Bigger than most | Sees where the wolf falls among 100 adult males |
 | 11 | Publish your reading | Puts the sticky note on the wall |
 
-Controls: the arrow keys turn the knob, Enter presses it, and the mouse wheel turns the crank (screens 4 and 10) or rotates the skeleton (screen 7). Buttons can also be clicked.
+Controls: the arrow keys turn the knob, Enter presses it (the small knob inside a button pulses to show a press does it), and the mouse wheel turns the crank (screens 4 and 8) or rotates the skeleton (screen 7). Buttons can also be clicked.
 
 ## Folders
 
@@ -39,9 +39,9 @@ archive/              older copies kept for reference
 | File | Used on |
 |---|---|
 | `images/background/museum-wall.jpg` | Background of every screen |
-| `images/shelf/shelf.jpg` | The open shelf with the boxes (screens 5 and 10) |
+| `images/shelf/shelf.jpg` | The open shelf with the boxes (screens 5 and 8) |
 | `images/stickers/fox.png`, `skeleton.png`, `yawn.png`, `skull.png` | Sketch stickers in the corner of the screens |
-| `images/tools/gloves.png`, `bubble.png`, `caliper.png` | The tools that go back in the box (screen 10) |
+| `images/tools/gloves.png`, `bubble.png`, `caliper.png` | The tools that go back in the box (screen 8) |
 | `images/workstation/box-closed.jpg` | "Open the box on the table" (screen 6) |
 | `images/workstation/box-open.jpg` | "Guess and pick the pelvis bone!" (screen 6) |
 | `images/measure/pelvis-top.jpg` | "Use the scale to measure the points marked in green" (screen 7); the green points are drawn over it in `index.html` |

@@ -1153,6 +1153,8 @@ void main(){
       requestAnimationFrame(function () { if (callout) callout.style.opacity = 1; });
       unlock();
     }
+    // once sorted, a circle never leaves its own range, so the colour always matches the band it sits in
+    function keepIn(b) { if (phase < 1) return; var lo = X(BL[b.g]) + b.r + .8, hi = X(BR[b.g]) - b.r - .8; if (b.x < lo) { b.x = lo; b.vx = 0; } else if (b.x > hi) { b.x = hi; b.vx = 0; } }
     function tick() {
       var n = bodies.length, i, j, b, o; mv = 0; ticks++;
       for (i = 0; i < n; i++) {
@@ -1167,7 +1169,7 @@ void main(){
         b = bodies[i]; o = bodies[j]; var dx = o.x - b.x, dy = o.y - b.y, min = b.r + o.r + 1.4, d2 = dx * dx + dy * dy;
         if (d2 < min * min && d2 > 1e-6) { var d = Math.sqrt(d2), p = (min - d) / d, wi = b.fixed ? 0 : o.fixed ? 1 : o.m / (b.m + o.m), wj = 1 - wi; b.x -= dx * p * wi; b.y -= dy * p * wi; o.x += dx * p * wj; o.y += dy * p * wj; }
       }
-      for (i = 0; i < n; i++) { b = bodies[i]; if (b.fixed) continue; if (phase > 0 && b.y > FLOOR - b.r) b.y = FLOOR - b.r; mv = Math.max(mv, Math.abs(b.x - b._x), Math.abs(b.y - b._y)); }
+      for (i = 0; i < n; i++) { b = bodies[i]; if (b.fixed) continue; keepIn(b); if (phase > 0 && b.y > FLOOR - b.r) b.y = FLOOR - b.r; mv = Math.max(mv, Math.abs(b.x - b._x), Math.abs(b.y - b._y)); }
       quiet = (mv < (phase === 0 ? .25 : .12) && ticks > 30 && (!wolfB || wolfB.y > 0 || phase < 2)) ? quiet + 1 : 0;
       if (quiet > 10 || ticks > (phase === 0 ? 150 : 450)) still = true;
     }

@@ -217,6 +217,13 @@
   .card.pilecard { left: .8cqw; right: .8cqw; width: auto; top: 5cqw; bottom: .8cqw; padding: 2.4cqw 3.4cqw; gap: 1.6cqw; z-index: 2; justify-content: space-between; }
   .card.pilecard .chart { display: flex; justify-content: center; }
   .card.pilecard .chart > svg { width: 72%; max-height: 29cqw; }
+  .card.pilecard #fact { font: 500 1.7cqw/1.4 var(--sans); color: #2B2A27; text-align: center; margin: 0; }
+  .card.pilecard #fact.keys { display: flex; justify-content: center; flex-wrap: wrap; gap: 1cqw 3.2cqw; }
+  #fact .key { display: inline-flex; align-items: center; gap: .9cqw; }
+  #fact .key b { font-weight: 700; }
+  #fact .key i { width: 1.8cqw; height: 1.8cqw; border-radius: 50%; flex: none; }
+  #fact .kd { background: #612826; } #fact .kl2 { background: rgba(97,40,38,.28); }
+  #fact .kw { background: #E8A94A; box-shadow: inset 0 0 0 .22cqw #2B2A27; }
   /* a photo that has not been added to images/ yet */
   .ph-missing { display: flex; align-items: center; justify-content: center; text-align: center; padding: 1cqw; box-sizing: border-box; background: #F5EBC9; color: #8A8470; font: 600 1cqw/1.3 var(--sans); border: .15cqw dashed #8A8470; border-radius: inherit; word-break: break-all; }
   .ph3.ph-missing { display: flex; aspect-ratio: 4 / 3; height: auto; }
@@ -1090,9 +1097,11 @@ void main(){
     var BL = [82, 90, 100, 110], BR = [90, 100, 110, 127]; bandR.setAttribute('x', X(BL[rg])); bandR.setAttribute('width', X(BR[rg]) - X(BL[rg]));
     var z = (mid - MEAN) / SD, az2 = Math.abs(z);
     var where = az2 <= 1 ? 'in the average male range' : az2 <= 2 ? (z > 0 ? 'bigger than most males' : 'smaller than most males') : (z > 0 ? 'far bigger than most males' : 'far smaller than most males');
-    var captions = ['Each circle stands for 1 of 100 adult male wolves. Their widths follow the average (104.9 mm) and spread (6.64 mm) published for 17 male wolf pelvises. Bigger circle, wider bones.',
-      'Sorted by width, in the same ranges the caliper gave you.',
-      'You picked ' + ranges[range].t + '. About ' + cl[rg] + ' of 100 adult males measure in this range. Your wolf is an adult male. The numbers come from one study of 17 male wolves from Slovakia, so treat them as a guide. Fun fact: male wolf hips are only about 8 mm wider than female ones on average, so one bone rarely tells the sex.'];
+    var captions = ['Each circle is one adult male wolf. Bigger circle, wider hip bones.',
+      'Now sorted by width, in the same ranges you measured with.',
+      '<span class="key"><i class="kd"></i><span><b>In your range (' + ranges[range].t + (rg === 0 ? '' : ' mm') + '):</b> about ' + cl[rg] + ' of 100</span></span>' +
+      '<span class="key"><i class="kl2"></i>Other adult males</span>' +
+      '<span class="key"><i class="kw"></i>Your wolf</span>'];
     var callout = null, still = false, quiet = 0, pending = false, ticks = 0, mv = 0, anim = null, wfr = null, wi = 0, wacc = 0;
     function run(rec) { still = false; quiet = 0; ticks = 0; for (var n = 0; n < 700 && !still; n++) { tick(); if (rec) rec.push([wolfB.x, wolfB.y]); } still = true; }
     function morph() {
@@ -1121,7 +1130,7 @@ void main(){
     function setPhase(p) {
       p = Math.max(0, Math.min(2, p)); if (p === phase) return; var prev = phase; phase = p; pending = false; if (!(prev === 1 && p === 2)) anim = null; wfr = null;
       timers.forEach(clearTimeout); timers = [];
-      fact.textContent = captions[p];
+      fact.innerHTML = captions[p]; fact.classList.toggle('keys', p === 2);
       lab0.style.opacity = p === 0 ? 1 : 0; labs.style.opacity = p >= 1 ? 1 : 0;
       bodies.forEach(function (b) { b.el.style.transition = 'opacity 1s ease'; });
       if (p !== 2) {

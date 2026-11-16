@@ -34,6 +34,12 @@
   .hdr { position: absolute; left: 4.2cqw; right: 4.2cqw; top: 2.6cqw; display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.2cqw; border-bottom: 1px solid #4A8CC9; }
   .hdr b { font: 600 1.1cqw/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #FFF6DC; }
   .dots { display: flex; gap: 1.2cqw; }
+  /* back: one more knob option; the knob highlights it like any other, a press goes one screen back */
+  .hdrl { display: flex; align-items: center; gap: 2.2cqw; }
+  .backbtn { font: 700 .95cqw/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #FFF6DC; background: rgba(23,18,14,.55); border: .12cqw solid rgba(255,246,220,.55); border-radius: 2cqw; padding: .6cqw 1.2cqw; margin: -.7cqw 0; cursor: pointer; transition: background .2s, color .2s, box-shadow .2s; }
+  .backbtn:hover, .backbtn.sel { background: #E8A94A; color: #2B2A27; border-color: #E8A94A; box-shadow: 0 0 1.4cqw rgba(232,169,74,.6); }
+  .rq .backbtn { color: #2B2A27; background: transparent; border-color: #8A8470; margin: .4cqw 0 0; }
+  .rq .backbtn:hover, .rq .backbtn.sel { background: #E8A94A; border-color: #E8A94A; }
   .dots i { width: 1cqw; height: 1cqw; border-radius: 50%; border: .12cqw solid #FFF6DC; display: block; }
   .dots i.on { background: #E8A94A; border-color: #E8A94A; }
   .ttl { position: absolute; left: 4.2cqw; top: 6.4cqw; right: 4cqw; }
@@ -821,7 +827,7 @@
       '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><span class="m3hint">Turn the knob, scroll or drag to rotate</span></div>' +
       '<div class="m3bar"><button class="btn opt-b" data-act="next">Press the knob when done</button></div>';
     // how wide is it: one cream panel over the whole screen; the knob chooses, a press selects
-    if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' + hint('Turn to choose, press to select') + '</div>';
+    if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div>' + hint('Turn to choose, press to select') + '<button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
     if (i === 8) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 318" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
       '<p class="muted" id="fact"></p><div class="foot"><button class="btn opt-b" data-act="next">Put everything back</button>' + hint('Press the knob') + '</div>';
     if (i === 9) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items" id="items">' + icos() + '</div></div>' +
@@ -964,7 +970,7 @@ void main(){
     if (cur === 8) { var z = (ranges[range].mid - MEAN) / SD, az = Math.abs(z); verdict = az <= 1 ? 'A typical male' : az <= 2 ? (z > 0 ? 'Bigger than most' : 'Smaller than most') : (z > 0 ? 'A very large pelvis' : 'A very small pelvis'); }
     stage.innerHTML = '<div class="bg"></div><div class="scrim"></div>' +
       stickerHTML(cur) +
-      '<div class="hdr"><b>Osteologia</b><div class="dots">' + titles.map(function (_, n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
+      '<div class="hdr"><div class="hdrl"><b>Osteologia</b>' + (cur > 0 && cur !== 7 ? '<button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' : '') + '</div><div class="dots">' + titles.map(function (_, n) { return '<i class="' + (n === cur ? 'on' : '') + '"></i>'; }).join('') + '</div></div>' +
       '<div class="ttl"><h2>' + (t[0] || verdict) + '</h2><p>' + t[1] + '</p></div>' +
       (cur === 2 ? '<div class="bookwrap" id="bookwrap"></div><div class="bookcta" id="bookcta" hidden><button class="btn opt-b" data-act="next">Press the knob to go to the shelf</button><button class="hint hbtn" data-act="next">Press the knob</button></div>' : '<div class="card' + (cur === 3 || cur === 4 ? ' doorcard' : cur === 9 ? ' doorcard putcard' : cur === 8 ? ' pilecard' : cur === 10 ? ' pubcard' : cur === 6 ? ' measure3d' : cur === 7 ? ' rangecard' : '') + '" id="card">' + body(cur) + '</div>');
     document.querySelectorAll('#steps button').forEach(function (b, n) { b.setAttribute('aria-current', n === cur ? 'true' : 'false'); });
@@ -976,10 +982,15 @@ void main(){
   }
 
   function collect() {
-    opts = [].slice.call(stage.querySelectorAll('.opt-b, [data-box], .opt-r'));
-    if (cur === 4 || cur === 7) sel = cur === 7 ? range : Math.min(sel, 2); else sel = 0;
+    var main = [].slice.call(stage.querySelectorAll('.opt-b, [data-box], .opt-r')), back = stage.querySelector('.backbtn');
+    opts = back ? main.concat(back) : main;
+    if (cur === 4 || cur === 7) sel = cur === 7 ? range : Math.min(Math.max(sel, 0), 2); else sel = main.length ? 0 : -1;
+    if (cur === 3 || (cur === 9 && putStep >= 2)) sel = -1; // the knob cranks here; Back is reached by turning past the start
     markSel();
   }
+  function withBack() { var b = stage.querySelector('.backbtn'); if (b) opts.push(b); }
+  function backIndex() { var b = stage.querySelector('.backbtn'); return b ? opts.indexOf(b) : -1; }
+  function goBack() { if (cur <= 0) return; if (cur - 1 === 3) { crank = 0; $('#crank').value = 0; } go(cur - 1); }
   function markSel() {
     opts.forEach(function (o, n) { o.classList.toggle('sel', n === sel); });
     if (cur === 4 || cur === 7) opts.forEach(function (o, n) { if (n === sel) bump(o); });
@@ -1184,7 +1195,8 @@ void main(){
   function press() {
     if (cur === 8 && pileCtl && !pileCtl.done()) return;
     var o = opts[sel]; if (!o || !o.offsetParent) return;
-    if (o.dataset.act === 'next') go(cur + 1);
+    if (o.dataset.act === 'back') goBack();
+    else if (o.dataset.act === 'next') go(cur + 1);
     else if (o.dataset.act === 'restart') go(0);
     else if (o.dataset.act === 'put') putAway();
     else if (o.dataset.box !== undefined) pickBox(+o.dataset.box, o);
@@ -1205,14 +1217,14 @@ void main(){
     confirming = true;
     q.innerHTML = '<b>You picked ' + ranges[range].t + '.</b> Is that what your caliper shows?';
     rg.innerHTML = '<button class="btn opt-c" data-confirm="yes">Yes, that is right</button><button class="btn alt opt-c" data-confirm="no">No, pick again</button>';
-    opts = [].slice.call(rg.querySelectorAll('.opt-c')); sel = 1; markSel();
+    opts = [].slice.call(rg.querySelectorAll('.opt-c')); withBack(); sel = 1; markSel();
   }
   function undoConfirm() {
     var rg = $('#ranges'), q = $('#wsq'); if (!rg || !q) return;
     confirming = false;
     q.innerHTML = '<b>How wide is it?</b> Pick the range your measurement lies in';
     rg.innerHTML = ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('');
-    opts = [].slice.call(rg.querySelectorAll('.opt-r')); sel = range; markSel();
+    opts = [].slice.call(rg.querySelectorAll('.opt-r')); withBack(); sel = range; markSel();
   }
   function pickBox(n, el) {
     var msgs = ['Ursus arctos is the brown bear. You are researching a wolf, so try another box.', '', 'Vulpes vulpes is the red fox. A wolf is a different animal, so try another box.'];
@@ -1228,14 +1240,22 @@ void main(){
   }
   function shake(el) { var s = spring(24, 0, 'wobbly', function (p) { el.style.transform = 'translateX(' + p + 'px)'; }); }
   function turn(d) {
-    if (cur === 3) { setCrank(crank + d * 12); return; }
-    if (cur === 9) { if (putStep >= 2) setCrank(crank - d * 12); return; }
-    if (cur === 8) { if (pileCtl) pileCtl.nudge(d); return; }
-    if (cur === 6) { if (wolfCtl) wolfCtl.spin(d * 0.35); return; } // the knob turns the skeleton; ranges are picked by clicking
+    // crank screens: turning left past the start position highlights Back, turning right again goes back to cranking
+    if (cur === 3 || (cur === 9 && putStep >= 2)) {
+      var b = backIndex(), atStart = cur === 3 ? crank <= 0 : crank >= 100;
+      if (b >= 0 && sel === b) { if (d > 0) { sel = -1; markSel(); } return; }
+      if (b >= 0 && d < 0 && atStart) { sel = b; markSel(); return; }
+      if (cur === 3) setCrank(crank + d * 12); else setCrank(crank - d * 12);
+      return;
+    }
+    if (cur === 8 && pileCtl && !pileCtl.done()) return; // the bubbles settle first
+    if (cur === 6) { if (wolfCtl) wolfCtl.spin(d * 0.35); return; } // the knob turns the skeleton; Back is a click here
     if (!opts.length) return;
     stage.classList.remove('arrive');
-    sel = (sel + d + opts.length) % opts.length; markSel();
-    if (cur === 7 && !confirming) range = sel;
+    if (sel < 0) sel = d > 0 ? 0 : opts.length - 1; else sel = (sel + d + opts.length) % opts.length;
+    for (var guard = 0; guard < opts.length && !opts[sel].offsetParent; guard++) sel = (sel + (d > 0 ? 1 : -1) + opts.length) % opts.length; // skip hidden options
+    markSel();
+    if (cur === 7 && !confirming && opts[sel].dataset.range !== undefined) range = +opts[sel].dataset.range;
   }
 
   // ---------- inputs
@@ -1244,18 +1264,24 @@ void main(){
   $('#kP').addEventListener('click', press);
   $('#crank').addEventListener('input', function (e) { setCrank(+e.target.value); });
   var CRANK_PER_PX = 0.1; // % of a full crank per wheel pixel: one mouse notch ~10 %, a trackpad swipe 50-100 %
-  var pileWheel = 0;
+  // The scroll wheel is the knob: on the crank screens it cranks smoothly (and steps onto Back past the start),
+  // on the measure screen it turns the skeleton, everywhere else one notch (or a short swipe) moves the highlight.
+  var wheelStep = 0;
+  function wheelTurn(px) { wheelStep += px; if (Math.abs(wheelStep) >= 60) { turn(wheelStep > 0 ? 1 : -1); wheelStep = 0; } }
   stage.addEventListener('wheel', function (e) {
-    var px = wheelPx(e);
-    if (cur === 3) { e.preventDefault(); setCrank(crank + px * CRANK_PER_PX); }
-    else if (cur === 9 && putStep >= 2) { e.preventDefault(); setCrank(crank - px * CRANK_PER_PX); }
-    else if (cur === 8 && pileCtl) { e.preventDefault(); pileWheel += px; if (Math.abs(pileWheel) >= 40) { pileCtl.nudge(pileWheel > 0 ? 1 : -1); pileWheel = 0; } }
-    else if (cur === 6 && wolfCtl) { e.preventDefault(); wolfCtl.spin(px * 0.004); }
+    var px = wheelPx(e); e.preventDefault();
+    if (cur === 3 || (cur === 9 && putStep >= 2)) {
+      var b = backIndex(), atStart = cur === 3 ? crank <= 0 : crank >= 100;
+      if ((b >= 0 && sel === b) || (px < 0 && atStart)) wheelTurn(px);
+      else { wheelStep = 0; setCrank(cur === 3 ? crank + px * CRANK_PER_PX : crank - px * CRANK_PER_PX); }
+    }
+    else if (cur === 6 && wolfCtl) wolfCtl.spin(px * 0.004);
+    else wheelTurn(px);
   }, { passive: false });
   stage.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('button'); if (!b) return;
     if (b.classList.contains('hbtn')) { if (cur === 8 && pileCtl && !pileCtl.done()) return; go(cur + 1); return; }
-    var i = opts.indexOf(b); if (i >= 0) { sel = i; markSel(); if (cur === 7 && !confirming) range = sel; press(); }
+    var i = opts.indexOf(b); if (i >= 0) { sel = i; markSel(); if (cur === 7 && !confirming && b.dataset.range !== undefined) range = +b.dataset.range; press(); }
   });
   document.addEventListener('keydown', function (e) {
     if (e.target && e.target.tagName === 'INPUT') return;

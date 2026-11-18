@@ -743,7 +743,7 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.outputEncoding = T.sRGBEncoding;
     var scene = new T.Scene(), camera = new T.PerspectiveCamera(32, 1, 0.1, 50);
     scene.add(new T.AmbientLight(0xffffff, 0.62)); var sun = new T.DirectionalLight(0xfff3dc, 0.55); sun.position.set(-2, 3, 5); scene.add(sun);
-    var F = BookTex.FACES, LV = BookTex.LEAVES.slice(0, 2), L = 2, PW = 1.3, PH = 1.75, B = 14, SX = 42, GAP = 0.007;
+    var REST_W = [0, .38, .28, .18, .1, .06], F = BookTex.FACES, LV = BookTex.LEAVES.slice(0, 2), L = 2, PW = 1.3, PH = 1.75, B = 14, SX = 42, GAP = 0.007;
     var book = new T.Group(); scene.add(book); var leaves = [], timers = [], alive = true, rafId = 0;
     BookTex.visP = 0; BookTex.writeStart = 0;
     function makeLeaf(i) {
@@ -761,6 +761,9 @@
       tb.wrapS = T.RepeatWrapping; tb.repeat.x = -1; tb.offset.x = 1;
       var mf = new T.MeshStandardMaterial({ map: tf, roughness: .85, metalness: 0, side: T.FrontSide, skinning: true });
       var mb = new T.MeshStandardMaterial({ map: tb, roughness: .85, metalness: 0, side: T.BackSide, skinning: true });
+      // gutter: the paper darkens where it dips into the binding (u = 0 at the spine; the back face's texture is mirrored)
+      if (i > 0) mf.onBeforeCompile = function (sh) { sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n  float gutF = smoothstep(0.0, 0.16, vUv.x); diffuseColor.rgb *= mix(0.68, 1.0, gutF);'); };
+      mb.onBeforeCompile = function (sh) { sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n  float gutB = smoothstep(0.0, 0.16, 1.0 - vUv.x); diffuseColor.rgb *= mix(0.68, 1.0, gutB);'); };
       var front = new T.SkinnedMesh(geo, mf), back = new T.SkinnedMesh(geo, mb);
       front.frustumCulled = back.frustumCulled = false; grp.add(front, back); front.bind(skel); back.bind(skel); book.add(grp);
       return { grp: grp, bones: bones, front: front, a: 0, dir: 1, i: i };
@@ -803,9 +806,11 @@
         if (Math.abs(diff) > 1e-4) lf.dir = Math.sign(diff);
         lf.a += diff * (1 - Math.exp(-dt * K)); if (Math.abs(target - lf.a) < 1e-3) lf.a = target;
         var f = lf.a / Math.PI, turning = Math.sin(Math.min(1, Math.max(0, f)) * Math.PI), moving = Math.abs(target - lf.a) > 1e-3 ? 1 : 0;
-        lf.bones[0].rotation.y = -lf.a;
+        // a resting page rises out of the spine and then lies flat, like paper in a bound book (the cover is stiffer)
+        var rest = Math.max(0, 1 - Math.abs(target - lf.a) / 0.6), side = target === 0 ? 1 : -1, lift = side * (lf.i === 0 ? 0.2 : 0.3) * rest;
+        lf.bones[0].rotation.y = -lf.a - lift;
         var curl = lf.dir * turning * moving * 0.16, wave = Math.sin(f * Math.PI * 2) * 0.03 * moving;
-        for (var b = 1; b <= B; b++) { var k = b / B; lf.bones[b].rotation.y = curl * (0.35 + 0.65 * k) + wave * Math.sin(k * Math.PI); }
+        for (var b = 1; b <= B; b++) { var k = b / B; lf.bones[b].rotation.y = curl * (0.35 + 0.65 * k) + wave * Math.sin(k * Math.PI) + lift * (REST_W[b] || 0); }
         lf.grp.position.z = (1 - f) * ((L - 1 - i) * GAP) + f * (i * GAP) + turning * 0.045;
       });
       if (BookTex.writeStart) {

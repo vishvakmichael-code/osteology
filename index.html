@@ -737,6 +737,18 @@
   }
   // ---------- 3D notebook (screen 3)
   function mountBook(host, onDone) {
+    function pageShader(m, w, h, gut) {
+      m.onBeforeCompile = function (sh) {
+        sh.uniforms.uPage = { value: new window.THREE.Vector3(w, h, gut) };
+        sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform vec3 uPage;')
+          .replace('#include <map_fragment>', [
+            '#include <map_fragment>',
+            'vec2 pp = vec2(vUv.x * uPage.x, vUv.y * uPage.y), cq = max(abs(pp - 0.5 * uPage.xy) - (0.5 * uPage.xy - 0.06), 0.0);',
+            'if (length(cq) > 0.06) discard;',
+            'if (uPage.z > 0.5) { float gu = uPage.z < 1.5 ? vUv.x : 1.0 - vUv.x; diffuseColor.rgb *= mix(0.68, 1.0, smoothstep(0.0, 0.16, gu)); }'
+          ].join('\n'));
+      };
+    }
     var T = window.THREE; if (!T) { onDone(); return null; }
     var cvs = document.createElement('canvas'); host.appendChild(cvs);
     var renderer; try { renderer = new T.WebGLRenderer({ canvas: cvs, antialias: true, alpha: true }); } catch (e) { onDone(); return null; }
@@ -761,9 +773,9 @@
       tb.wrapS = T.RepeatWrapping; tb.repeat.x = -1; tb.offset.x = 1;
       var mf = new T.MeshStandardMaterial({ map: tf, roughness: .85, metalness: 0, side: T.FrontSide, skinning: true });
       var mb = new T.MeshStandardMaterial({ map: tb, roughness: .85, metalness: 0, side: T.BackSide, skinning: true });
-      // gutter: the paper darkens where it dips into the binding (u = 0 at the spine; the back face's texture is mirrored)
-      if (i > 0) mf.onBeforeCompile = function (sh) { sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n  float gutF = smoothstep(0.0, 0.16, vUv.x); diffuseColor.rgb *= mix(0.68, 1.0, gutF);'); };
-      mb.onBeforeCompile = function (sh) { sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>', '#include <map_fragment>\n  float gutB = smoothstep(0.0, 0.16, 1.0 - vUv.x); diffuseColor.rgb *= mix(0.68, 1.0, gutB);'); };
+      // paper shape and gutter: every page has softly rounded corners, and the paper darkens where it dips into the binding
+      // (gut 1: spine at u = 0, gut 2: the back face, whose texture is mirrored; gut 0: the outside of the cover, no gutter)
+      pageShader(mf, w, h, i > 0 ? 1 : 0); pageShader(mb, w, h, 2);
       var front = new T.SkinnedMesh(geo, mf), back = new T.SkinnedMesh(geo, mb);
       front.frustumCulled = back.frustumCulled = false; grp.add(front, back); front.bind(skel); back.bind(skel); book.add(grp);
       return { grp: grp, bones: bones, front: front, a: 0, dir: 1, i: i };

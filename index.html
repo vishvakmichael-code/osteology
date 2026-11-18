@@ -882,12 +882,12 @@
   // ---------- screens
   function body(i) {
     if (i === 0) return '<div class="fld">To: <b>Zoological Museum, collections</b></div><div class="fld">Subject: <b>Research visit, adult male wolf</b></div>' +
-      '<p>Hello!<br>I am making an animal osteological study for my master’s thesis. I would like to come over to the Zoological Museum to research the bones of an <mark class="hl">adult male wolf</mark>.<br><br>Best regards,<br>Mira</p>' +
+      '<p>Hello!<br>I am making an animal osteological study for my master’s thesis. I would like to come over to the Zoological Museum to research the bones of an <mark class="hl">adult male wolf</mark>.<br><br>Best regards,<br>Alex</p>' +
       '<div class="foot">' + kbtn('Send', 'data-act="next"') + '</div>';
     if (i === 1) return '<div class="fld">From: <b>Zoological Museum</b></div><div class="fld">Re: <b>Research visit, adult male wolf</b></div>' +
       '<p>Hello, and welcome. We cannot help in person today, but your workstation is ready. Sign the visitor’s book, then you can start.</p>' +
       '<div class="foot">' + kbtn('Visit the museum', 'data-act="next"') + '</div>';
-    if (i === 2) return '<div class="tbl"><div class="tr th"><span>Name</span><span>Hometown</span><span>Time</span></div><div class="tr"><span>Aino</span><span>Kemi</span><span>09:12</span></div><div class="tr"><span>Jonas</span><span>Oulu</span><span>09:40</span></div><div class="tr"><span>Lea</span><span>Tampere</span><span>10:05</span></div><div class="tr me"><span>Mira</span><span>Rovaniemi</span><span>10:32 (you)</span></div></div>' +
+    if (i === 2) return '<div class="tbl"><div class="tr th"><span>Name</span><span>Hometown</span><span>Time</span></div><div class="tr"><span>Aino</span><span>Kemi</span><span>09:12</span></div><div class="tr"><span>Jonas</span><span>Oulu</span><span>09:40</span></div><div class="tr"><span>Lea</span><span>Tampere</span><span>10:05</span></div><div class="tr me"><span>Alex</span><span>Rovaniemi</span><span>10:32 (you)</span></div></div>' +
       '<p class="muted">Your name came from your email. Researchers always sign in before touching anything.</p>' +
       '<div class="foot">' + kbtn('I have signed', 'data-act="next"') + '</div>';
     if (i === 3) return '<div class="door dshelf shelf2" id="door">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b) {

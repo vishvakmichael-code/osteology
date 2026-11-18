@@ -10,6 +10,7 @@ The screen fills the browser window (16:10, centred). Once the first screen is u
 
 | # | Screen | What the visitor does |
 |---|---|---|
+| – | Intro | Big OSTEOLOGIA title; pressing the knob flies the title into the header logo and fades into screen 1. "Start again" returns here |
 | 1 | Write to the museum | Reads the email and sends it |
 | 2 | You got a response! | Reads the museum's reply |
 | 3 | The visitors' book | Signs the 3D notebook |

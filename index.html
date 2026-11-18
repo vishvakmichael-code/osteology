@@ -114,6 +114,30 @@
   .reduce-motion .crankhint .ring { animation: none; }
   /* the knob: a small knob inside the action button that keeps being pressed, and one that turns where the knob chooses */
   .btn.knb { display: inline-flex; align-items: center; gap: 1.1cqw; }
+  /* ---- intro: big title over the museum wall; pressing the knob flies the title into the header logo */
+  .intro { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; }
+  .intro .iveil { position: absolute; inset: 0; overflow: hidden; background: #17120e; }
+  .intro .iveil::before { content: ""; position: absolute; inset: -4%; background: url("images/background/museum-wall.jpg") center 60% / cover no-repeat; animation: idrift 26s ease-in-out infinite alternate; }
+  .intro .iveil::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 46%, rgba(23,18,14,.35), rgba(12,9,6,.92) 75%); }
+  @keyframes idrift { from { transform: scale(1); } to { transform: scale(1.08) translate(-1%, -1%); } }
+  .intro > *:not(.iveil) { position: relative; }
+  .ieyebrow { margin: 0 0 2cqw; font: 600 1.25cqw/1 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: #E8A94A; animation: ifade .9s ease .1s both; }
+  .ititle { margin: 0; font: 300 11cqw/1 var(--head); letter-spacing: .06em; color: #FFF6DC; white-space: nowrap; transform-origin: 50% 50%; text-shadow: 0 .6cqw 3cqw rgba(0,0,0,.55); }
+  .ititle span { display: inline-block; animation: iletter 1s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 60ms + 250ms); }
+  @keyframes iletter { from { opacity: 0; transform: translateY(35%); filter: blur(.6cqw); } to { opacity: 1; transform: none; filter: none; } }
+  .irule { width: 14cqw; height: .18cqw; margin: 2.4cqw 0 2cqw; background: #E8A94A; transform-origin: 50% 50%; animation: irule .8s cubic-bezier(.2,.8,.2,1) 1s both; }
+  @keyframes irule { from { transform: scaleX(0); } to { transform: none; } }
+  .isub { margin: 0; font: 500 1.9cqw/1.35 var(--sans); color: rgba(255,246,220,.88); animation: ifade .9s ease 1.25s both; }
+  .istart { display: flex; align-items: center; gap: 1.2cqw; margin-top: 6cqw; font: 600 1.6cqw/1 var(--sans); color: #FFF6DC; animation: ifade .9s ease 1.7s both; }
+  .istart .kp { width: 3cqw; height: 3cqw; }
+  .istart .kp::after { border-width: .2cqw; }
+  @keyframes ifade { from { opacity: 0; transform: translateY(1cqw); } to { opacity: 1; transform: none; } }
+  .intro.leaving { cursor: default; }
+  .intro.leaving .ieyebrow, .intro.leaving .irule, .intro.leaving .isub, .intro.leaving .istart { animation: iout .35s ease forwards; }
+  @keyframes iout { to { opacity: 0; transform: translateY(1cqw); } }
+  .hdr b { transition: opacity .3s ease; }
+  .in-intro .hdr b { opacity: 0; }
+  .reduce-motion .intro *, .reduce-motion .intro .iveil::before { animation: none !important; }
   /* a quiet label under the action button: no border, no capitals, so it reads as a caption and not as a second button */
   .kwrap { display: inline-flex; flex-direction: column; align-items: flex-end; gap: .7cqw; }
   .kwrap[hidden] { display: none; }
@@ -423,6 +447,7 @@
   function nextOf(c) { return ORDER[ORDER.indexOf(c) + 1]; }
   function prevOf(c) { return ORDER[ORDER.indexOf(c) - 1]; }
   var confirming = false, putStep = 0;
+  var intro = false, introLeaving = false;
   var cur = 0, sel = 0, range = 2, crank = 0, boxState = null, doorSp = null, doorProg = 0;
   var opts = [];
   var bookCtl = null, bookToken = 0;
@@ -1234,11 +1259,12 @@ void main(){
   // ---------- flow control
   function go(n) { cur = (n + titles.length) % titles.length; if (cur === 0) { boxState = null; crank = 0; $('#crank').value = 0; } render(); }
   function press() {
+    if (intro) { leaveIntro(); return; }
     if (cur === 8 && pileCtl && !pileCtl.done()) return;
     var o = opts[sel]; if (!o || !o.offsetParent) return;
     if (o.dataset.act === 'back') goBack();
     else if (o.dataset.act === 'next') go(nextOf(cur));
-    else if (o.dataset.act === 'restart') go(0);
+    else if (o.dataset.act === 'restart') { go(0); showIntro(); }
     else if (o.dataset.act === 'put') putAway();
     else if (o.dataset.box !== undefined) pickBox(+o.dataset.box, o);
     else if (o.dataset.range !== undefined) { range = +o.dataset.range; askConfirm(); }
@@ -1281,6 +1307,7 @@ void main(){
   }
   function shake(el) { var s = spring(24, 0, 'wobbly', function (p) { el.style.transform = 'translateX(' + p + 'px)'; }); }
   function turn(d) {
+    if (intro) return;
     // crank screens: turning left past the start position highlights Back, turning right again goes back to cranking
     if (cur === 3 || (cur === 9 && putStep >= 2)) {
       var b = backIndex(), atStart = cur === 3 ? crank <= 0 : crank >= 100;
@@ -1311,6 +1338,7 @@ void main(){
   function wheelTurn(px) { wheelStep += px; if (Math.abs(wheelStep) >= 60) { turn(wheelStep > 0 ? 1 : -1); wheelStep = 0; } }
   stage.addEventListener('wheel', function (e) {
     var px = wheelPx(e); e.preventDefault();
+    if (intro) return;
     if (cur === 3 || (cur === 9 && putStep >= 2)) {
       var b = backIndex(), atStart = cur === 3 ? crank <= 0 : crank >= 100;
       if ((b >= 0 && sel === b) || (px < 0 && atStart)) wheelTurn(px);
@@ -1320,6 +1348,7 @@ void main(){
     else wheelTurn(px);
   }, { passive: false });
   stage.addEventListener('click', function (e) {
+    if (intro) { leaveIntro(); return; }
     var b = e.target.closest && e.target.closest('button'); if (!b) return;
     if (b.classList.contains('hbtn')) { if (cur === 8 && pileCtl && !pileCtl.done()) return; go(nextOf(cur)); return; }
     var i = opts.indexOf(b); if (i >= 0) { sel = i; markSel(); if (cur === 7 && !confirming && b.dataset.range !== undefined) range = +b.dataset.range; press(); }
@@ -1333,7 +1362,7 @@ void main(){
   window.fieldDesk = { go: go, turn: turn, press: press, setCrank: setCrank };
   window.onKnobPress = press;
   $('#steps').innerHTML = titles.map(function (_, n) { return '<button type="button" data-n="' + n + '">' + (n + 1) + '</button>'; }).join('');
-  $('#steps').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) go(+b.dataset.n); });
+  $('#steps').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { dropIntro(); go(+b.dataset.n); } });
 
   // Load ahead: once the first screen is up and the browser is idle, fetch every later screen's images and the
   // 3D skeleton (with its loader scripts), so the workstation, measure and put-away screens open without waiting.
@@ -1351,7 +1380,36 @@ void main(){
     var go = function () { (window.requestIdleCallback || function (f) { setTimeout(f, 200); })(loadAhead, { timeout: 3000 }); };
     if (document.readyState === 'complete') setTimeout(go, 800); else window.addEventListener('load', function () { setTimeout(go, 800); });
   }
-  function start() { render(); startLoadAhead(); }
+  // ---------- intro: shown over the first screen at start and after Start again
+  function showIntro() {
+    var old = $('#intro'); if (old) old.remove();
+    intro = true; introLeaving = false; stage.classList.add('in-intro');
+    var d = document.createElement('div'); d.className = 'intro'; d.id = 'intro';
+    d.innerHTML = '<div class="iveil"></div><p class="ieyebrow">A museum research desk</p>' +
+      '<h1 class="ititle" aria-label="Osteologia">' + 'OSTEOLOGIA'.split('').map(function (c, i) { return '<span style="--i:' + i + '" aria-hidden="true">' + c + '</span>'; }).join('') + '</h1>' +
+      '<div class="irule"></div><p class="isub">Measure a wolf\u2019s pelvis, like a real osteologist.</p>' +
+      '<p class="istart"><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span>Press the knob to start</p>';
+    stage.appendChild(d);
+  }
+  function dropIntro() { var d = $('#intro'); if (d) d.remove(); intro = false; introLeaving = false; stage.classList.remove('in-intro'); }
+  // the big title flies up and shrinks into the header logo while the museum wall fades to the first screen
+  function leaveIntro() {
+    if (!intro || introLeaving) return; introLeaving = true;
+    var d = $('#intro'), t = d && d.querySelector('.ititle'), logo = stage.querySelector('.hdr b');
+    if (!d || !t || !logo || reduce || !t.animate) { dropIntro(); return; }
+    d.classList.add('leaving');
+    t.querySelectorAll('span').forEach(function (sp) { sp.style.animation = 'none'; });
+    var a = t.getBoundingClientRect(), b = logo.getBoundingClientRect();
+    var sc = b.width / a.width, dx = (b.left + b.width / 2) - (a.left + a.width / 2), dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+    t.animate([{ transform: 'none' }, { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + sc + ')' }], { duration: 1050, delay: 200, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
+    t.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, delay: 1120, fill: 'forwards' });
+    d.querySelector('.iveil').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 900, delay: 380, easing: 'ease-in-out', fill: 'forwards' });
+    var card = stage.querySelector('#card');
+    if (card) card.animate([{ opacity: 0, transform: 'translateY(40px)' }, { opacity: 1, transform: 'none' }], { duration: 750, delay: 750, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'backwards' });
+    setTimeout(function () { stage.classList.remove('in-intro'); }, 1100);
+    setTimeout(dropIntro, 1450);
+  }
+  function start() { render(); if (!$('#intro')) showIntro(); startLoadAhead(); }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
   setTimeout(function () { if (!stage.firstChild) start(); }, 1200);
 })();

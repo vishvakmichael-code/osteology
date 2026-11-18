@@ -829,14 +829,13 @@
     } };
   }
 
+  // bone sketches only (the fox sketches were retired to images/previous/)
   var STK = {
-    fox: 'images/stickers/fox.png',
     skeleton: 'images/stickers/skeleton.png',
-    yawn: 'images/stickers/yawn.png',
     skull: 'images/stickers/skull.png'
   };
-  var STK_W = { fox: 15, skeleton: 17, yawn: 11, skull: 10 };
-  var STK_BY_SCREEN = ['yawn', 'fox', 'skull', 'skeleton', 'fox', 'skull', 'fox', 'fox', 'wolf', 'yawn', 'skeleton'];
+  var STK_W = { skeleton: 17, skull: 10 };
+  var STK_BY_SCREEN = ['skull', 'skeleton', 'skull', 'skeleton', 'skull', 'skeleton', 'skull', 'skull', 'wolf', 'skull', 'skeleton'];
   function stickerHTML(i) { var k = STK_BY_SCREEN[i]; if (i === 6 || i === 7 || i === 10) return ''; // the measure screen's left panel and the full range panel sit where the sticker goes
   if (k === 'wolf') return '<div class="sticker" style="width:12cqw"><span class="tag"></span>' + wolf(200).replace('width="200" height="200"', 'width="100%" height="100%"') + '</div>'; return '<div class="sticker" style="width:' + STK_W[k] + 'cqw"><img alt="" src="' + STK[k] + '"></div>'; }
   function wolf(w) {
@@ -1368,7 +1367,7 @@ void main(){
   // 3D skeleton (with its loader scripts), so the workstation, measure and put-away screens open without waiting.
   var LATER_IMAGES = ['images/shelf/shelf.jpg', 'images/workstation/box-closed.jpg', 'images/workstation/box-open.jpg',
     'images/measure/pelvis-top.jpg', 'images/measure/sticky-note.jpg', 'images/tools/gloves.png', 'images/tools/bubble.png',
-    'images/tools/caliper.png', 'images/stickers/fox.png', 'images/stickers/skeleton.png', 'images/stickers/yawn.png', 'images/stickers/skull.png'];
+    'images/tools/caliper.png', 'images/stickers/skeleton.png', 'images/stickers/skull.png'];
   var warmed = [];
   function loadAhead() {
     LATER_IMAGES.forEach(function (src) { var im = new Image(); im.decoding = 'async'; im.src = src; warmed.push(im); });

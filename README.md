@@ -41,13 +41,13 @@ archive/              older copies kept for reference
 |---|---|
 | `images/background/museum-wall.jpg` | Background of every screen |
 | `images/shelf/shelf.jpg` | The open shelf with the boxes (screens 5 and 8) |
-| `images/stickers/fox.png`, `skeleton.png`, `yawn.png`, `skull.png` | Sketch stickers in the corner of the screens |
+| `images/stickers/skeleton.png`, `skull.png` | Bone sketch stickers in the corner of the screens |
 | `images/tools/gloves.png`, `bubble.png`, `caliper.png` | The tools that go back in the box (screen 8) |
 | `images/workstation/box-closed.jpg` | "Open the box on the table" (screen 6) |
 | `images/workstation/box-open.jpg` | "Guess and pick the pelvis bone!" (screen 6) |
 | `images/measure/pelvis-top.jpg` | "Use the scale to measure the points marked in green" (screen 7); the green points are drawn over it in `index.html` |
 | `images/measure/sticky-note.jpg` | "Write the measurement in mm on the sticky note" (screen 7) |
-| `images/previous/` | Earlier workstation and measuring photos and the old carved door texture, no longer shown |
+| `images/previous/` | Earlier workstation and measuring photos, the old carved door texture and the two fox sketches (`fox.png`, `yawn.png`), no longer shown |
 
 To replace a photo, save the new one under the same file name. Until a photo is there, the screen shows a dashed box with its file name.
 

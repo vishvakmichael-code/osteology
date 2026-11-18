@@ -813,13 +813,15 @@
     function frame(now) {
       if (!alive) return;
       var dt = Math.min(0.05, (now - last) / 1000); last = now; T0 += dt;
+      // the pages only curve once the cover is open; while it is closed everything lies flat under the cover
+      var openF = Math.min(1, Math.max(0, leaves[0].a / Math.PI));
       leaves.forEach(function (lf, i) {
         var target = i < cur ? Math.PI : 0, diff = target - lf.a;
         if (Math.abs(diff) > 1e-4) lf.dir = Math.sign(diff);
         lf.a += diff * (1 - Math.exp(-dt * K)); if (Math.abs(target - lf.a) < 1e-3) lf.a = target;
         var f = lf.a / Math.PI, turning = Math.sin(Math.min(1, Math.max(0, f)) * Math.PI), moving = Math.abs(target - lf.a) > 1e-3 ? 1 : 0;
         // a resting page rises out of the spine and then lies flat, like paper in a bound book (the cover is stiffer)
-        var rest = Math.max(0, 1 - Math.abs(target - lf.a) / 0.6), side = target === 0 ? 1 : -1, lift = side * (lf.i === 0 ? 0.2 : 0.3) * rest;
+        var rest = Math.max(0, 1 - Math.abs(target - lf.a) / 0.6) * openF, side = target === 0 ? 1 : -1, lift = side * (lf.i === 0 ? 0.2 : 0.3) * rest;
         lf.bones[0].rotation.y = -lf.a - lift;
         var curl = lf.dir * turning * moving * 0.16, wave = Math.sin(f * Math.PI * 2) * 0.03 * moving;
         for (var b = 1; b <= B; b++) { var k = b / B; lf.bones[b].rotation.y = curl * (0.35 + 0.65 * k) + wave * Math.sin(k * Math.PI) + lift * (REST_W[b] || 0); }

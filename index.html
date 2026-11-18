@@ -743,8 +743,8 @@
         sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nuniform vec3 uPage;')
           .replace('#include <map_fragment>', [
             '#include <map_fragment>',
-            // only the right page's top corner at the spine is rounded
-            'if (uPage.z > 0.5 && uPage.z < 1.5) { vec2 cq = max(vec2(0.06 - vUv.x * uPage.x, vUv.y * uPage.y - (uPage.y - 0.06)), 0.0); if (length(cq) > 0.06) discard; }',
+            // only the left page's top corner at the spine is rounded (the back face: its texture is mirrored, so the spine is at u = 1)
+            'if (uPage.z > 1.5) { vec2 cq = max(vec2(vUv.x * uPage.x - (uPage.x - 0.06), vUv.y * uPage.y - (uPage.y - 0.06)), 0.0); if (length(cq) > 0.06) discard; }',
             'if (uPage.z > 0.5) { float gu = uPage.z < 1.5 ? vUv.x : 1.0 - vUv.x; diffuseColor.rgb *= mix(0.68, 1.0, smoothstep(0.0, 0.16, gu)); }'
           ].join('\n'));
       };
@@ -773,7 +773,7 @@
       tb.wrapS = T.RepeatWrapping; tb.repeat.x = -1; tb.offset.x = 1;
       var mf = new T.MeshStandardMaterial({ map: tf, roughness: .85, metalness: 0, side: T.FrontSide, skinning: true });
       var mb = new T.MeshStandardMaterial({ map: tb, roughness: .85, metalness: 0, side: T.BackSide, skinning: true });
-      // paper shape and gutter: the right page's top corner at the spine is rounded, and the paper darkens where it dips into the binding
+      // paper shape and gutter: the left page's top corner at the spine is rounded, and the paper darkens where it dips into the binding
       // (gut 1: spine at u = 0, gut 2: the back face, whose texture is mirrored; gut 0: the outside of the cover, no gutter)
       pageShader(mf, w, h, i > 0 ? 1 : 0); pageShader(mb, w, h, 2);
       var front = new T.SkinnedMesh(geo, mf), back = new T.SkinnedMesh(geo, mb);

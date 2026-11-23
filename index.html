@@ -249,9 +249,11 @@
   .m3intro .m3it span { display: inline-block; animation: iletter .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 45ms + 200ms); }
   .m3intro small { font: 600 2.2cqw/1 var(--sans); letter-spacing: .04em; animation: ifade .8s ease-out .9s both; }
   .m3intro.out { opacity: 0; transform: translateY(38%) scale(.25); }
-  .m3side li.m3try { grid-template-columns: 3.2cqw 1fr; }
+  .m3side li.m3try { grid-template-columns: 3.2cqw 1fr 7.6cqw; }
+  .m3side .m3img.m3fit { grid-column: 3; grid-row: 1; aspect-ratio: 1 / 1; background: #111; }
+  .m3side .m3img.m3fit img { object-fit: cover; }
   .m3side li.m3try .num { background: transparent; color: #FFF6DC; box-shadow: inset 0 0 0 .16cqw #FFF6DC; }
-  .m3side li.m3try p { font-weight: 500; font-style: italic; }
+  .m3side li.m3try p { font-weight: 500; font-style: italic; font-size: 1.15cqw; text-align: left; text-wrap: pretty; }
   .m3view .m3msg { position: absolute; inset: 0; display: grid; place-items: center; font: 500 1.3cqw/1.4 var(--sans); color: #A29C8D; text-align: center; padding: 0 4cqw; }
   .m3key { position: absolute; left: 1cqw; top: 2.4cqw; display: flex; align-items: center; gap: .7cqw; font: 600 1.1cqw/1 var(--sans); color: #FFF6DC; pointer-events: none; }
   .m3key i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #612826; box-shadow: 0 0 0 .18cqw #E8A94A; }
@@ -931,7 +933,7 @@
     if (i === 6) return '<div class="m3side"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
-        '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton on the screen.</p></li>' +
+        '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton.</p><div class="m3img m3fit">' + photo('images/measure/fitted-bones.jpg', 'The printed hip bones and sacrum fitted together') + '</div></li>' +
       '</ol></div>' +
       '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
       '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
@@ -1486,7 +1488,7 @@ void main(){
   // 3D skeleton (with its loader scripts), so the workstation, measure and put-away screens open without waiting.
   var LATER_IMAGES = ['images/shelf/shelf.jpg', 'images/workstation/box-closed.jpg', 'images/workstation/box-open.jpg',
     'images/measure/pelvis-top.jpg', 'images/measure/sticky-note.jpg', 'images/tools/gloves.png', 'images/tools/bubble.png',
-    'images/tools/caliper.png', 'images/stickers/skeleton.png', 'images/stickers/skull.png', 'images/publish/take-note.jpg', 'images/publish/stick-note.jpg', 'images/publish/draw-portrait.jpg'];
+    'images/tools/caliper.png', 'images/stickers/skeleton.png', 'images/stickers/skull.png', 'images/measure/fitted-bones.jpg', 'images/publish/take-note.jpg', 'images/publish/stick-note.jpg', 'images/publish/draw-portrait.jpg'];
   var warmed = [];
   function loadAhead() {
     LATER_IMAGES.forEach(function (src) { var im = new Image(); im.decoding = 'async'; im.src = src; warmed.push(im); });

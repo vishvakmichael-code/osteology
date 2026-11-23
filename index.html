@@ -263,20 +263,31 @@
   .note { flex: 1 1 22cqw; min-width: 22cqw; } .tools { flex: 0 0 17cqw; } .howto { width: 13cqw; }
   /* last screen: publish your reading (numbered steps at the left; the portrait wall and why publish at the right) */
   .card.pubcard { left: 4.2cqw; right: 4.2cqw; width: auto; top: 14.2cqw; bottom: 2.2cqw; padding: 3cqw 3cqw 2.4cqw; gap: 2cqw; justify-content: space-between; }
-  .pub { display: grid; grid-template-columns: 1fr 1.05fr; gap: 3.4cqw; align-items: center; flex: 1; min-height: 0; }
-  .pub ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2.2cqw; }
-  .pub li { display: flex; align-items: center; gap: 1.8cqw; }
-  .pub li > b { flex: none; width: 3.8cqw; height: 3.8cqw; border-radius: 50%; background: #612826; color: #FFF6DC; display: grid; place-items: center; font: 600 1.7cqw/1 var(--sans); }
-  .pub li p { margin: 0; font: 600 1.85cqw/1.35 var(--sans); color: #2B2A27; }
-  .pub .note { display: flex; width: max-content; align-items: center; gap: .9cqw; margin-top: .9cqw; background: #EDB9C5; color: #2B2A27; font: 700 1.4cqw/1 var(--sans); padding: .8cqw 1.2cqw; border-radius: .25cqw; transform: rotate(-2deg); box-shadow: 0 .4cqw .9cqw rgba(0,0,0,.25); }
-  .pub .right { display: flex; flex-direction: column; gap: 1.8cqw; }
-  .pub .wall { background: #5C2A26; border-radius: 1.2cqw; padding: 2cqw 1.8cqw; display: flex; justify-content: space-around; gap: 1.2cqw; }
-  .pub .wall figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .9cqw; width: 30%; }
-  .pub .wall svg { width: 8.4cqw; height: 8.4cqw; display: block; }
-  .pub .wall figcaption { background: #EDB9C5; color: #2B2A27; font: 700 1.25cqw/1.2 var(--sans); text-align: center; padding: .55cqw .8cqw; border-radius: .3cqw; width: 100%; box-sizing: border-box; }
-  .pub .why { background: #F3E7C4; border-radius: 1.2cqw; padding: 2cqw 2.2cqw; }
-  .pub .why h3 { margin: 0 0 .8cqw; font: 700 1.85cqw/1.3 var(--sans); color: #2B2A27; }
-  .card .pub .why p { margin: 0; font: 400 1.45cqw/1.6 var(--sans); color: #3A382F; }
+  .pub { display: grid; grid-template-columns: 1fr 1.08fr; gap: 3cqw; align-items: center; flex: 1; min-height: 0; }
+  .pub ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.4cqw; }
+  .pub li { display: flex; align-items: center; gap: 1.4cqw; }
+  .pub li img { flex: none; width: 9.2cqw; height: 9.2cqw; border-radius: .9cqw; object-fit: cover; box-shadow: 0 .2cqw .8cqw rgba(43,42,39,.18); }
+  .pub li > b { flex: none; width: 3cqw; height: 3cqw; border-radius: 50%; background: #612826; color: #FFF6DC; display: grid; place-items: center; font: 600 1.4cqw/1 var(--sans); }
+  .pub li p { margin: 0; font: 600 1.7cqw/1.35 var(--sans); color: #2B2A27; text-wrap: balance; }
+  .pub .right { display: flex; flex-direction: column; background: #5C2A26; border-radius: 1.2cqw; overflow: hidden; box-shadow: 0 0 0 .25cqw #E8A94A; }
+  .pub .why { padding: 2.2cqw 2.4cqw 1.2cqw; color: #FFF6DC; }
+  .pub .why small { display: block; font: 700 1cqw/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #E8A94A; margin-bottom: .9cqw; }
+  .pub .why h3 { margin: 0 0 .9cqw; font: 400 2.5cqw/1.15 var(--head); text-transform: uppercase; letter-spacing: .02em; color: #FFF6DC; }
+  .card .pub .why p { margin: 0; font: 400 1.4cqw/1.5 var(--sans); color: rgba(255,246,220,.9); }
+  .pub .wall { padding: 1.2cqw 1.8cqw 2cqw; display: flex; justify-content: space-around; gap: 1.2cqw; }
+  .pub .wall figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: .7cqw; width: 30%; }
+  .pub .wall svg { width: 6.6cqw; height: 6.6cqw; display: block; }
+  .pub .wall figcaption { background: #EDB9C5; color: #2B2A27; font: 700 1.1cqw/1.2 var(--sans); text-align: center; padding: .45cqw .7cqw; border-radius: .3cqw; width: 100%; box-sizing: border-box; }
+  /* fire protocol checklist on the put-back screen */
+  .fp { width: 100%; border: .14cqw solid #E8A94A; border-radius: .8cqw; padding: 1cqw 1.1cqw; box-sizing: border-box; text-align: left; background: rgba(232,169,74,.1); }
+  .fpt { display: flex; align-items: center; gap: .6cqw; font: 700 1.05cqw/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #E8A94A; margin-bottom: .8cqw; }
+  .fpt svg { width: 1.5cqw; height: 1.5cqw; flex: none; }
+  .fp ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .55cqw; }
+  .fp li { display: flex; align-items: center; gap: .7cqw; font: 500 1.15cqw/1.2 var(--sans); color: rgba(255,246,220,.75); }
+  .fp li::before { content: ''; flex: none; width: 1.2cqw; height: 1.2cqw; border-radius: .25cqw; border: .14cqw solid rgba(255,246,220,.7); box-sizing: border-box; }
+  .fp li.done { color: #FFF6DC; }
+  .fp li.done::before { border-color: #E8A94A; background: #E8A94A url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%232B2A27' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat; }
+  .fp li.now { color: #FFF6DC; font-weight: 700; }
   .icorow { display: flex; gap: 1cqw; }
   .chip { font: 600 1.2cqw/1 var(--sans); border: .14cqw dashed #8A8470; border-radius: .5cqw; padding: .8cqw 1.2cqw; align-self: flex-start; }
   .chart > svg { width: 100%; height: auto; display: block; overflow: visible; }
@@ -439,8 +450,8 @@
     ['Measure the width', ''],
     ['How wide is it?', 'Pick the range your measurement lies in.'],
     ['', 'Your wolf dropped in among the adult males.'],
-    ['Put the bones back safely', 'Museum rule: the bones are delicate, so pack them away and close the door first.'],
-    ['Publish your reading', '']
+    ['Fire protocol: put the bones back', 'Museum rule: the bones go back behind a closed door, safe in case of fire.'],
+    ['Publish your reading', 'The last step of every study: share your result so others can check it.']
   ];
   // The order the visitor sees the screens in: right after measuring they pack the bones away and close the shelf, then work out the result.
   var ORDER = [0, 1, 2, 3, 4, 5, 6, 9, 7, 8, 10];
@@ -914,16 +925,16 @@
       '<div class="door dshelf shelf2" id="door">' + [['Ursus arctos', ''], ['Canis lupus', ' slot2'], ['Vulpes vulpes', '']].map(function (b, n) {
         return '<div class="bx2' + b[1] + '"' + (b[1] ? ' id="slot"' : '') + '><span class="cb"></span><span class="pill">' + b[0] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
-      '<div class="foot sidefoot"><p id="cmsg" class="msg">Put the bones back in the box.</p>' + kbtn('Put the bones in the box', 'id="putbtn" data-act="put"') + '<span id="phint"></span></div>';
+      '<div class="foot sidefoot"><div class="fp"><b class="fpt"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5c.6 3.2 4.8 5.3 4.8 10a4.8 4.8 0 0 1-9.6 0c0-2.3 1.2-3.7 2.3-4.8.2 1.6 1 2.6 2 3 0-2.9-.6-5.6.5-8.2z\" fill=\"currentColor\"/></svg>Fire protocol</b><ol><li id="fp1" class="now">Bones in the box</li><li id="fp2">Box on the shelf</li><li id="fp3">Door closed</li></ol></div><p id="cmsg" class="msg">Put the bones back in the box.</p>' + kbtn('Put the bones in the box', 'id="putbtn" data-act="put"') + '<span id="phint"></span></div>';
     return '<div class="pub"><ol>' +
-        '<li><b>1</b><div><p>Peel off your sticky note.</p><span class="note">About ____ mm</span></div></li>' +
-        '<li><b>2</b><div><p>Stick it under a circle on the wall.</p></div></li>' +
-        '<li><b>3</b><div><p>Draw yourself in the circle.</p></div></li>' +
-      '</ol><div class="right"><div class="wall" role="img" aria-label="Three hand-drawn portraits on the wall with their readings: about 105 mm, 104 mm and about 100 mm">' +
+        '<li><img src="images/publish/take-note.jpg" alt="Hands writing a measurement on a pink sticky note"><b>1</b><p>Take your sticky note with your measurement.</p></li>' +
+        '<li><img src="images/publish/stick-note.jpg" alt="A sticky note pressed under an empty portrait circle"><b>2</b><p>Stick it under an empty portrait circle on the publishing wall.</p></li>' +
+        '<li><img src="images/publish/draw-portrait.jpg" alt="A hand drawing a smiling face in the circle"><b>3</b><p>Draw your fun portrait in the circle.</p></li>' +
+      '</ol><div class="right"><div class="why"><small>Why publish?</small><h3>Research only counts when it is shared.</h3><p>Your reading joins everyone else&rsquo;s on the wall. Readings that agree can be trusted, and one that stands out gets measured again. That is how scientists check each other&rsquo;s work.</p></div><div class="wall" role="img" aria-label="Three hand-drawn portraits on the wall with their readings: about 105 mm, 104 mm and about 100 mm">' +
         '<figure><svg viewBox="0 0 100 100" role="img" aria-label="Portrait with big curly hair"><defs><clipPath id="pca"><circle cx="50" cy="50" r="45"/></clipPath></defs><circle cx="50" cy="50" r="45" fill="#F3E7C4"/><g clip-path="url(#pca)" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 104 Q18 84 50 82 Q82 84 84 104Z" fill="#FFF6DC"/><path d="M41 83 Q50 90 59 83" fill="none"/><circle cx="22" cy="50" r="10" fill="#2B2A27" stroke="none"/><circle cx="20" cy="38" r="10" fill="#2B2A27" stroke="none"/><circle cx="26" cy="26" r="11" fill="#2B2A27" stroke="none"/><circle cx="37" cy="17" r="11" fill="#2B2A27" stroke="none"/><circle cx="50" cy="14" r="12" fill="#2B2A27" stroke="none"/><circle cx="63" cy="17" r="11" fill="#2B2A27" stroke="none"/><circle cx="74" cy="26" r="11" fill="#2B2A27" stroke="none"/><circle cx="80" cy="38" r="10" fill="#2B2A27" stroke="none"/><circle cx="78" cy="50" r="10" fill="#2B2A27" stroke="none"/><circle cx="50" cy="26" r="16" fill="#2B2A27" stroke="none"/><path d="M30 46 Q28 62 34 72 Q41 82 50 82 Q59 82 66 72 Q72 62 70 46 Q70 30 50 30 Q30 30 30 46Z" fill="#FFF6DC"/><path d="M30 52 Q25 52 26 57 Q27 62 31 61 M70 52 Q75 52 74 57 Q73 62 69 61" fill="#FFF6DC"/><circle cx="33" cy="34" r="7" fill="#2B2A27" stroke="none"/><circle cx="44" cy="30" r="7" fill="#2B2A27" stroke="none"/><circle cx="56" cy="30" r="7" fill="#2B2A27" stroke="none"/><circle cx="67" cy="34" r="7" fill="#2B2A27" stroke="none"/><path d="M37 52 Q41 55 45 52 M55 52 Q59 55 63 52" fill="none"/><path d="M50 55 Q46 63 51 63" fill="none"/><path d="M42 68 Q50 76 58 68 Q50 71 42 68Z" fill="#2B2A27"/></g><circle cx="50" cy="50" r="45" fill="none" stroke="#E8A94A" stroke-width="5"/></svg><figcaption>about 105 mm</figcaption></figure>' +
         '<figure><svg viewBox="0 0 100 100" role="img" aria-label="Portrait with a beret and a bob"><defs><clipPath id="pcb"><circle cx="50" cy="50" r="45"/></clipPath></defs><circle cx="50" cy="50" r="45" fill="#F3E7C4"/><g clip-path="url(#pcb)" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 104 Q18 84 50 82 Q82 84 84 104Z" fill="#FFF6DC"/><path d="M41 83 Q50 90 59 83" fill="none"/><path d="M27 47 Q26 34 38 29 L62 29 Q74 34 73 47 L75 73 Q68 77 64 71 L62 54 L38 54 L36 71 Q32 77 25 73Z" fill="#2B2A27"/><path d="M28.5 68.5 V73.5 M32 69.5 V74.5 M68 69.5 V74.5 M71.5 68.5 V73.5" stroke="#FFF6DC" stroke-width="1.4"/><path d="M30 46 Q28 62 34 72 Q41 82 50 82 Q59 82 66 72 Q72 62 70 46 Q70 30 50 30 Q30 30 30 46Z" fill="#FFF6DC"/><path d="M30 52 Q25 52 26 57 Q27 62 31 61 M70 52 Q75 52 74 57 Q73 62 69 61" fill="#FFF6DC"/><path d="M31 45 Q36 35 50 37 Q63 35 69 45 Q60 41 51 44 Q41 41 31 45Z" fill="#2B2A27"/><ellipse cx="46" cy="29" rx="25" ry="11" transform="rotate(-9 46 29)" fill="#2B2A27"/><path d="M47 18 V14" stroke-width="3"/><ellipse cx="43" cy="55" rx="2.4" ry="3.2" fill="#2B2A27"/><ellipse cx="57" cy="55" rx="2.4" ry="3.2" fill="#2B2A27"/><path d="M39.5 49.5 Q43 47.5 46.5 49 M53.5 49 Q57 47.5 60.5 49.5" fill="none" stroke-width="2"/><circle cx="38" cy="62" r=".9" fill="#2B2A27" stroke="none"/><circle cx="41" cy="63.5" r=".9" fill="#2B2A27" stroke="none"/><circle cx="59" cy="63.5" r=".9" fill="#2B2A27" stroke="none"/><circle cx="62" cy="62" r=".9" fill="#2B2A27" stroke="none"/><path d="M50 58 Q48 63 51 63" fill="none"/><path d="M45 70 Q50 74 55 70 M46.5 69 Q48.5 67.5 50 69 Q51.5 67.5 53.5 69" fill="none"/></g><circle cx="50" cy="50" r="45" fill="none" stroke="#E8A94A" stroke-width="5"/></svg><figcaption>104 mm</figcaption></figure>' +
         '<figure><svg viewBox="0 0 100 100" role="img" aria-label="Portrait with glasses and a beard"><defs><clipPath id="pcc"><circle cx="50" cy="50" r="45"/></clipPath></defs><circle cx="50" cy="50" r="45" fill="#F3E7C4"/><g clip-path="url(#pcc)" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 104 Q18 84 50 82 Q82 84 84 104Z" fill="#FFF6DC"/><path d="M41 83 Q50 90 59 83" fill="none"/><path d="M30 46 Q28 62 34 72 Q41 82 50 82 Q59 82 66 72 Q72 62 70 46 Q70 30 50 30 Q30 30 30 46Z" fill="#FFF6DC"/><path d="M30 52 Q25 52 26 57 Q27 62 31 61 M70 52 Q75 52 74 57 Q73 62 69 61" fill="#FFF6DC"/><path d="M29 47 Q26 30 42 25 Q46 21 52 24 Q60 20 66 27 Q75 33 71 47 Q68 39 62 37 Q58 41 52 38 Q46 42 40 38 Q33 40 29 47Z" fill="#2B2A27"/><path d="M31 58 Q32 80 50 83 Q68 80 69 58 Q66 67 58 67 Q54 64 50 66 Q46 64 42 67 Q34 67 31 58Z" fill="#2B2A27"/><path d="M44 73 Q50 77 56 73" fill="none" stroke="#FFF6DC" stroke-width="2.2"/><circle cx="42" cy="52" r="6.5" fill="#FFF6DC"/><circle cx="58" cy="52" r="6.5" fill="#FFF6DC"/><path d="M48.5 51 Q50 49.5 51.5 51" fill="none"/><circle cx="42.5" cy="52.5" r="1.8" fill="#2B2A27" stroke="none"/><circle cx="58.5" cy="52.5" r="1.8" fill="#2B2A27" stroke="none"/><path d="M50 56 Q47.5 61.5 51 61.5" fill="none"/></g><circle cx="50" cy="50" r="45" fill="none" stroke="#E8A94A" stroke-width="5"/></svg><figcaption>about 100 mm</figcaption></figure>' +
-        '</div><div class="why"><h3>Why publish?</h3><p>Compare your reading with the others. Readings close together can be trusted.</p></div></div></div>' +
+        '</div></div></div>' +
       '<div class="foot">' + kbtn('Start again', 'data-act="restart"') + '</div>';
   }
 
@@ -1063,12 +1074,12 @@ void main(){
 
   function collect() {
     var main = [].slice.call(stage.querySelectorAll('.opt-b, [data-box], .opt-r')), back = stage.querySelector('.backbtn');
-    opts = back ? main.concat(back) : main;
+    opts = main; // Back is mouse only: the knob never lands on it
     if (cur === 4 || cur === 7) sel = cur === 7 ? range : Math.min(Math.max(sel, 0), 2); else sel = main.length ? 0 : -1;
     if (cur === 3 || (cur === 9 && putStep >= 2)) sel = -1; // the knob cranks here; Back is reached by turning past the start
     markSel();
   }
-  function withBack() { var b = stage.querySelector('.backbtn'); if (b) opts.push(b); }
+  function withBack() {} // Back stays out of the knob's list (mouse only)
   function backIndex() { var b = stage.querySelector('.backbtn'); return b ? opts.indexOf(b) : -1; }
   function goBack() { if (cur <= 0) return; var p = prevOf(cur); if (p === 3) { crank = 0; $('#crank').value = 0; } go(p); }
   function markSel() {
@@ -1099,17 +1110,18 @@ void main(){
   }
   function setCrank(v) {
     crank = Math.max(0, Math.min(100, v)); $('#crank').value = crank;
+    if ((cur === 3 || (cur === 9 && putStep >= 2)) && Math.abs(crank - lastRatchet) >= 4) { lastRatchet = crank; SND.ratchet(); }
     if (cur === 6) { if (wolfCtl) wolfCtl.setYaw(crank / 100 * Math.PI * 2); return; }
     if (cur === 9) {
       if (putStep < 2) { crank = 100; $('#crank').value = 100; return; }
       if (doorSp) doorSp.to(crank / 100);
-      if (crank <= 2 && !stage.dataset.adv) { stage.dataset.adv = '1'; setTimeout(function () { stage.dataset.adv = ''; if (cur === 9 && crank <= 2) go(nextOf(9)); }, 1100); }
+      if (crank <= 2 && !stage.dataset.adv) { stage.dataset.adv = '1'; SND.clunk(); var f3 = $('#fp3'); if (f3) { f3.classList.remove('now'); f3.classList.add('done'); } setTimeout(SND.done, 350); var mm = $('#cmsg'); if (mm) mm.textContent = 'Door closed. The bones are safe.'; setTimeout(function () { stage.dataset.adv = ''; if (cur === 9 && crank <= 2) go(nextOf(9)); }, 1100); }
       return;
     }
     if (cur === 3) {
       if (doorSp) doorSp.to(crank / 100);
       var m = $('#cmsg'); if (m) { m.textContent = crank >= 98 ? 'The shelf is open. Here are the boxes.' : 'Turn the crank. The boxes are behind the door.'; }
-      if (crank >= 98 && !stage.dataset.adv) { stage.dataset.adv = '1'; var dd = $('#door'); if (dd) dd.classList.add('lit'); setTimeout(function () { stage.dataset.adv = ''; if (cur === 3 && crank >= 98) go(4); }, 900); }
+      if (crank >= 98 && !stage.dataset.adv) { stage.dataset.adv = '1'; SND.clunk(); var dd = $('#door'); if (dd) dd.classList.add('lit'); setTimeout(function () { stage.dataset.adv = ''; if (cur === 3 && crank >= 98) go(4); }, 900); }
     }
   }
 
@@ -1274,12 +1286,47 @@ void main(){
     raf = requestAnimationFrame(frame);
   }
 
+
+  // ---------- sound: short synthesised cues (no files). The first press or key unlocks audio; ?mute=1 turns it off.
+  var SND = (function () {
+    var ctx = null, off = /[?&]mute=1/.test(location.search), lastTick = 0;
+    function ac() { if (off) return null; if (!ctx) { var C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ctx = new C(); } if (ctx.state === 'suspended') ctx.resume(); return ctx; }
+    function tone(f, at, dur, type, vol, f2) {
+      var c = ac(); if (!c) return; var t = c.currentTime + (at || 0), o = c.createOscillator(), g = c.createGain();
+      o.type = type || 'sine'; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol || 0.15, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.03);
+    }
+    function noise(at, dur, vol, freq, q, freq2) {
+      var c = ac(); if (!c) return; var t = c.currentTime + (at || 0), n = Math.ceil(c.sampleRate * dur), b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      var src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(); src.buffer = b; f.type = 'bandpass'; f.Q.value = q || 1.2;
+      f.frequency.setValueAtTime(freq || 1000, t); if (freq2) f.frequency.exponentialRampToValueAtTime(freq2, t + dur);
+      g.gain.setValueAtTime(vol || 0.1, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(f); f.connect(g); g.connect(c.destination); src.start(t); src.stop(t + dur);
+    }
+    return {
+      unlock: ac,
+      tick: function () { var now = performance.now(); if (now - lastTick < 35) return; lastTick = now; tone(1500, 0, 0.04, 'triangle', 0.05); },
+      select: function () { tone(660, 0, 0.12, 'sine', 0.14); tone(990, 0.07, 0.2, 'sine', 0.12); },
+      wrong: function () { tone(240, 0, 0.16, 'triangle', 0.12); tone(190, 0.12, 0.24, 'triangle', 0.12); },
+      ratchet: function () { noise(0, 0.025, 0.14, 2600, 3); tone(900, 0, 0.02, 'square', 0.015); },
+      pack: function () { noise(0, 0.22, 0.12, 1800, 0.8, 600); tone(140, 0.12, 0.22, 'sine', 0.3, 70); },
+      slide: function () { noise(0, 0.5, 0.07, 500, 0.9, 1400); tone(110, 0.45, 0.2, 'sine', 0.25, 60); },
+      clunk: function () { tone(95, 0, 0.4, 'sine', 0.4, 45); noise(0, 0.12, 0.2, 320, 1); tone(1250, 0.06, 0.5, 'triangle', 0.04); tone(1870, 0.06, 0.5, 'triangle', 0.025); },
+      done: function () { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, i * 0.09, 0.32, 'sine', 0.1); }); }
+    };
+  })();
+  var lastRatchet = 0;
+
   // ---------- flow control
   function go(n) { cur = (n + titles.length) % titles.length; if (cur === 0) { boxState = null; crank = 0; $('#crank').value = 0; } render(); }
   function press() {
-    if (intro) { leaveIntro(); return; }
+    if (intro) { SND.select(); leaveIntro(); return; }
     if (cur === 8 && pileCtl && !pileCtl.done()) return;
     var o = opts[sel]; if (!o || !o.offsetParent) return;
+    var bad = (o.dataset.box !== undefined && +o.dataset.box !== 1) || (o.dataset.confirm === 'yes' && range !== TRUE_RANGE);
+    if (bad) SND.wrong(); else SND.select();
     if (o.dataset.act === 'back') goBack();
     else if (o.dataset.act === 'next') go(nextOf(cur));
     else if (o.dataset.act === 'restart') { go(0); showIntro(); }
@@ -1293,8 +1340,9 @@ void main(){
   // Put everything back: pack the box, put it on the shelf, then close the door with the crank.
   function putAway() {
     var it = $('#items'), pb = $('#pbox'), btn = $('#putbtn'), m = $('#cmsg'); if (!it || !pb || !btn) return;
-    if (putStep === 0) { it.classList.add('packed'); pb.classList.add('full'); btn.querySelector('.kl').textContent = 'Put the box on the shelf'; m.textContent = 'The bones are safe in the box.'; putStep = 1; }
-    else if (putStep === 1) { pb.classList.add('gone'); $('#slot').classList.add('in'); btn.parentNode.hidden = true; m.textContent = 'Now turn the crank to close the door. The bones are safe behind it.'; $('#phint').innerHTML = CRANKHINT; putStep = 2; collect(); }
+    var f1 = $('#fp1'), f2 = $('#fp2'), f3 = $('#fp3');
+    if (putStep === 0) { SND.pack(); if (f1) { f1.classList.remove('now'); f1.classList.add('done'); } if (f2) f2.classList.add('now'); it.classList.add('packed'); pb.classList.add('full'); btn.querySelector('.kl').textContent = 'Put the box on the shelf'; m.textContent = 'The bones are safe in the box.'; putStep = 1; }
+    else if (putStep === 1) { SND.slide(); if (f2) { f2.classList.remove('now'); f2.classList.add('done'); } if (f3) f3.classList.add('now'); pb.classList.add('gone'); $('#slot').classList.add('in'); btn.parentNode.hidden = true; m.textContent = 'Now turn the crank to close the door. The bones are safe behind it.'; $('#phint').innerHTML = CRANKHINT; putStep = 2; collect(); }
   }
   // Pressing a range does not lock it in. The visitor answers yes or no first, and the default is No.
   function askConfirm() {
@@ -1340,7 +1388,7 @@ void main(){
     stage.classList.remove('arrive');
     if (sel < 0) sel = d > 0 ? 0 : opts.length - 1; else sel = (sel + d + opts.length) % opts.length;
     for (var guard = 0; guard < opts.length && !opts[sel].offsetParent; guard++) sel = (sel + (d > 0 ? 1 : -1) + opts.length) % opts.length; // skip hidden options
-    markSel();
+    markSel(); SND.tick();
     if (cur === 7 && !confirming && opts[sel].dataset.range !== undefined) range = +opts[sel].dataset.range;
   }
 
@@ -1368,9 +1416,11 @@ void main(){
   stage.addEventListener('click', function (e) {
     if (intro) { leaveIntro(); return; }
     var b = e.target.closest && e.target.closest('button'); if (!b) return;
+    if (b.dataset.act === 'back') { SND.select(); goBack(); return; }
     if (b.classList.contains('hbtn')) { if (cur === 8 && pileCtl && !pileCtl.done()) return; go(nextOf(cur)); return; }
     var i = opts.indexOf(b); if (i >= 0) { sel = i; markSel(); if (cur === 7 && !confirming && b.dataset.range !== undefined) range = +b.dataset.range; press(); }
   });
+  ['pointerdown', 'keydown', 'wheel'].forEach(function (ev) { document.addEventListener(ev, function () { SND.unlock(); }, { once: true, passive: true }); });
   document.addEventListener('keydown', function (e) {
     if (e.target && e.target.tagName === 'INPUT') return;
     if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); turn(-1); }
@@ -1386,7 +1436,7 @@ void main(){
   // 3D skeleton (with its loader scripts), so the workstation, measure and put-away screens open without waiting.
   var LATER_IMAGES = ['images/shelf/shelf.jpg', 'images/workstation/box-closed.jpg', 'images/workstation/box-open.jpg',
     'images/measure/pelvis-top.jpg', 'images/measure/sticky-note.jpg', 'images/tools/gloves.png', 'images/tools/bubble.png',
-    'images/tools/caliper.png', 'images/stickers/skeleton.png', 'images/stickers/skull.png'];
+    'images/tools/caliper.png', 'images/stickers/skeleton.png', 'images/stickers/skull.png', 'images/publish/take-note.jpg', 'images/publish/stick-note.jpg', 'images/publish/draw-portrait.jpg'];
   var warmed = [];
   function loadAhead() {
     LATER_IMAGES.forEach(function (src) { var im = new Image(); im.decoding = 'async'; im.src = src; warmed.push(im); });

@@ -18,12 +18,14 @@ The screen fills the browser window (16:10, centred). Once the first screen is u
 | 5 | Which box? | Finds the box with the wolf bones (Canis lupus) |
 | 6 | At the workstation | Opens the box and picks the pelvis bone |
 | 7 | Measure the width | Measures between the green points, writes it on a sticky note; the 3D skeleton shows the pelvis |
-| 8 | Put the bones back safely | Museum rule: packs the bones in the box, shelves it and closes the door with the crank |
+| 8 | Fire protocol: put the bones back | The museum's fire rule: packs the bones in the box, shelves it and closes the door with the crank; a checklist ticks off each step |
 | 9 | How wide is it? | Picks the range the measurement lies in (the replica is over 110 mm) |
 | 10 | A typical male / Bigger than most | Sees where the wolf falls among 100 adult males |
-| 11 | Publish your reading | Puts the sticky note on the wall |
+| 11 | Publish your reading | Three illustrated steps for the sticky-note wall, and why publishing matters |
 
-Controls: the arrow keys turn the knob, Enter presses it (the small knob inside a button pulses to show a press does it), and the mouse wheel turns the crank (screens 4 and 8) or rotates the skeleton (screen 7). Buttons can also be clicked.
+Controls: the arrow keys turn the knob, Enter presses it (the small knob inside a button pulses to show a press does it), and the mouse wheel turns the crank (screens 4 and 8) or rotates the skeleton (screen 7). Buttons can also be clicked. Back is for staff with a mouse: the knob never selects it.
+
+Sound: short tones made in the browser (no audio files) for turning, pressing, a wrong choice, the crank, packing the box and closing the door. Add `?mute=1` to the address to turn them off.
 
 ## Folders
 
@@ -46,6 +48,7 @@ archive/              older copies kept for reference
 | `images/workstation/box-closed.jpg` | "Open the box on the table" (screen 6) |
 | `images/workstation/box-open.jpg` | "Guess and pick the pelvis bone!" (screen 6) |
 | `images/measure/pelvis-top.jpg` | "Use the scale to measure the points marked in green" (screen 7); the green points are drawn over it in `index.html` |
+| `images/publish/take-note.jpg`, `stick-note.jpg`, `draw-portrait.jpg` | The three steps on the publish screen (screen 11) |
 | `images/measure/sticky-note.jpg` | "Write the measurement in mm on the sticky note" (screen 7) |
 | `images/previous/` | Earlier workstation and measuring photos, the old carved door texture and the two fox sketches (`fox.png`, `yawn.png`), no longer shown |
 

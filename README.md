@@ -20,7 +20,7 @@ The screen fills the browser window (16:10, centred). Once the first screen is u
 | 7 | Measure the width | A big "Turn the knob" title (like the intro) shows how to rotate the 3D skeleton, then shrinks into the hint; measures between the green points, writes it on a sticky note, and can try fitting the bones together like the skeleton |
 | 8 | Fire protocol: put the bones back | The museum's fire rule: packs the bones in the box, shelves it and closes the door with the crank; a checklist ticks off each step |
 | 9 | How wide is it? | Picks the range the measurement lies in (the replica is over 110 mm) |
-| 10 | A typical male / Bigger than most | Sees where the wolf falls among 100 adult males |
+| 10 | A typical male / Bigger than most | Sees where the wolf falls among 100 adult males; once the chart settles, turning the knob walks a highlight across the four ranges (those circles hop and the count updates), and clicking a circle makes it jump and shows its width |
 | 11 | Publish your reading | Three illustrated steps for the sticky-note wall, and why publishing matters |
 
 Controls: the arrow keys turn the knob, Enter presses it (the small knob inside a button pulses to show a press does it), and the mouse wheel turns the crank (screens 4 and 8) or rotates the skeleton (screen 7). Buttons can also be clicked. Back is for staff with a mouse: the knob never selects it.

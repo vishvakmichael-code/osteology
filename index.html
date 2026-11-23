@@ -251,6 +251,7 @@
   .m3intro.out { opacity: 0; transform: translateY(38%) scale(.25); }
   .m3side li.m3try { grid-template-columns: 3.2cqw 1fr; }
   .m3side .m3rev { grid-column: 2; justify-self: center; background: transparent; color: #FFF6DC; border: .14cqw solid rgba(255,246,220,.8); font: 600 1.1cqw/1 var(--sans); padding: .6cqw 1cqw; gap: .7cqw; }
+  .m3side .m3rev { white-space: nowrap; }
   .m3side .m3rev .kp { width: 1.5cqw; height: 1.5cqw; }
   .measure3d .btn.knb:not(.sel) .kp svg, .measure3d .btn.knb:not(.sel) .kp::after { animation: none; }
   .measure3d .btn.knb:not(.sel) { opacity: .7; }
@@ -261,6 +262,17 @@
   .lbox .lclose { display: flex; align-items: center; gap: .8cqw; font: 600 1.3cqw/1 var(--sans); color: #E8A94A; }
   .lbox .lclose .kp { width: 2cqw; height: 2cqw; }
   .lbox.out { animation: iout .3s ease-in both; }
+  .lbox.fit { cursor: default; background: rgba(15,11,8,.95); }
+  .lgrid { display: flex; align-items: center; gap: 4cqw; height: 78%; }
+  .lbox .lgrid img { height: 100%; max-width: none; }
+  .lside { width: 27cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 1.4cqw; color: #FFF6DC; }
+  .lside small { font: 700 1.1cqw/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #E8A94A; }
+  .lside h3 { margin: 0; font: 400 3.4cqw/1.1 var(--head); text-transform: uppercase; letter-spacing: .02em; }
+  .lbox .lside p { font: 500 1.5cqw/1.45 var(--sans); text-transform: none; letter-spacing: 0; color: rgba(255,246,220,.85); }
+  .lbox .m3timer { position: static; padding: .8cqw 2cqw .8cqw .8cqw; margin: .6cqw 0; }
+  .lbox .m3timer svg { width: 6.4cqw; height: 6.4cqw; }
+  .lbox .m3timer b { font-size: 4cqw; }
+  .lbox .m3timer small { font-size: 1.1cqw; margin-bottom: .9cqw; }
   .m3side li.m3try .num { background: transparent; color: #FFF6DC; box-shadow: inset 0 0 0 .16cqw #FFF6DC; }
   .m3side li.m3try p { font-weight: 500; font-style: italic; font-size: 1.15cqw; text-align: left; text-wrap: pretty; }
   .m3timer { position: absolute; right: 1cqw; top: .4cqw; display: flex; align-items: center; gap: .8cqw; color: #E8A94A; z-index: 3; pointer-events: none; background: rgba(23,18,14,.78); border: .12cqw solid rgba(232,169,74,.45); border-radius: 3cqw; padding: .5cqw 1.4cqw .5cqw .5cqw; box-shadow: 0 .4cqw 1.6cqw rgba(0,0,0,.4); }
@@ -430,7 +442,7 @@
   // "Animation effects" is off, on work PCs, VMs and Remote Desktop). Add ?reduce=1 to the URL to turn motion off.
   var reduce = /[?&]reduce=1\b/.test(location.search);
   // Features that are built but switched off for now. fitBones: step 3 on the measure screen ("Try fitting the bones together")
-  // with the "Reveal how they fit" photo. Turn it on here (true), or preview it with ?fit=1 in the address.
+  // with the "Try fitting bones together" screen (photo + 2-minute timer). Turn it on here (true), or preview it with ?fit=1 in the address.
   var FEATURES = { fitBones: /[?&]fit=1\b/.test(location.search) };
   if (reduce) document.documentElement.classList.add('reduce-motion');
   // Wheel input in pixels, the same scale on every OS and device: a Windows mouse notch (~100 px, or 3 lines in
@@ -500,10 +512,11 @@
   var confirming = false, putStep = 0, lbOpen = false;
   function openLb() {
     if (lbOpen) return; lbOpen = true;
-    stage.insertAdjacentHTML('beforeend', '<div class="lbox" id="lbox" role="dialog" aria-label="How the bones fit together"><img src="images/measure/fitted-bones.jpg" alt="The printed hip bones and sacrum fitted together"><p>How the bones fit together</p><span class="lclose"><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span>Press the knob to close</span></div>');
+    stage.insertAdjacentHTML('beforeend', '<div class="lbox fit" id="lbox" role="dialog" aria-label="Fit the bones together"><div class="lgrid"><img src="images/measure/fitted-bones.jpg" alt="The printed hip bones and sacrum fitted together"><div class="lside"><small>Bonus challenge</small><h3>Fit the bones together</h3><p>Use the bones on your table. The photo shows how they fit.</p><div class="m3timer" id="m3timer" role="timer" aria-live="off"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,246,220,.18)" stroke-width="4"/><circle class="tr" cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg><b id="m3time">2:00</b><small id="m3tl">time left</small></div><span class="lclose" id="lclose"><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span>Press the knob when you are done</span></div></div></div>');
+    m3Timer();
   }
   function closeLb() {
-    var lb = $('#lbox'); lbOpen = false; if (lb) { lb.classList.add('out'); setTimeout(function () { lb.remove(); }, 300); }
+    clearInterval(m3Clock); var lb = $('#lbox'); lbOpen = false; if (lb) { lb.classList.add('out'); setTimeout(function () { lb.remove(); }, 300); }
     var d = stage.querySelector('.m3bar [data-act="next"]'); if (d) { sel = opts.indexOf(d); markSel(); }
   }
   var intro = false, introLeaving = false;
@@ -962,9 +975,9 @@
     if (i === 6) return '<div class="m3side"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
-        (FEATURES.fitBones ? '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton.</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Reveal how they fit</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' : '') +
+        (FEATURES.fitBones ? '<li class="m3try"><span class="num">3</span><p>Bonus: can you put the bones together, like the skeleton?</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Try fitting bones together</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' : '') +
       '</ol></div>' +
-      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><div class="m3timer" id="m3timer" role="timer" aria-live="off"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,246,220,.18)" stroke-width="4"/><circle class="tr" cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg><b id="m3time">2:00</b><small id="m3tl">time left</small></div>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
+      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
       '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
     // how wide is it: one cream panel over the whole screen; the knob chooses, a press selects
     if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div><p class="knobtip">' + TURNTIP + 'Turn the knob to choose, press it to pick</p><button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
@@ -1139,7 +1152,6 @@ void main(){
 
   function setup() {
     if (cur === 6) {
-      m3Timer();
       var mi = $('#m3intro'), mv = $('#m3view');
       if (mi) { var t6 = setTimeout(m3dismiss, 2800); ['wheel', 'pointerdown'].forEach(function (ev) { mv.addEventListener(ev, m3dismiss, { capture: true, once: true, passive: true }); }); }
     }
@@ -1155,7 +1167,7 @@ void main(){
     if (cur === 9) { crank = 100; $('#crank').value = 100; applyDoor(1); doorSp = spring(1, 1, 'slow', applyDoor); }
     if (cur === 10) { var s = $('#stk'); if (s) spring(0, 1, 'wobbly', function (p) { s.style.transform = 'scale(' + p + ') rotate(' + ((1 - p) * -40) + 'deg)'; }); }
   }
-  // measure screen: two minutes on the clock; the ring runs down, the last 20 s turn red, and at zero Done is selected
+  // fitting screen: two minutes on the clock from when it opens; the ring runs down, the last 20 s turn red, and at zero it says time's up
   var m3Clock = null, M3_SECONDS = 120;
   function m3Timer() {
     clearInterval(m3Clock); var t0 = performance.now(), lastS = M3_SECONDS, ring = stage.querySelector('#m3timer .tr');
@@ -1168,8 +1180,7 @@ void main(){
       if (sec !== lastS) { lastS = sec; if (sec <= 10 && sec > 0) SND.tick(); }
       if (left <= 0) {
         clearInterval(m3Clock); box.classList.add('up'); $('#m3tl').textContent = "time's up";
-        if (lbOpen) closeLb();
-        var d = stage.querySelector('.m3bar [data-act="next"]'); if (d) { sel = opts.indexOf(d); markSel(); }
+        var lc = $('#lclose'); if (lc) lc.lastChild.textContent = "Time's up! Press the knob to go on";
         SND.done();
       }
     }, 250);

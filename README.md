@@ -14,18 +14,18 @@ The screen fills the browser window (16:10, centred). Once the first screen is u
 | 1 | Write to the museum | Reads the email and sends it |
 | 2 | You got a response! | Reads the museum's reply |
 | 3 | The visitors' book | Signs the 3D notebook |
-| 4 | Open the shelf | Turns the crank to open the door |
+| 4 | Open the shelf | Turns the knob to open the door |
 | 5 | Which box? | Finds the box with the wolf bones (Canis lupus) |
 | 6 | At the workstation | Opens the box and takes the pelvis out |
 | 7 | Measure the width | A big "Turn the knob" title (like the intro) shows how to rotate the 3D skeleton, then shrinks into the hint; measures between the green points, writes it on a sticky note,. |
-| 8 | Fire protocol: put the bones back | The museum's fire rule: packs the bones in the box, shelves it and closes the door with the crank; a checklist ticks off each step |
+| 8 | Fire protocol: put the bones back | The museum's fire rule: packs the bones in the box, shelves it and closes the door with the knob; only the three bones (pelvis, sacrum, tail vertebra) go into the box; a checklist ticks off each step |
 | 9 | How wide is it? | Picks the range the measurement lies in (the replica is over 110 mm) |
 | 10 | A typical male / Bigger than most | Sees where the wolf falls among 100 adult males; once the chart settles, turning the knob walks a highlight across the four ranges (those circles hop and the count updates), and clicking a circle makes it jump and shows its width |
 | 11 | Publish your reading | Three illustrated steps for the sticky-note wall, and why publishing matters |
 
-Controls: the arrow keys turn the knob, Enter presses it (the small knob inside a button pulses to show a press does it), and the mouse wheel turns the crank (screens 4 and 8) or rotates the skeleton (screen 7). Buttons can also be clicked. Back is for staff with a mouse: the knob never selects it.
+Controls: the arrow keys turn the knob, Enter presses it (the small knob inside a button pulses to show a press does it), and the mouse wheel turns the knob on the door screens (4 and 8) or rotates the skeleton (screen 7). Buttons can also be clicked. Back is for staff with a mouse: the knob never selects it.
 
-Sound: short tones made in the browser (no audio files) for turning, pressing, a wrong choice, the crank, packing the box and closing the door. On the chart, colliding circles tap like pebbles (louder when more collide at once), sorting starts with a whoosh and each circle taps as it lands, and the wolf lands with a thump. Add `?mute=1` to the address to turn them off.
+Sound: short tones made in the browser (no audio files) for turning, pressing, a wrong choice, opening and closing the door, packing the box and closing the door. On the chart, colliding circles tap like pebbles (louder when more collide at once), sorting starts with a whoosh and each circle taps as it lands, and the wolf lands with a thump. Add `?mute=1` to the address to turn them off.
 
 ## Switched-off features
 
@@ -48,7 +48,8 @@ archive/              older copies kept for reference
 | `images/background/museum-wall.jpg` | Background of every screen |
 | `images/shelf/shelf.jpg` | The open shelf with the boxes (screens 5 and 8) |
 | `images/stickers/skeleton.png`, `skull.png` | Bone sketch stickers in the corner of the screens |
-| `images/tools/gloves.png`, `bubble.png`, `caliper.png` | The tools that go back in the box (screen 8) |
+| `images/tools/gloves.png`, `bubble.png`, `caliper.png` | The tools on the workstation screen |
+| `images/bones/pelvis.png`, `sacrum.png`, `vertebra.png` | The three bones that go back in the box (screen 8), cut out of `workstation/box-open.jpg` |
 | `images/workstation/box-closed.jpg` | "Open the box on the table" (screen 6) |
 | `images/workstation/box-open.jpg` | "Guess and pick the pelvis bone!" (screen 6) |
 | `images/measure/pelvis-top.jpg` | "Use the scale to measure the points marked in green" (screen 7); the green points are drawn over it in `index.html` |

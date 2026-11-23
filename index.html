@@ -215,6 +215,10 @@
   .chip.ico { border: 0; background: transparent; padding: .3cqw; }
   .chip.ico img { height: 6.2cqw; width: auto; max-width: 8.5cqw; object-fit: contain; display: block; filter: drop-shadow(0 .3cqw .5cqw rgba(0,0,0,.35)); }
   .items .chip.ico { background: transparent; }
+  .items.bones { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: .2cqw 1.6cqw; top: .8cqw; padding: 0 .8cqw 0 4.4cqw; }
+  .items.bones .pelvis { flex-basis: 100%; display: flex; justify-content: center; }
+  #items.bones .chip.ico img { height: 3.6cqw; max-width: none; filter: drop-shadow(0 .25cqw .4cqw rgba(0,0,0,.45)); }
+  #items.bones .chip.ico.pelvis img { height: 6.4cqw; }
   .putcard .chip.ico img { height: 5cqw; }
   .tools .chip.ico img { height: 7.6cqw; max-width: 9cqw; }
   .steps3 { display: flex; gap: 2.4cqw; align-items: flex-start; }
@@ -224,13 +228,14 @@
   #wsq { font-size: 2.1cqw; }
   /* measure screen: the 3D skeleton at the left, numbered steps at the right with the done button under them */
   .card.measure3d { left: 2.4cqw; right: 2.4cqw; width: auto; top: 10.6cqw; bottom: 1.6cqw; padding: 0; gap: 0; background: transparent; box-shadow: none; color: #FFF6DC;
-    display: grid; grid-template-columns: 1fr 23cqw; grid-template-rows: 1fr auto; column-gap: 0; row-gap: 0; }
+    display: grid; grid-template-columns: 1fr 27cqw; grid-template-rows: 1fr auto; column-gap: 0; row-gap: 0; }
   .m3side { grid-column: 2; grid-row: 1; padding: 1.2cqw 1.6cqw 1cqw 1.8cqw; min-height: 0; }
   .m3side ol { list-style: none; margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; gap: 1.3cqw; }
   .m3side li { display: grid; grid-template-columns: 3.2cqw 1fr; column-gap: 1cqw; row-gap: 1cqw; align-items: center; }
   .m3side .num { width: 3.2cqw; height: 3.2cqw; border-radius: 50%; background: #FFF6DC; color: #2B2A27; display: grid; place-items: center; font: 700 1.5cqw/1 var(--sans); }
   .m3side p { margin: 0; font: 600 1.25cqw/1.3 var(--sans); color: #FFF6DC; text-align: center; text-wrap: balance; text-shadow: 0 .1cqw .7cqw rgba(0,0,0,.75), 0 0 .3cqw rgba(0,0,0,.6); }
   .m3img { grid-column: 2; position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: .5cqw; overflow: hidden; background: #F5EBC9; }
+  .m3side li:first-child .m3img { grid-column: 1 / -1; }
   .m3img img, .m3img .ph-missing { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .m3img .marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .m3view { grid-column: 1; grid-row: 1 / 3; position: relative; min-height: 0; }
@@ -312,13 +317,14 @@
   .note { flex: 1 1 22cqw; min-width: 22cqw; } .tools { flex: 0 0 17cqw; } .howto { width: 13cqw; }
   /* last screen: publish your reading (numbered steps at the left; the portrait wall and why publish at the right) */
   .card.pubcard { left: 4.2cqw; right: 4.2cqw; width: auto; top: 14.2cqw; bottom: 2.2cqw; padding: 3cqw 3cqw 2.4cqw; gap: 2cqw; justify-content: space-between; }
-  .pub { display: grid; grid-template-columns: 1fr 1.08fr; gap: 3cqw; align-items: center; flex: 1; min-height: 0; }
+  .pub { display: grid; grid-template-columns: 1.08fr 1fr; gap: 3cqw; align-items: center; flex: 1; min-height: 0; }
   .pub ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.4cqw; }
   .pub li { display: flex; align-items: center; gap: 1.4cqw; }
   .pub li img { flex: none; width: 9.2cqw; height: 9.2cqw; border-radius: .9cqw; object-fit: cover; box-shadow: 0 .2cqw .8cqw rgba(43,42,39,.18); }
   .pub li > b { flex: none; width: 3cqw; height: 3cqw; border-radius: 50%; background: #612826; color: #FFF6DC; display: grid; place-items: center; font: 600 1.4cqw/1 var(--sans); }
   .pub li p { margin: 0; font: 600 1.7cqw/1.35 var(--sans); color: #2B2A27; text-wrap: balance; }
-  .pub .right { display: flex; flex-direction: column; background: #5C2A26; border-radius: 1.2cqw; overflow: hidden; box-shadow: 0 0 0 .25cqw #E8A94A; }
+  /* why publish comes first (left), then the steps (right) */
+  .pub .right { order: -1; display: flex; flex-direction: column; background: #5C2A26; border-radius: 1.2cqw; overflow: hidden; box-shadow: 0 0 0 .25cqw #E8A94A; }
   .pub .why { padding: 2.2cqw 2.4cqw 1.2cqw; color: #FFF6DC; }
   .pub .why small { display: block; font: 700 1cqw/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #E8A94A; margin-bottom: .9cqw; }
   .pub .why h3 { margin: 0 0 .9cqw; font: 400 2.5cqw/1.15 var(--head); text-transform: uppercase; letter-spacing: .02em; color: #FFF6DC; }
@@ -421,15 +427,15 @@
       </div>
     </div>
     <div class="crank">
-      <h3>Crank</h3>
-      <input id="crank" type="range" min="0" max="100" value="0" aria-label="Crank">
+      <h3>Knob, slow turn</h3>
+      <input id="crank" type="range" min="0" max="100" value="0" aria-label="Knob, slow turn">
     </div>
     <div>
       <h3>Jump to screen</h3>
       <div class="steps" id="steps"></div>
     </div>
   </div>
-  <p class="foot-note">On a keyboard, the arrow keys turn the knob and Enter presses it. The mouse wheel over the screen turns the crank on screen 4. Study figures come from Csanády, Križovský and Hlôška (2019): 17 adult male grey wolf pelvises, average 104.9 mm across the hip bones. The dots are placed from that average and spread, so they show the shape of the group and are not the real 17 measurements.</p>
+  <p class="foot-note">On a keyboard, the arrow keys turn the knob and Enter presses it. The mouse wheel over the screen turns the knob too. Study figures come from Csanády, Križovský and Hlôška (2019): 17 adult male grey wolf pelvises, average 104.9 mm across the hip bones. The dots are placed from that average and spread, so they show the shape of the group and are not the real 17 measurements.</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -496,7 +502,7 @@
     ['Write to the museum', 'Read the email, then send it.'],
     ['You got a response!', 'The museum has answered.'],
     ['The visitors’ book', 'Write your name in the notebook on your table. Then press the knob to go to the shelf.'],
-    ['Open the shelf', 'Turn the crank to slide the door open.'],
+    ['Open the shelf', 'Turn the knob to slide the door open.'],
     ['Which box?', 'Find the box with wolf bones. Each label shows the Latin name.'],
     ['At the workstation', 'Open the box and take the bones out. Then press the knob.'],
     ['Measure the width', ''],
@@ -679,7 +685,7 @@
     howto(){
       const [c,g]=mk(); paper(g); header(g,4,'Four ranges');
       let y=156;
-      y=wrap(g,'The crank gives four ranges. Each one stands for a point on the curve.',56,y,TW-112,30,'400 21px '+SERIF,INK)+20;
+      y=wrap(g,'The knob gives four ranges. Each one stands for a point on the curve.',56,y,TW-112,30,'400 21px '+SERIF,INK)+20;
       [['under 90 mm','85','3.0 SD below','rare'],['90 to 100','95','1.5 SD below','unusual'],['100 to 110','105','on the mean','typical'],['over 110','115','1.5 SD above','unusual']].forEach(r=>{
         g.strokeStyle=INK; g.lineWidth=1.5; g.strokeRect(56,y,TW-112,92);
         text(g,r[0],76,y+40,'400 28px '+SERIF,INK);
@@ -949,6 +955,7 @@
   function ico(n) { return '<span class="chip ico" role="img" aria-label="' + n + '" title="' + n + '"><img src="' + TOOL_IMG[n] + '" alt="' + n + '" draggable="false"></span>'; }
   // Rough placeholder for the measuring guide. The exact landmarks are still to be agreed with the researcher.
   var HOWTO = '<figure class="howto"><svg viewBox="0 0 200 140" role="img" aria-label="Rough sketch: measure straight across the widest part of the hip bones"><g fill="#EFE6CC" stroke="#2B2A27" stroke-width="2.2" stroke-linejoin="round"><path d="M62 18C22 18 8 66 32 100C44 114 62 102 72 90L82 56Z"/><path d="M138 18C178 18 192 66 168 100C156 114 138 102 128 90L118 56Z"/><path d="M82 56C82 36 118 36 118 56L124 108C114 128 86 128 76 108Z"/><ellipse cx="100" cy="88" rx="11" ry="15" fill="#17120e"/></g><g stroke="#612826" stroke-width="3" stroke-linecap="round" fill="none"><path d="M14 66H186"/><path d="M24 58L13 66L24 74M176 58L187 66L176 74"/></g></svg><figcaption>Measure straight across the widest part. Rough sketch.</figcaption></figure>';
+  var BONES = [['pelvis', 'Pelvis'], ['sacrum', 'Sacrum'], ['vertebra', 'Tail vertebra']].map(function (b) { return '<span class="chip ico bone ' + b[0] + '" role="img" aria-label="' + b[1] + '"><img src="images/bones/' + b[0] + '.png" alt="' + b[1] + '" draggable="false"></span>'; }).join('');
   function icos() { return ico('Gloves') + ico('Bubble wrap') + ico('Caliper'); }
 
   // ---------- screens
@@ -964,8 +971,8 @@
       '<div class="foot">' + kbtn('I have signed', 'data-act="next"') + '</div>';
     if (i === 3) return '<div class="door dshelf shelf2" id="door">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b) {
         return '<div class="bx2"><span class="cb"></span><span class="pill">' + b[1] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div>' +
-      '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">CRANK</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">0%</b></div>' +
-      '<div class="foot sidefoot"><p id="cmsg" class="msg">Turn the crank. The boxes are behind the door.</p>' + '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the crank clockwise"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>' + '</div>';
+      '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">KNOB</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">0%</b></div>' +
+      '<div class="foot sidefoot"><p id="cmsg" class="msg">Turn the knob. The boxes are behind the door.</p>' + '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the knob clockwise"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>' + '</div>';
     if (i === 4) return '<div class="shelf2" id="boxes">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b, n) {
         return '<button class="bx bx2" data-box="' + n + '" aria-label="' + b[0] + ', ' + b[1] + '"><span class="cb"></span><span class="pill">' + b[1] + '</span></button>'; }).join('') + '</div>' +
       '<aside class="side"><p class="msg" id="bmsg">Pick the box that holds the wolf bones.</p><div class="knobrow">' + TURNTIP + '<span class="ktext">Turn the knob to choose, press it to pick</span></div></aside>';
@@ -981,9 +988,9 @@
       '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
     // how wide is it: one cream panel over the whole screen; the knob chooses, a press selects
     if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div><p class="knobtip">' + TURNTIP + 'Turn the knob to choose, press it to pick</p><button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
-    if (i === 8) return '<div class="chart"><svg id="pile" viewBox="0 -58 760 318" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
+    if (i === 8) return '<div class="chart"><svg id="pile" viewBox="0 -4 760 322" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
       '<p class="muted" id="fact"></p><p class="knobtip pilehint" id="pilehint" hidden>' + TURNTIP + 'Turn the knob to explore the ranges</p><div class="foot">' + kbtn('Publish your reading', 'data-act="next"') + '</div>';
-    if (i === 9) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items" id="items">' + icos() + '</div></div>' +
+    if (i === 9) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items bones" id="items">' + BONES + '</div></div>' +
       '<div class="door dshelf shelf2" id="door">' + [['Ursus arctos', ''], ['Canis lupus', ' slot2'], ['Vulpes vulpes', '']].map(function (b, n) {
         return '<div class="bx2' + b[1] + '"' + (b[1] ? ' id="slot"' : '') + '><span class="cb"></span><span class="pill">' + b[0] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
       '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
@@ -1208,7 +1215,7 @@ void main(){
     }
     if (cur === 3) {
       if (doorSp) doorSp.to(crank / 100);
-      var m = $('#cmsg'); if (m) { m.textContent = crank >= 98 ? 'The shelf is open. Here are the boxes.' : 'Turn the crank. The boxes are behind the door.'; }
+      var m = $('#cmsg'); if (m) { m.textContent = crank >= 98 ? 'The shelf is open. Here are the boxes.' : 'Turn the knob. The boxes are behind the door.'; }
       if (crank >= 98 && !stage.dataset.adv) { stage.dataset.adv = '1'; SND.clunk(); var dd = $('#door'); if (dd) dd.classList.add('lit'); setTimeout(function () { stage.dataset.adv = ''; if (cur === 3 && crank >= 98) go(4); }, 900); }
     }
   }
@@ -1234,11 +1241,8 @@ void main(){
     var labs = el('g', {}); labs.style.opacity = 0; labs.style.transition = 'opacity 1.2s ease';
     var bandG = el('g', {}, labs), bandR = el('rect', { y: 34, height: FLOOR - 34, fill: '#AED0EA', rx: 4 }, bandG); bandR.style.opacity = 0; bandR.style.transition = 'opacity 1s ease';
     [90, 100, 110].forEach(function (t) { el('line', { x1: X(t), x2: X(t), y1: 34, y2: FLOOR, stroke: '#2B2A27', 'stroke-width': 1.2, 'stroke-dasharray': '4 4', opacity: .45 }, labs); });
-    el('line', { x1: 44, x2: X(126), y1: FLOOR + 1, y2: FLOOR + 1, stroke: '#2B2A27', 'stroke-width': 2 }, labs);
-    el('line', { x1: 44, x2: 44, y1: FLOOR + 1, y2: 14, stroke: '#2B2A27', 'stroke-width': 2 }, labs);
-    el('path', { d: 'M38 22 L44 12 L50 22', fill: 'none', stroke: '#2B2A27', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, labs);
-    el('text', { transform: 'translate(16 ' + (FLOOR / 2 + 20) + ') rotate(-90)', 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 700, 'letter-spacing': '.08em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = 'OUT OF 100 MALES';
-    [80, 90, 100, 110, 120].forEach(function (t) { el('line', { x1: X(t), x2: X(t), y1: FLOOR + 1, y2: FLOOR + 7, stroke: '#2B2A27', 'stroke-width': 2 }, labs); el('text', { x: X(t), y: FLOOR + 23, 'text-anchor': 'middle', 'font-size': 13, fill: '#5A5548', 'font-family': FONT }, labs).textContent = t; });
+    el('line', { x1: 52, x2: X(126), y1: FLOOR + 1, y2: FLOOR + 1, stroke: '#2B2A27', 'stroke-width': 2 }, labs);
+    [90, 100, 110, 120].forEach(function (t) { el('line', { x1: X(t), x2: X(t), y1: FLOOR + 1, y2: FLOOR + 7, stroke: '#2B2A27', 'stroke-width': 2 }, labs); el('text', { x: X(t), y: FLOOR + 23, 'text-anchor': 'middle', 'font-size': 13, fill: '#5A5548', 'font-family': FONT }, labs).textContent = t; });
     el('text', { x: X(103), y: FLOOR + 46, 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 700, 'letter-spacing': '.08em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = 'WIDTH ACROSS THE TOP OF THE HIP BONES (MM)';
     [[52, 'UNDER 90'], [90, '90 TO 100'], [100, '100 TO 110'], [110, 'OVER 110']].forEach(function (t, n) {
       el('text', { x: (t[0] < 60 ? t[0] : X(t[0])) + 8, y: 13, 'text-anchor': 'start', 'font-size': 11.5, 'font-weight': 800, 'letter-spacing': '.1em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = t[1];
@@ -1263,14 +1267,14 @@ void main(){
         '<span class="key"><i class="kl2"></i>Other adult males</span><span class="key"><i class="kw"></i>Your wolf</span>';
     }
     function explore(d) {
-      var n = Math.max(0, Math.min(3, ex + d)); if (n === ex) { hop(bodies.filter(function (b) { return !b.wolf && b.g === ex; }), 7); SND.pop(ex); return; }
+      var n = Math.max(0, Math.min(3, ex + d)); if (n === ex) { hop(bodies.filter(function (b) { return !b.wolf && b.g === ex; }), 7); SND.note(ex, true); return; }
       ex = n; bandR.setAttribute('x', X(BL[ex])); bandR.setAttribute('width', X(BR[ex]) - X(BL[ex]));
       bodies.forEach(function (b) { if (!b.wolf) b.dim = b.g !== ex; });
       fact.innerHTML = exploreKeys();
-      hop(bodies.filter(function (b) { return !b.wolf && b.g === ex; }), 9); SND.tick(); SND.pop(ex);
+      hop(bodies.filter(function (b) { return !b.wolf && b.g === ex; }), 9); SND.note(ex);
     }
     function poke(b) {
-      hop([b], 13); SND.pop(b.g);
+      hop([b], 13); SND.note(b.g, true);
       var t = el('text', { x: b.x, y: b.y - b.r - 10, 'text-anchor': 'middle', 'font-size': 15, 'font-weight': 800, fill: '#612826', stroke: '#FFF6DC', 'stroke-width': 4, 'paint-order': 'stroke', 'font-family': FONT });
       t.textContent = '\u2248 ' + Math.round(b.v) + ' mm'; t.style.transition = 'opacity .6s ease 1s, transform 1.6s ease-out'; t.style.pointerEvents = 'none';
       requestAnimationFrame(function () { t.style.opacity = 0; t.style.transform = 'translateY(-14px)'; }); setTimeout(function () { t.remove(); }, 1800);
@@ -1319,11 +1323,10 @@ void main(){
     }
     function showCallout() {
       if (!wolfB || callout) return;
-      var wx = wolfB.x, wy = wolfB.y - wolfB.r - 4, bw = 470, bx = wx < 380 ? 270 : 20, sx = wx < 380 ? bx + 30 : bx + bw - 30, dir = wx < 380 ? 1 : -1;
+      var bw = 470, bx = 380 - bw / 2, by = FLOOR + 62;
       callout = el('g', {}); callout.style.opacity = 0; callout.style.transition = 'opacity .7s ease';
-      var d = 'M' + sx + ' -12 C' + sx + ' 20, ' + (wx + dir * 60) + ' ' + (wy - 50) + ', ' + wx + ' ' + (wy - 4);
-      el('rect', { x: bx, y: -54, width: bw, height: 42, rx: 8, fill: '#F5EBC8', stroke: '#612826', 'stroke-width': 2 }, callout);
-      var tx = el('text', { x: bx + bw / 2, y: -25, 'text-anchor': 'middle', 'font-size': 24, fill: '#2B2A27', 'font-family': 'Caveat, cursive', 'font-weight': 500, textLength: bw - 36, lengthAdjust: 'spacingAndGlyphs' }, callout); tx.textContent = 'Your wolf lies here, ' + where;
+      el('rect', { x: bx, y: by, width: bw, height: 42, rx: 8, fill: '#F5EBC8', stroke: '#612826', 'stroke-width': 2 }, callout);
+      var tx = el('text', { x: bx + bw / 2, y: by + 29, 'text-anchor': 'middle', 'font-size': 24, fill: '#2B2A27', 'font-family': 'Caveat, cursive', 'font-weight': 500, textLength: bw - 36, lengthAdjust: 'spacingAndGlyphs' }, callout); tx.textContent = 'Your wolf lies here, ' + where;
       requestAnimationFrame(function () { if (callout) callout.style.opacity = 1; });
       unlock();
     }
@@ -1444,6 +1447,8 @@ void main(){
       tap: function (v) { var now = performance.now(); if (now - lastTap < 75) return; lastTap = now; v = Math.max(0.15, Math.min(1, v || 0.5)); var f = 260 + Math.random() * 160; tone(f, 0, 0.07, 'sine', 0.015 + v * 0.03, f * 0.8, 0.004); },
       whoosh: function () { noise(0, 0.8, 0.035, 220, 0.7, 900); },
       land: function () { tone(140, 0, 0.35, 'sine', 0.22, 70); noise(0, 0.1, 0.05, 300, 1); },
+      // exploring the chart: one soft, round note per range, a little higher for each wider range
+      note: function (k, soft) { var f = [262, 294, 330, 392][k || 0] || 262; tone(f, 0, 0.5, 'sine', soft ? 0.035 : 0.06, 0, 0.02); tone(f * 2, 0, 0.3, 'sine', soft ? 0.008 : 0.014, 0, 0.02); },
       pop: function (k) { tone(330 + (k || 0) * 45, 0, 0.12, 'sine', 0.06, 440 + (k || 0) * 55); },
       // a soft low chime, slower and quieter
       done: function () { [392, 494, 587, 784].forEach(function (f, i) { tone(f, i * 0.14, 0.6, 'sine', 0.055, 0, 0.03); }); }
@@ -1470,13 +1475,13 @@ void main(){
     else if (o.dataset.confirm === 'yes') { if (range === TRUE_RANGE) go(8); else { undoConfirm(); var q = $('#wsq'); if (q) q.innerHTML = '<b>Not quite.</b> Check that you measured between the two green points, then look at your sticky note again.'; } }
     else if (o.dataset.confirm === 'no') undoConfirm();
   }
-  var CRANKHINT = '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the crank to close the door"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>';
+  var CRANKHINT = '<svg class="crankhint" viewBox="0 0 60 60" role="img" aria-label="Turn the knob to close the door"><g class="ring"><path d="M30 6 A24 24 0 1 1 8.4 19.6" fill="none" stroke="#612826" stroke-width="3" stroke-linecap="round"/><path d="M2 15 L11 22 L14 11 Z" fill="#612826"/></g><g class="ch"><line x1="30" y1="30" x2="30" y2="15" stroke="#2B2A27" stroke-width="3.5" stroke-linecap="round"/><circle cx="30" cy="13" r="3.6" fill="#E8A94A" stroke="#2B2A27" stroke-width="1.5"/></g><circle cx="30" cy="30" r="8" fill="#FFFBEE" stroke="#2B2A27" stroke-width="2.5"/><circle cx="30" cy="30" r="2.4" fill="#2B2A27"/></svg>';
   // Put everything back: pack the box, put it on the shelf, then close the door with the crank.
   function putAway() {
     var it = $('#items'), pb = $('#pbox'), btn = $('#putbtn'), m = $('#cmsg'); if (!it || !pb || !btn) return;
     var f1 = $('#fp1'), f2 = $('#fp2'), f3 = $('#fp3');
     if (putStep === 0) { SND.pack(); if (f1) { f1.classList.remove('now'); f1.classList.add('done'); } if (f2) f2.classList.add('now'); it.classList.add('packed'); pb.classList.add('full'); btn.querySelector('.kl').textContent = 'Put the box on the shelf'; m.textContent = 'The bones are safe in the box.'; putStep = 1; }
-    else if (putStep === 1) { SND.slide(); if (f2) { f2.classList.remove('now'); f2.classList.add('done'); } if (f3) f3.classList.add('now'); pb.classList.add('gone'); $('#slot').classList.add('in'); btn.parentNode.hidden = true; m.textContent = 'Now turn the crank to close the door. The bones are safe behind it.'; $('#phint').innerHTML = CRANKHINT; putStep = 2; collect(); }
+    else if (putStep === 1) { SND.slide(); if (f2) { f2.classList.remove('now'); f2.classList.add('done'); } if (f3) f3.classList.add('now'); pb.classList.add('gone'); $('#slot').classList.add('in'); btn.parentNode.hidden = true; m.textContent = 'Now turn the knob to close the door. The bones are safe behind it.'; $('#phint').innerHTML = CRANKHINT; putStep = 2; collect(); }
   }
   // Pressing a range does not lock it in. The visitor answers yes or no first, and the default is No.
   function askConfirm() {
@@ -1572,7 +1577,7 @@ void main(){
   // 3D skeleton (with its loader scripts), so the workstation, measure and put-away screens open without waiting.
   var LATER_IMAGES = ['images/shelf/shelf.jpg', 'images/workstation/box-closed.jpg', 'images/workstation/box-open.jpg',
     'images/measure/pelvis-top.jpg', 'images/measure/sticky-note.jpg', 'images/tools/gloves.png', 'images/tools/bubble.png',
-    'images/tools/caliper.png', 'images/stickers/skeleton.png', 'images/stickers/skull.png', 'images/measure/fitted-bones.jpg', 'images/publish/take-note.jpg', 'images/publish/stick-note.jpg', 'images/publish/draw-portrait.jpg'];
+    'images/tools/caliper.png', 'images/stickers/skeleton.png', 'images/stickers/skull.png', 'images/measure/fitted-bones.jpg', 'images/publish/take-note.jpg', 'images/publish/stick-note.jpg', 'images/publish/draw-portrait.jpg', 'images/bones/pelvis.png', 'images/bones/sacrum.png', 'images/bones/vertebra.png'];
   var warmed = [];
   function loadAhead() {
     LATER_IMAGES.forEach(function (src) { var im = new Image(); im.decoding = 'async'; im.src = src; warmed.push(im); });

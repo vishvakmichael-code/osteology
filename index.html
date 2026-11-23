@@ -223,18 +223,33 @@
   /* measure screen: the 3D skeleton at the left, numbered steps at the right with the done button under them */
   .card.measure3d { left: 2.4cqw; right: 2.4cqw; width: auto; top: 10.6cqw; bottom: 1.6cqw; padding: 0; gap: 0; background: transparent; box-shadow: none; color: #FFF6DC;
     display: grid; grid-template-columns: 1fr 23cqw; grid-template-rows: 1fr auto; column-gap: 0; row-gap: 0; }
-  .m3side { grid-column: 2; grid-row: 1; padding: 2cqw 1.6cqw 2cqw 1.8cqw; min-height: 0; }
-  .m3side ol { list-style: none; margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; gap: 2.2cqw; }
+  .m3side { grid-column: 2; grid-row: 1; padding: 1.2cqw 1.6cqw 1cqw 1.8cqw; min-height: 0; }
+  .m3side ol { list-style: none; margin: 0; padding: 0; height: 100%; display: flex; flex-direction: column; gap: 1.3cqw; }
   .m3side li { display: grid; grid-template-columns: 3.2cqw 1fr; column-gap: 1cqw; row-gap: 1cqw; align-items: center; }
   .m3side .num { width: 3.2cqw; height: 3.2cqw; border-radius: 50%; background: #FFF6DC; color: #2B2A27; display: grid; place-items: center; font: 700 1.5cqw/1 var(--sans); }
   .m3side p { margin: 0; font: 600 1.25cqw/1.3 var(--sans); color: #FFF6DC; text-align: center; text-wrap: balance; text-shadow: 0 .1cqw .7cqw rgba(0,0,0,.75), 0 0 .3cqw rgba(0,0,0,.6); }
-  .m3img { grid-column: 2; position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: .5cqw; overflow: hidden; background: #F5EBC9; }
+  .m3img { grid-column: 2; position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: .5cqw; overflow: hidden; background: #F5EBC9; }
   .m3img img, .m3img .ph-missing { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .m3img .marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .m3view { grid-column: 1; grid-row: 1 / 3; position: relative; min-height: 0; }
   .m3view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
   .m3view canvas:active { cursor: grabbing; }
   .m3view .m3hint { position: absolute; left: 50%; bottom: .8cqw; transform: translateX(-50%); font: 700 .8cqw/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #FFF6DC; border: 0; border-radius: .5cqw; padding: .6cqw .9cqw; white-space: nowrap; pointer-events: none; background: rgba(23,18,14,.55); }
+  .m3view .m3hint { display: flex; align-items: center; gap: .7cqw; border: .12cqw solid rgba(232,169,74,.7); font-size: .95cqw; padding: .6cqw 1.1cqw .6cqw .8cqw; }
+  .m3view .m3hint svg.kt { width: 1.8cqw; height: 1.8cqw; color: #E8A94A; flex: none; }
+  .m3view .m3hint.lit { animation: m3lit 1.1s ease-out 2; }
+  @keyframes m3lit { 0% { box-shadow: 0 0 0 0 rgba(232,169,74,.8); background: rgba(232,169,74,.55); } 100% { box-shadow: 0 0 0 1.6cqw rgba(232,169,74,0); background: rgba(23,18,14,.55); } }
+  .m3intro { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2cqw; pointer-events: none; color: #FFF6DC; z-index: 2;
+    background: radial-gradient(closest-side, rgba(23,18,14,.82), rgba(23,18,14,.55) 70%, rgba(23,18,14,0)); animation: ifade .6s ease-out both;
+    transition: transform .85s cubic-bezier(.6,0,.2,1), opacity .85s ease-in; transform-origin: 50% 100%; }
+  .m3intro svg.kt { width: 9cqw; height: 9cqw; color: #E8A94A; animation: kturn 1.6s ease-in-out infinite, ifade .7s ease-out both; }
+  .m3intro p.m3it { margin: 0; font: 300 6.4cqw/1 var(--head); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; text-shadow: 0 .4cqw 2cqw rgba(0,0,0,.6); }
+  .m3intro .m3it span { display: inline-block; animation: iletter .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 45ms + 200ms); }
+  .m3intro small { font: 600 2.2cqw/1 var(--sans); letter-spacing: .04em; animation: ifade .8s ease-out .9s both; }
+  .m3intro.out { opacity: 0; transform: translateY(38%) scale(.25); }
+  .m3side li.m3try { grid-template-columns: 3.2cqw 1fr; }
+  .m3side li.m3try .num { background: transparent; color: #FFF6DC; box-shadow: inset 0 0 0 .16cqw #FFF6DC; }
+  .m3side li.m3try p { font-weight: 500; font-style: italic; }
   .m3view .m3msg { position: absolute; inset: 0; display: grid; place-items: center; font: 500 1.3cqw/1.4 var(--sans); color: #A29C8D; text-align: center; padding: 0 4cqw; }
   .m3key { position: absolute; left: 1cqw; top: 2.4cqw; display: flex; align-items: center; gap: .7cqw; font: 600 1.1cqw/1 var(--sans); color: #FFF6DC; pointer-events: none; }
   .m3key i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #612826; box-shadow: 0 0 0 .18cqw #E8A94A; }
@@ -908,14 +923,15 @@
     if (i === 4) return '<div class="shelf2" id="boxes">' + [['Box 1', 'Ursus arctos'], ['Box 2', 'Canis lupus'], ['Box 3', 'Vulpes vulpes']].map(function (b, n) {
         return '<button class="bx bx2" data-box="' + n + '" aria-label="' + b[0] + ', ' + b[1] + '"><span class="cb"></span><span class="pill">' + b[1] + '</span></button>'; }).join('') + '</div>' +
       '<aside class="side"><p class="msg" id="bmsg">Pick the box that holds the wolf bones.</p><div class="knobrow">' + TURNTIP + '<span class="ktext">Turn the knob to choose, press it to pick</span></div></aside>';
-    if (i === 5) return '<div class="steps3">' + [['Open the box on the table', 'images/workstation/box-closed.jpg'], ['Guess and pick the pelvis bone!', 'images/workstation/box-open.jpg']].map(function (t) { return '<figure class="st3"><figcaption>' + t[0] + '</figcaption>' + photo(t[1], t[0], 'ph3') + '</figure>'; }).join('') + '</div>' +
+    if (i === 5) return '<div class="steps3">' + [['Open the box on the table', 'images/workstation/box-closed.jpg'], ['Guess and take the pelvis out of the box!', 'images/workstation/box-open.jpg']].map(function (t) { return '<figure class="st3"><figcaption>' + t[0] + '</figcaption>' + photo(t[1], t[0], 'ph3') + '</figure>'; }).join('') + '</div>' +
       '<div class="foot">' + kbtn('Ready to measure', 'data-act="next"') + '</div>';
     // measure: numbered steps on a dark panel, the 3D skeleton (the knob turns it), then press the knob when done
     if (i === 6) return '<div class="m3side"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
+        '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton on the screen.</p></li>' +
       '</ol></div>' +
-      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><span class="m3hint">Turn the knob, scroll or drag to rotate</span></div>' +
+      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
       '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
     // how wide is it: one cream panel over the whole screen; the knob chooses, a press selects
     if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div><p class="knobtip">' + TURNTIP + 'Turn the knob to choose, press it to pick</p><button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
@@ -1089,6 +1105,10 @@ void main(){
   function bump(el) { if (el.classList.contains('bx')) return; spring(1, 1.045, 'snappy', function (s) { el.style.transform = 'scale(' + s + ')'; }); }
 
   function setup() {
+    if (cur === 6) {
+      var mi = $('#m3intro'), mv = $('#m3view');
+      if (mi) { var t6 = setTimeout(m3dismiss, 2800); ['wheel', 'pointerdown'].forEach(function (ev) { mv.addEventListener(ev, m3dismiss, { capture: true, once: true, passive: true }); }); }
+    }
     if (cur === 6) { var wTok = bookToken, wHost = $('#m3view'); loadWolf().then(function (asset) { if (wTok === bookToken && cur === 6) wolfCtl = mountWolf(wHost, asset); }, function () { var h = $('#m3view'); if (h && wTok === bookToken) h.insertAdjacentHTML('beforeend', '<p class="m3msg">The 3D skeleton needs the website version (it cannot load from a file opened on its own).</p>'); }); }
     if (cur === 2) {
       var tok = bookToken, wrapEl = $('#bookwrap');
@@ -1100,6 +1120,10 @@ void main(){
     if (cur === 8) buildPile();
     if (cur === 9) { crank = 100; $('#crank').value = 100; applyDoor(1); doorSp = spring(1, 1, 'slow', applyDoor); }
     if (cur === 10) { var s = $('#stk'); if (s) spring(0, 1, 'wobbly', function (p) { s.style.transform = 'scale(' + p + ') rotate(' + ((1 - p) * -40) + 'deg)'; }); }
+  }
+  function m3dismiss() {
+    var mi = $('#m3intro'), h = $('#m3hint'); if (!mi || mi.classList.contains('out')) return;
+    mi.classList.add('out'); setTimeout(function () { if (mi.parentNode) mi.remove(); if (h) h.classList.add('lit'); }, 700);
   }
   function applyDoor(p) {
     var l = $('#dl'), r = $('#dr'); if (!l || !r) return;
@@ -1383,7 +1407,7 @@ void main(){
       return;
     }
     if (cur === 8 && pileCtl && !pileCtl.done()) return; // the bubbles settle first
-    if (cur === 6) { if (wolfCtl) wolfCtl.spin(d * 0.35); return; } // the knob turns the skeleton; Back is a click here
+    if (cur === 6) { m3dismiss(); SND.tick(); if (wolfCtl) wolfCtl.spin(d * 0.35); return; } // the knob turns the skeleton; Back is a click here
     if (!opts.length) return;
     stage.classList.remove('arrive');
     if (sel < 0) sel = d > 0 ? 0 : opts.length - 1; else sel = (sel + d + opts.length) % opts.length;

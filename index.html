@@ -429,6 +429,9 @@
   // Booth screen: always animate, whatever the OS motion setting says (Windows often reports "reduce" when
   // "Animation effects" is off, on work PCs, VMs and Remote Desktop). Add ?reduce=1 to the URL to turn motion off.
   var reduce = /[?&]reduce=1\b/.test(location.search);
+  // Features that are built but switched off for now. fitBones: step 3 on the measure screen ("Try fitting the bones together")
+  // with the "Reveal how they fit" photo. Turn it on here (true), or preview it with ?fit=1 in the address.
+  var FEATURES = { fitBones: /[?&]fit=1\b/.test(location.search) };
   if (reduce) document.documentElement.classList.add('reduce-motion');
   // Wheel input in pixels, the same scale on every OS and device: a Windows mouse notch (~100 px, or 3 lines in
   // Firefox) and a Mac trackpad swipe (many small events) now move things by how far you actually scrolled.
@@ -959,7 +962,7 @@
     if (i === 6) return '<div class="m3side"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
-        '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton.</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Reveal how they fit</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' +
+        (FEATURES.fitBones ? '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton.</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Reveal how they fit</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' : '') +
       '</ol></div>' +
       '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><div class="m3timer" id="m3timer" role="timer" aria-live="off"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,246,220,.18)" stroke-width="4"/><circle class="tr" cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg><b id="m3time">2:00</b><small id="m3tl">time left</small></div>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
       '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';

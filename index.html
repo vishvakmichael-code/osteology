@@ -1432,8 +1432,9 @@ void main(){
     return {
       unlock: ac,
       tick: function () { var now = performance.now(); if (now - lastTick < 45) return; lastTick = now; tone(880, 0, 0.05, 'sine', 0.04, 0, 0.004); },
-      select: function () { tone(523, 0, 0.16, 'sine', 0.11); tone(784, 0.08, 0.24, 'sine', 0.08); },
-      wrong: function () { tone(240, 0, 0.16, 'triangle', 0.1); tone(190, 0.12, 0.24, 'triangle', 0.1); },
+      // button press: one soft, low, rounded note with a faint warm overtone
+      select: function () { tone(392, 0, 0.28, 'sine', 0.05, 0, 0.025); tone(587, 0.05, 0.3, 'sine', 0.018, 0, 0.03); },
+      wrong: function () { tone(220, 0, 0.22, 'sine', 0.06, 0, 0.02); tone(185, 0.14, 0.3, 'sine', 0.05, 0, 0.02); },
       ratchet: function () { noise(0, 0.03, 0.08, 1400, 2); tone(520, 0, 0.03, 'sine', 0.03); },
       pack: function () { noise(0, 0.25, 0.08, 900, 0.8, 400); tone(140, 0.12, 0.25, 'sine', 0.25, 70); },
       slide: function () { noise(0, 0.5, 0.05, 400, 0.9, 900); tone(110, 0.45, 0.22, 'sine', 0.22, 60); },

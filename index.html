@@ -263,6 +263,15 @@
   .lbox.out { animation: iout .3s ease-in both; }
   .m3side li.m3try .num { background: transparent; color: #FFF6DC; box-shadow: inset 0 0 0 .16cqw #FFF6DC; }
   .m3side li.m3try p { font-weight: 500; font-style: italic; font-size: 1.15cqw; text-align: left; text-wrap: pretty; }
+  .m3timer { position: absolute; right: 1cqw; top: .4cqw; display: flex; align-items: center; gap: .8cqw; color: #E8A94A; z-index: 3; pointer-events: none; background: rgba(23,18,14,.78); border: .12cqw solid rgba(232,169,74,.45); border-radius: 3cqw; padding: .5cqw 1.4cqw .5cqw .5cqw; box-shadow: 0 .4cqw 1.6cqw rgba(0,0,0,.4); }
+  .m3timer svg { width: 4.4cqw; height: 4.4cqw; flex: none; }
+  .m3timer .tr { transition: stroke-dashoffset .25s linear; }
+  .m3timer b { font: 700 2.4cqw/1 var(--sans); color: #FFF6DC; font-variant-numeric: tabular-nums; text-shadow: 0 .1cqw .6cqw rgba(0,0,0,.7); }
+  .m3timer small { font: 600 1cqw/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: rgba(255,246,220,.75); align-self: flex-end; margin-bottom: .5cqw; }
+  .m3timer.low { color: #E2603A; } .m3timer.low b { animation: tblink 1s steps(2) infinite; }
+  @keyframes tblink { 50% { opacity: .45; } }
+  .m3timer.up b { animation: none; color: #E2603A; } .m3timer.up small { color: #FFF6DC; }
+  .reduce-motion .m3timer.low b { animation: none; }
   .m3view .m3msg { position: absolute; inset: 0; display: grid; place-items: center; font: 500 1.3cqw/1.4 var(--sans); color: #A29C8D; text-align: center; padding: 0 4cqw; }
   .m3key { position: absolute; left: 1cqw; top: 2.4cqw; display: flex; align-items: center; gap: .7cqw; font: 600 1.1cqw/1 var(--sans); color: #FFF6DC; pointer-events: none; }
   .m3key i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #612826; box-shadow: 0 0 0 .18cqw #E8A94A; }
@@ -952,7 +961,7 @@
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
         '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton.</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Reveal how they fit</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' +
       '</ol></div>' +
-      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
+      '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span><div class="m3timer" id="m3timer" role="timer" aria-live="off"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,246,220,.18)" stroke-width="4"/><circle class="tr" cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg><b id="m3time">2:00</b><small id="m3tl">time left</small></div>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
       '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
     // how wide is it: one cream panel over the whole screen; the knob chooses, a press selects
     if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div><p class="knobtip">' + TURNTIP + 'Turn the knob to choose, press it to pick</p><button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
@@ -1091,7 +1100,7 @@ void main(){
     if (crumpleCtl) { crumpleCtl.stop(); crumpleCtl = null; }
     if (bookCtl) { bookCtl.dispose(); bookCtl = null; }
     if (wolfCtl) { wolfCtl.dispose(); wolfCtl = null; }
-    confirming = false; putStep = 0; lbOpen = false;
+    confirming = false; putStep = 0; lbOpen = false; clearInterval(m3Clock);
     bookToken++;
     var t = titles[cur];
     var verdict = '';
@@ -1127,6 +1136,7 @@ void main(){
 
   function setup() {
     if (cur === 6) {
+      m3Timer();
       var mi = $('#m3intro'), mv = $('#m3view');
       if (mi) { var t6 = setTimeout(m3dismiss, 2800); ['wheel', 'pointerdown'].forEach(function (ev) { mv.addEventListener(ev, m3dismiss, { capture: true, once: true, passive: true }); }); }
     }
@@ -1141,6 +1151,25 @@ void main(){
     if (cur === 8) buildPile();
     if (cur === 9) { crank = 100; $('#crank').value = 100; applyDoor(1); doorSp = spring(1, 1, 'slow', applyDoor); }
     if (cur === 10) { var s = $('#stk'); if (s) spring(0, 1, 'wobbly', function (p) { s.style.transform = 'scale(' + p + ') rotate(' + ((1 - p) * -40) + 'deg)'; }); }
+  }
+  // measure screen: two minutes on the clock; the ring runs down, the last 20 s turn red, and at zero Done is selected
+  var m3Clock = null, M3_SECONDS = 120;
+  function m3Timer() {
+    clearInterval(m3Clock); var t0 = performance.now(), lastS = M3_SECONDS, ring = stage.querySelector('#m3timer .tr');
+    m3Clock = setInterval(function () {
+      var box = $('#m3timer'); if (!box || cur !== 6) { clearInterval(m3Clock); return; }
+      var left = Math.max(0, M3_SECONDS - (performance.now() - t0) / 1000), sec = Math.ceil(left);
+      $('#m3time').textContent = Math.floor(sec / 60) + ':' + ('0' + sec % 60).slice(-2);
+      if (ring) ring.setAttribute('stroke-dashoffset', (119.4 * (1 - left / M3_SECONDS)).toFixed(1));
+      box.classList.toggle('low', left <= 20 && left > 0);
+      if (sec !== lastS) { lastS = sec; if (sec <= 10 && sec > 0) SND.tick(); }
+      if (left <= 0) {
+        clearInterval(m3Clock); box.classList.add('up'); $('#m3tl').textContent = "time's up";
+        if (lbOpen) closeLb();
+        var d = stage.querySelector('.m3bar [data-act="next"]'); if (d) { sel = opts.indexOf(d); markSel(); }
+        SND.done();
+      }
+    }, 250);
   }
   function m3dismiss() {
     var mi = $('#m3intro'), h = $('#m3hint'); if (!mi || mi.classList.contains('out')) return;

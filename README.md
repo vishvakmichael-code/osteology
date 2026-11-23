@@ -25,7 +25,7 @@ The screen fills the browser window (16:10, centred). Once the first screen is u
 
 Controls: the arrow keys turn the knob, Enter presses it (the small knob inside a button pulses to show a press does it), and the mouse wheel turns the crank (screens 4 and 8) or rotates the skeleton (screen 7). Buttons can also be clicked. Back is for staff with a mouse: the knob never selects it.
 
-Sound: short tones made in the browser (no audio files) for turning, pressing, a wrong choice, the crank, packing the box and closing the door. Add `?mute=1` to the address to turn them off.
+Sound: short tones made in the browser (no audio files) for turning, pressing, a wrong choice, the crank, packing the box and closing the door. On the chart, colliding circles tap like pebbles (louder when more collide at once), sorting starts with a whoosh and each circle taps as it lands, and the wolf lands with a thump. Add `?mute=1` to the address to turn them off.
 
 ## Folders
 

@@ -1244,18 +1244,19 @@ void main(){
     el('line', { x1: 52, x2: X(126), y1: FLOOR + 1, y2: FLOOR + 1, stroke: '#2B2A27', 'stroke-width': 2 }, labs);
     [90, 100, 110, 120].forEach(function (t) { el('line', { x1: X(t), x2: X(t), y1: FLOOR + 1, y2: FLOOR + 7, stroke: '#2B2A27', 'stroke-width': 2 }, labs); el('text', { x: X(t), y: FLOOR + 23, 'text-anchor': 'middle', 'font-size': 13, fill: '#5A5548', 'font-family': FONT }, labs).textContent = t; });
     el('text', { x: X(103), y: FLOOR + 46, 'text-anchor': 'middle', 'font-size': 13.5, 'font-weight': 700, 'letter-spacing': '.08em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = 'WIDTH ACROSS THE TOP OF THE HIP BONES (MM)';
-    [[52, 'UNDER 90'], [90, '90 TO 100'], [100, '100 TO 110'], [110, 'OVER 110']].forEach(function (t, n) {
-      el('text', { x: (t[0] < 60 ? t[0] : X(t[0])) + 8, y: 13, 'text-anchor': 'start', 'font-size': 11.5, 'font-weight': 800, 'letter-spacing': '.1em', fill: '#2B2A27', 'font-family': FONT }, labs).textContent = t[1];
-      el('text', { x: Math.min(X([90, 100, 110, 126][n]), X(126)) - 6, y: 27, 'text-anchor': 'end', 'font-size': 10.5, fill: '#5A5548', 'font-family': FONT }, labs).textContent = 'about ' + cl[n] + ' of 100';
+    // one count per range, centred over it; the range being looked at is drawn bold in maroon
+    var cntT = [[52, 90], [90, 100], [100, 110], [110, 126]].map(function (t, n) {
+      var e = el('text', { x: ((t[0] < 60 ? t[0] : X(t[0])) + X(t[1])) / 2, y: 18, 'text-anchor': 'middle', 'font-size': 11.5, fill: '#5A5548', 'font-family': FONT }, labs); e.textContent = 'about ' + cl[n] + ' of 100 wolves'; return e;
     });
+    function hiCount(k) { cntT.forEach(function (e, n) { var on = n === k; e.setAttribute('fill', on ? '#612826' : '#8A8470'); e.setAttribute('font-weight', on ? 800 : 400); e.setAttribute('font-size', on ? 13 : 11.5); }); }
     svg.insertBefore(labs, bg);
     var fact = $('#fact'), mid = ranges[range].mid, rg = grp(mid);
-    var BL = [82, 90, 100, 110], BR = [90, 100, 110, 127]; bandR.setAttribute('x', X(BL[rg])); bandR.setAttribute('width', X(BR[rg]) - X(BL[rg]));
+    var BL = [82, 90, 100, 110], BR = [90, 100, 110, 127]; hiCount(rg); bandR.setAttribute('x', X(BL[rg])); bandR.setAttribute('width', X(BR[rg]) - X(BL[rg]));
     var z = (mid - MEAN) / SD, az2 = Math.abs(z);
     var where = az2 <= 1 ? 'in the average male range' : az2 <= 2 ? (z > 0 ? 'bigger than most males' : 'smaller than most males') : (z > 0 ? 'far bigger than most males' : 'far smaller than most males');
     var captions = ['Each circle is one adult male wolf. Bigger circle, wider hip bones.',
       'Now sorted by width, in the same ranges you measured with.',
-      '<span class="key"><i class="kd"></i><span><b>In your range (' + ranges[range].t + (rg === 0 ? '' : ' mm') + '):</b> about ' + cl[rg] + ' of 100</span></span>' +
+      '<span class="key"><i class="kd"></i><span><b>In your range (' + ranges[range].t + (rg === 0 ? '' : ' mm') + '):</b> about ' + cl[rg] + ' of 100 wolves</span></span>' +
       '<span class="key"><i class="kl2"></i>Other adult males</span>' +
       '<span class="key"><i class="kw"></i>Your wolf</span>'];
     var callout = null, still = false, quiet = 0, pending = false, ticks = 0, mv = 0, anim = null, wfr = null, wi = 0, wacc = 0;
@@ -1263,12 +1264,12 @@ void main(){
     var hits = 0, ex = rg, hopping = false, RN = ['Under 90 mm', '90 to 100 mm', '100 to 110 mm', 'Over 110 mm'];
     function hop(list, power) { list.forEach(function (b) { b.fixed = false; b.vy = -(power + Math.random() * 2.5); b.vx = (Math.random() - .5) * 1.6; }); bodies.forEach(function (b) { if (b.wolf) b.fixed = true; }); still = false; quiet = 0; ticks = 0; hopping = true; }
     function exploreKeys() {
-      return '<span class="key"><i class="kd"></i><span><b>' + RN[ex] + ':</b> about ' + cl[ex] + ' of 100' + (ex === rg ? ' &middot; your wolf is here' : '') + '</span></span>' +
+      return '<span class="key"><i class="kd"></i><span><b>' + RN[ex] + ':</b> about ' + cl[ex] + ' of 100 wolves' + (ex === rg ? ' &middot; your wolf is here' : '') + '</span></span>' +
         '<span class="key"><i class="kl2"></i>Other adult males</span><span class="key"><i class="kw"></i>Your wolf</span>';
     }
     function explore(d) {
       var n = Math.max(0, Math.min(3, ex + d)); if (n === ex) { hop(bodies.filter(function (b) { return !b.wolf && b.g === ex; }), 7); SND.note(ex, true); return; }
-      ex = n; bandR.setAttribute('x', X(BL[ex])); bandR.setAttribute('width', X(BR[ex]) - X(BL[ex]));
+      ex = n; hiCount(ex); bandR.setAttribute('x', X(BL[ex])); bandR.setAttribute('width', X(BR[ex]) - X(BL[ex]));
       bodies.forEach(function (b) { if (!b.wolf) b.dim = b.g !== ex; });
       fact.innerHTML = exploreKeys();
       hop(bodies.filter(function (b) { return !b.wolf && b.g === ex; }), 9); SND.note(ex);
@@ -1361,8 +1362,9 @@ void main(){
       if (!alive) return; raf = requestAnimationFrame(frame);
       var dt = Math.min(64, t - last || 16); last = t; var now = performance.now();
       if (phase === 0 && !still) { acc += dt; var guard = 0; while (acc >= 16.7 && guard++ < 4) { tick(); acc -= 16.7; if (still) break; } }
+      var wasHop = hopping;
       if (hopping && !anim && !wfr) { acc += dt; var g2 = 0; while (acc >= 16.7 && g2++ < 4) { tick(); acc -= 16.7; if (still) break; } if (still) { hopping = false; bodies.forEach(function (b) { b.fixed = true; }); } }
-      if (hits) { SND.tap(hits / 6); hits = 0; }
+      if (hits) { if (!wasHop) SND.tap(hits / 6); hits = 0; }
       if (autoMode && phase === 0 && still) setPhase(1);
       if (autoMode && phase === 1 && anim && (now - anim.t0) / 1800 > .5) setPhase(2);
       if (pending && phase === 2 && anim && (now - anim.t0) / 1800 > .68) spawnWolf();

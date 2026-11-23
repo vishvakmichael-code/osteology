@@ -249,9 +249,18 @@
   .m3intro .m3it span { display: inline-block; animation: iletter .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 45ms + 200ms); }
   .m3intro small { font: 600 2.2cqw/1 var(--sans); letter-spacing: .04em; animation: ifade .8s ease-out .9s both; }
   .m3intro.out { opacity: 0; transform: translateY(38%) scale(.25); }
-  .m3side li.m3try { grid-template-columns: 3.2cqw 1fr 7.6cqw; }
-  .m3side .m3img.m3fit { grid-column: 3; grid-row: 1; aspect-ratio: 1 / 1; background: #111; }
-  .m3side .m3img.m3fit img { object-fit: cover; }
+  .m3side li.m3try { grid-template-columns: 3.2cqw 1fr; }
+  .m3side .m3rev { grid-column: 2; justify-self: center; background: transparent; color: #FFF6DC; border: .14cqw solid rgba(255,246,220,.8); font: 600 1.1cqw/1 var(--sans); padding: .6cqw 1cqw; gap: .7cqw; }
+  .m3side .m3rev .kp { width: 1.5cqw; height: 1.5cqw; }
+  .measure3d .btn.knb:not(.sel) .kp svg, .measure3d .btn.knb:not(.sel) .kp::after { animation: none; }
+  .measure3d .btn.knb:not(.sel) { opacity: .7; }
+  .lbox { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4cqw; background: rgba(15,11,8,.86); animation: ifade .35s ease-out both; cursor: pointer; }
+  .lbox img { height: 70%; max-width: 80%; object-fit: contain; border-radius: 1cqw; box-shadow: 0 1cqw 4cqw rgba(0,0,0,.6); animation: lbin .45s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes lbin { from { transform: scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+  .lbox p { margin: 0; font: 400 2.2cqw/1.2 var(--head); text-transform: uppercase; letter-spacing: .04em; color: #FFF6DC; }
+  .lbox .lclose { display: flex; align-items: center; gap: .8cqw; font: 600 1.3cqw/1 var(--sans); color: #E8A94A; }
+  .lbox .lclose .kp { width: 2cqw; height: 2cqw; }
+  .lbox.out { animation: iout .3s ease-in both; }
   .m3side li.m3try .num { background: transparent; color: #FFF6DC; box-shadow: inset 0 0 0 .16cqw #FFF6DC; }
   .m3side li.m3try p { font-weight: 500; font-style: italic; font-size: 1.15cqw; text-align: left; text-wrap: pretty; }
   .m3view .m3msg { position: absolute; inset: 0; display: grid; place-items: center; font: 500 1.3cqw/1.4 var(--sans); color: #A29C8D; text-align: center; padding: 0 4cqw; }
@@ -476,7 +485,15 @@
   var ORDER = [0, 1, 2, 3, 4, 5, 6, 9, 7, 8, 10];
   function nextOf(c) { return ORDER[ORDER.indexOf(c) + 1]; }
   function prevOf(c) { return ORDER[ORDER.indexOf(c) - 1]; }
-  var confirming = false, putStep = 0;
+  var confirming = false, putStep = 0, lbOpen = false;
+  function openLb() {
+    if (lbOpen) return; lbOpen = true;
+    stage.insertAdjacentHTML('beforeend', '<div class="lbox" id="lbox" role="dialog" aria-label="How the bones fit together"><img src="images/measure/fitted-bones.jpg" alt="The printed hip bones and sacrum fitted together"><p>How the bones fit together</p><span class="lclose"><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span>Press the knob to close</span></div>');
+  }
+  function closeLb() {
+    var lb = $('#lbox'); lbOpen = false; if (lb) { lb.classList.add('out'); setTimeout(function () { lb.remove(); }, 300); }
+    var d = stage.querySelector('.m3bar [data-act="next"]'); if (d) { sel = opts.indexOf(d); markSel(); }
+  }
   var intro = false, introLeaving = false;
   var cur = 0, sel = 0, range = 2, crank = 0, boxState = null, doorSp = null, doorProg = 0;
   var opts = [];
@@ -933,7 +950,7 @@
     if (i === 6) return '<div class="m3side"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
-        '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton.</p><div class="m3img m3fit">' + photo('images/measure/fitted-bones.jpg', 'The printed hip bones and sacrum fitted together') + '</div></li>' +
+        '<li class="m3try"><span class="num">3</span><p>Try fitting the bones together, like the skeleton.</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Reveal how they fit</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' +
       '</ol></div>' +
       '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
       '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
@@ -1074,7 +1091,7 @@ void main(){
     if (crumpleCtl) { crumpleCtl.stop(); crumpleCtl = null; }
     if (bookCtl) { bookCtl.dispose(); bookCtl = null; }
     if (wolfCtl) { wolfCtl.dispose(); wolfCtl = null; }
-    confirming = false; putStep = 0;
+    confirming = false; putStep = 0; lbOpen = false;
     bookToken++;
     var t = titles[cur];
     var verdict = '';
@@ -1374,6 +1391,7 @@ void main(){
   function go(n) { cur = (n + titles.length) % titles.length; if (cur === 0) { boxState = null; crank = 0; $('#crank').value = 0; } render(); }
   function press() {
     if (intro) { SND.select(); leaveIntro(); return; }
+    if (lbOpen) { SND.select(); closeLb(); return; }
     if (cur === 8 && pileCtl && !pileCtl.done()) return;
     var o = opts[sel]; if (!o || !o.offsetParent) return;
     var bad = (o.dataset.box !== undefined && +o.dataset.box !== 1) || (o.dataset.confirm === 'yes' && range !== TRUE_RANGE);
@@ -1382,6 +1400,7 @@ void main(){
     else if (o.dataset.act === 'next') go(nextOf(cur));
     else if (o.dataset.act === 'restart') { go(0); showIntro(); }
     else if (o.dataset.act === 'put') putAway();
+    else if (o.dataset.act === 'reveal') openLb();
     else if (o.dataset.box !== undefined) pickBox(+o.dataset.box, o);
     else if (o.dataset.range !== undefined) { range = +o.dataset.range; askConfirm(); }
     else if (o.dataset.confirm === 'yes') { if (range === TRUE_RANGE) go(8); else { undoConfirm(); var q = $('#wsq'); if (q) q.innerHTML = '<b>Not quite.</b> Check that you measured between the two green points, then look at your sticky note again.'; } }
@@ -1424,7 +1443,7 @@ void main(){
   }
   function shake(el) { var s = spring(24, 0, 'wobbly', function (p) { el.style.transform = 'translateX(' + p + 'px)'; }); }
   function turn(d) {
-    if (intro) return;
+    if (intro || lbOpen) return;
     // crank screens: turning left past the start position highlights Back, turning right again goes back to cranking
     if (cur === 3 || (cur === 9 && putStep >= 2)) {
       var b = backIndex(), atStart = cur === 3 ? crank <= 0 : crank >= 100;
@@ -1467,6 +1486,7 @@ void main(){
   }, { passive: false });
   stage.addEventListener('click', function (e) {
     if (intro) { leaveIntro(); return; }
+    if (lbOpen) { SND.select(); closeLb(); return; }
     var b = e.target.closest && e.target.closest('button'); if (!b) return;
     if (b.dataset.act === 'back') { SND.select(); goBack(); return; }
     if (b.classList.contains('hbtn')) { if (cur === 8 && pileCtl && !pileCtl.done()) return; go(nextOf(cur)); return; }

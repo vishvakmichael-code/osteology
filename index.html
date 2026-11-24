@@ -263,6 +263,64 @@
   .m3side .m3rev .kp { width: 1.5cqw; height: 1.5cqw; }
   .measure3d .btn.knb:not(.sel) .kp svg, .measure3d .btn.knb:not(.sel) .kp::after { animation: none; }
   .measure3d .btn.knb:not(.sel) { opacity: .7; }
+  /* step 3 bonus stage */
+  .measure3d .m3view, .measure3d .m3side, .measure3d .m3bar { transition: transform .9s cubic-bezier(.65,0,.2,1), opacity .55s ease; }
+  .measure3d.bonus .m3view { transform: translate(1.4cqw, -3cqw) scale(.27); transform-origin: 0 50%; pointer-events: none; }
+  .measure3d.bonus .m3hint, .measure3d.bonus .m3key, .measure3d.bonus .m3intro { opacity: 0; transition: opacity .3s; }
+  .measure3d.bonus .m3side, .measure3d.bonus .m3bar { opacity: 0; transform: translateX(8cqw); pointer-events: none; }
+  .ttl h2 { transition: opacity .25s, transform .25s; } .ttl h2.swap { opacity: 0; transform: translateY(-.6cqw); }
+  .m3bonus { position: absolute; inset: 0; display: grid; grid-template-columns: 35cqw 1fr; column-gap: 2.8cqw; align-items: center; padding: 0 1.2cqw 0 19.6cqw; z-index: 2; }
+  .m3bonus.out { opacity: 0; transition: opacity .3s; }
+  .m3bonus .bdone { position: absolute; left: 3.2cqw; top: calc(50% + 5.4cqw); margin: 0; display: flex; align-items: center; gap: .6cqw; font: 700 1.05cqw/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: #FFF6DC; animation: bin .6s .75s cubic-bezier(.2,.8,.2,1) both; }
+  .m3bonus .bdone svg { width: 1.8cqw; height: 1.8cqw; }
+  @keyframes bin { from { opacity: 0; transform: translateY(2cqw) scale(.96); } to { opacity: 1; transform: none; } }
+  .bscene { position: relative; height: 24cqw; border-radius: 1cqw; background: radial-gradient(120% 90% at 50% 30%, #86664a, #4a3624); box-shadow: inset 0 0 2.4cqw rgba(0,0,0,.55), 0 1.2cqw 3.6cqw rgba(0,0,0,.45); cursor: pointer; animation: bin .7s .3s cubic-bezier(.2,.8,.2,1) both; }
+  .bpel { position: absolute; left: 42%; top: 22%; width: 52%; filter: drop-shadow(0 .4cqw .6cqw rgba(0,0,0,.45)); z-index: 2; }
+  .bb { position: absolute; z-index: 3; transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--k, 1)); filter: drop-shadow(0 .3cqw .5cqw rgba(0,0,0,.5));
+    transition: left .85s cubic-bezier(.45,0,.2,1), top .85s cubic-bezier(.45,0,.2,1), transform .85s cubic-bezier(.45,0,.2,1), opacity .45s ease; }
+  .bb.sac { width: 13%; } .bb.ver { width: 12%; }
+  .bscene.jump .bb { transition: none; }
+  .bscene[data-s="box"] .sac, .bscene[data-s="gone"] .sac { left: 14%; top: 86%; }
+  .bscene[data-s="box"] .ver, .bscene[data-s="gone"] .ver { left: 25%; top: 86%; }
+  .bscene[data-s="up"] .sac { left: 14%; top: 40%; --rot: -8deg; } .bscene[data-s="up"] .ver { left: 27%; top: 36%; --rot: 10deg; }
+  .bscene[data-s="up"] .bb { transition-timing-function: cubic-bezier(.2,.7,.3,1); }
+  .bscene[data-s="table"] .sac { left: 54%; top: 86%; } .bscene[data-s="table"] .ver { left: 70%; top: 85%; --rot: 20deg; }
+  .bscene[data-s="fit"] .sac, .bscene[data-s="gone"] .sac { --k: .92; } .bscene[data-s="fit"] .ver { --rot: 45deg; --k: .9; }
+  .bscene[data-s="fit"] .sac { left: 64%; top: 47%; } .bscene[data-s="fit"] .ver { left: 51%; top: 46%; }
+  .bscene[data-s="gone"] .bb { opacity: 0; transition: opacity .4s; }
+  .bbox { position: absolute; left: 4%; bottom: 5%; width: 31%; height: 23%; z-index: 4; background: linear-gradient(#cfae72, #a8834a); border: .18cqw solid #5a4326; border-radius: .3cqw; display: grid; place-items: center; box-shadow: 0 .4cqw .8cqw rgba(0,0,0,.35); }
+  .bbox b { font: 700 .85cqw var(--sans); letter-spacing: .08em; text-transform: uppercase; background: #FFFBEE; color: #2B2A27; padding: .22cqw .6cqw; border-radius: .2cqw; }
+  .bbox .blid { position: absolute; left: -.18cqw; right: -.18cqw; top: -1.5cqw; height: 1.5cqw; background: linear-gradient(#2a1d12, #45321f); border: .18cqw solid #5a4326; border-bottom: 0; clip-path: polygon(7% 0, 93% 0, 100% 100%, 0 100%); }
+  .bglow { position: absolute; left: 62%; top: 47%; width: 34%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%) scale(.5); opacity: 0; pointer-events: none; z-index: 1; background: radial-gradient(closest-side, rgba(232,169,74,.55), rgba(232,169,74,0)); }
+  .bscene.glow .bglow { animation: bglow 1.4s ease-out both; }
+  @keyframes bglow { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.5); } 35% { opacity: 1; } 100% { opacity: .35; transform: translate(-50%, -50%) scale(1.15); } }
+  .bok { position: absolute; left: 68%; top: 86%; transform: translate(-50%, -50%) scale(.6); opacity: 0; z-index: 5; background: #E8A94A; color: #2B2A27; font: 800 1.05cqw/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; padding: .55cqw 1cqw; border-radius: 2cqw; box-shadow: 0 .3cqw 1cqw rgba(0,0,0,.4); transition: transform .45s cubic-bezier(.3,1.6,.5,1), opacity .25s; }
+  .bscene.glow .bok { opacity: 1; transform: translate(-50%, -50%) scale(1); transition-delay: .25s; }
+  .bgoal { position: absolute; right: -1.6cqw; top: -2.2cqw; width: 6.6cqw; margin: 0; padding: .4cqw .4cqw .3cqw; background: #FFFBEE; border-radius: .3cqw; transform: rotate(5deg); box-shadow: 0 .6cqw 1.4cqw rgba(0,0,0,.45); z-index: 6; animation: bgoal .6s .9s cubic-bezier(.3,1.4,.5,1) both; }
+  .bgoal img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: .15cqw; }
+  .bgoal figcaption { font: 700 .8cqw/1.4 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #612826; text-align: center; }
+  @keyframes bgoal { from { opacity: 0; transform: rotate(18deg) translateY(-2cqw) scale(.7); } to { opacity: 1; transform: rotate(5deg); } }
+  .breplay { position: absolute; left: 1.2cqw; top: 1cqw; font: 600 .85cqw/1 var(--sans); color: rgba(255,246,220,.6); opacity: 0; transition: opacity .25s; }
+  .bscene:hover .breplay { opacity: 1; }
+  .binfo { display: flex; flex-direction: column; align-items: flex-start; color: #FFF6DC; }
+  .binfo > * { animation: bin .6s cubic-bezier(.2,.8,.2,1) both; }
+  .binfo > :nth-child(1) { animation-delay: .45s; } .binfo > :nth-child(2) { animation-delay: .55s; } .binfo > :nth-child(3) { animation-delay: .65s; } .binfo > :nth-child(4) { animation-delay: .8s; }
+  .binfo small { font: 700 1.05cqw/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #E8A94A; }
+  .binfo h3 { margin: .9cqw 0 1.5cqw; font: 400 2.8cqw/1.08 var(--head); text-transform: uppercase; letter-spacing: .02em; text-shadow: 0 .2cqw 1cqw rgba(0,0,0,.5); }
+  .bsteps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .9cqw; }
+  .bsteps li { display: flex; align-items: center; gap: 1cqw; font: 600 1.3cqw/1.3 var(--sans); opacity: .5; cursor: pointer; transition: opacity .35s, transform .35s cubic-bezier(.3,1.4,.5,1); text-shadow: 0 .1cqw .6cqw rgba(0,0,0,.6); }
+  .bsteps li b { flex: none; width: 2.5cqw; height: 2.5cqw; border-radius: 50%; display: grid; place-items: center; font: 700 1.2cqw/1 var(--sans); background: transparent; color: #FFF6DC; box-shadow: inset 0 0 0 .14cqw rgba(255,246,220,.7); transition: background .3s, color .3s, box-shadow .3s, transform .35s cubic-bezier(.3,1.6,.5,1); }
+  .bsteps li.past { opacity: .75; } .bsteps li.past b { background: rgba(255,246,220,.9); color: #2B2A27; box-shadow: none; }
+  .bsteps li.on { opacity: 1; transform: translateX(.6cqw); } .bsteps li.on b { background: #E8A94A; color: #2B2A27; box-shadow: 0 0 0 .4cqw rgba(232,169,74,.25); transform: scale(1.12); }
+  .bclock { width: 2cqw; height: 2cqw; flex: none; opacity: 0; transition: opacity .3s; }
+  .bsteps li.on .bclock { opacity: 1; } .bsteps li.on .bcr { animation: bclock 3s linear both; }
+  @keyframes bclock { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 59.7; } }
+  .bbtns { display: flex; align-items: flex-start; gap: 1.2cqw; margin-top: 2cqw; }
+  .bbtns .kwrap { align-items: center; }
+  .bbtns .btn { background: #FFF6DC; color: #2B2A27; border-color: #FFF6DC; font: 700 1.2cqw/1 var(--sans); padding: 1cqw 1.3cqw; white-space: nowrap; transition: transform .25s, opacity .25s; }
+  .bbtns .btn.sel { transform: translateY(-.2cqw); box-shadow: 0 0 1.6cqw rgba(232,169,74,.55); }
+  .bbtns .bskip { background: transparent; color: #FFF6DC; border-color: rgba(255,246,220,.6); font-weight: 600; }
+  .reduce-motion .m3bonus *, .reduce-motion .measure3d .m3view { animation: none !important; transition: none !important; }
   .lbox { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4cqw; background: rgba(15,11,8,.86); animation: ifade .35s ease-out both; cursor: pointer; }
   .lbox img { height: 70%; max-width: 80%; object-fit: contain; border-radius: 1cqw; box-shadow: 0 1cqw 4cqw rgba(0,0,0,.6); animation: lbin .45s cubic-bezier(.2,.8,.2,1) both; }
   @keyframes lbin { from { transform: scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -526,7 +584,71 @@
   }
   function closeLb() {
     clearInterval(m3Clock); var lb = $('#lbox'); lbOpen = false; if (lb) { lb.classList.add('out'); setTimeout(function () { lb.remove(); }, 300); }
+    if (bonusOn) { setTimeout(function () { if (cur === 6) go(nextOf(6)); }, 260); return; } // done fitting: on to putting the bones away
     var d = stage.querySelector('.m3bar [data-act="next"]'); if (d) { sel = opts.indexOf(d); markSel(); }
+  }
+  // ---------- step 3, the bonus stage: the skeleton shrinks to the side and the challenge comes to the centre.
+  // A small looping demo shows the two other bones coming out of the box and fitting into the pelvis,
+  // and the matching instruction lights up as it plays. Click a step to jump to it, click the table to replay.
+  var bonusOn = false, bonusT = [], bonusPass = 0;
+  var BONUS_HTML = '<div class="m3bonus" id="m3bonus">' +
+    '<p class="bdone"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#E8A94A"/><path d="M6.5 12.5l3.6 3.4 7.4-8" fill="none" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pelvis measured</p>' +
+    '<div class="bscene" id="bscene" data-s="box" role="img" aria-label="Demo: the two other bones come out of the box and fit into the pelvis">' +
+      '<img class="bpel" src="images/bones/pelvis.png" alt="" draggable="false">' +
+      '<img class="bb sac" src="images/bones/sacrum.png" alt="" draggable="false"><img class="bb ver" src="images/bones/vertebra.png" alt="" draggable="false">' +
+      '<div class="bbox"><i class="blid"></i><b>Box 2</b></div>' +
+      '<span class="bglow"></span><span class="bok">It fits!</span>' +
+      '<figure class="bgoal"><img src="images/measure/fitted-bones.jpg" alt="" draggable="false"><figcaption>Goal</figcaption></figure>' +
+      '<span class="breplay">Click to replay</span>' +
+    '</div>' +
+    '<div class="binfo"><small>Step 3 &middot; Bonus challenge</small><h3>Put the hips back together</h3>' +
+      '<ol class="bsteps"><li data-k="0"><b>1</b><span>Take the other two bones out of the box.</span></li>' +
+      '<li data-k="1"><b>2</b><span>Fit them to the pelvis, like the photo.</span></li>' +
+      '<li data-k="2"><b>3</b><span>Beat the clock: you have 1:30.</span><svg class="bclock" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="rgba(255,246,220,.25)" stroke-width="3"/><circle class="bcr" cx="12" cy="12" r="9.5" fill="none" stroke="#E8A94A" stroke-width="3" stroke-linecap="round" stroke-dasharray="59.7" transform="rotate(-90 12 12)"/></svg></li></ol>' +
+      '<div class="bbtns">' + kbtn('Try putting the bones together', 'data-act="reveal"') + '<button class="btn opt-b bskip" data-act="next">Skip</button></div>' +
+    '</div></div>';
+  function bonusStep(k) { stage.querySelectorAll('.bsteps li').forEach(function (li, n) { li.classList.toggle('on', n === k); li.classList.toggle('past', n < k); }); }
+  function bonusClear() { bonusT.forEach(clearTimeout); bonusT = []; }
+  function bonusAt(ms, fn) { bonusT.push(setTimeout(function () { if (bonusOn && cur === 6) fn(); }, ms)); }
+  function bonusPlay(from) {
+    var sc = $('#bscene'); if (!sc) return; bonusClear(); from = from || 0;
+    var loud = bonusPass++ === 0; // sounds on the first run only, so the loop stays quiet
+    sc.classList.remove('glow');
+    if (reduce) { sc.dataset.s = 'fit'; bonusStep(-1); return; }
+    if (from === 0) {
+      sc.classList.add('jump'); sc.dataset.s = 'box'; void sc.offsetWidth; sc.classList.remove('jump'); bonusStep(0);
+      bonusAt(450, function () { sc.dataset.s = 'up'; if (loud) SND.note(1, true); });
+      bonusAt(1350, function () { sc.dataset.s = 'table'; });
+      bonusAt(2150, function () { if (loud) SND.tap(.5); });
+    }
+    var t = from === 0 ? 2500 : 0;
+    if (from <= 1) {
+      if (from === 1) { sc.classList.add('jump'); sc.dataset.s = 'table'; void sc.offsetWidth; sc.classList.remove('jump'); }
+      bonusAt(t, function () { bonusStep(1); });
+      bonusAt(t + 350, function () { sc.dataset.s = 'fit'; });
+      bonusAt(t + 1350, function () { sc.classList.add('glow'); if (loud) SND.note(3); });
+      t += 2100;
+    } else { sc.classList.add('jump'); sc.dataset.s = 'fit'; void sc.offsetWidth; sc.classList.remove('jump'); sc.classList.add('glow'); }
+    bonusAt(t, function () { bonusStep(2); });
+    bonusAt(t + 3200, function () { sc.classList.remove('glow'); sc.dataset.s = 'gone'; });
+    bonusAt(t + 3800, function () { bonusPlay(0); });
+  }
+  function enterBonus() {
+    var card = $('#card'); if (!card || bonusOn) return; bonusOn = true; bonusPass = 0; m3dismiss();
+    card.classList.add('bonus'); card.insertAdjacentHTML('beforeend', BONUS_HTML);
+    var h = stage.querySelector('.ttl h2'); if (h) { h.classList.add('swap'); setTimeout(function () { h.textContent = 'Bonus: fit the bones'; h.classList.remove('swap'); }, 260); }
+    SND.whoosh();
+    var bx = $('#m3bonus');
+    bx.querySelectorAll('.bsteps li').forEach(function (li) { li.addEventListener('click', function () { bonusPlay(+li.dataset.k); }); });
+    $('#bscene').addEventListener('click', function () { bonusPlay(0); });
+    opts = [].slice.call(bx.querySelectorAll('.opt-b')); sel = 0; markSel();
+    bonusT.push(setTimeout(function () { if (bonusOn) bonusPlay(0); }, 700));
+  }
+  function exitBonus() {
+    var card = $('#card'), bx = $('#m3bonus'); if (!bonusOn) return; bonusOn = false; bonusClear();
+    if (card) card.classList.remove('bonus'); if (bx) { bx.classList.add('out'); setTimeout(function () { bx.remove(); }, 350); }
+    var h = stage.querySelector('.ttl h2'); if (h) h.textContent = titles[6][0];
+    opts = [].slice.call(stage.querySelectorAll('.m3bar .opt-b')); sel = 0; markSel();
   }
   var intro = false, introLeaving = false;
   var cur = 0, sel = 0, range = 2, crank = 0, boxState = null, doorSp = null, doorProg = 0;
@@ -982,13 +1104,12 @@
     if (i === 5) return '<div class="steps3">' + [['Open the box on the table', 'images/workstation/box-closed.jpg'], ['Guess and take the pelvis out of the box!', 'images/workstation/box-open.jpg']].map(function (t) { return '<figure class="st3"><figcaption>' + t[0] + '</figcaption>' + photo(t[1], t[0], 'ph3') + '</figure>'; }).join('') + '</div>' +
       '<div class="foot">' + kbtn('Ready to measure', 'data-act="next"') + '</div>';
     // measure: numbered steps on a dark panel, the 3D skeleton (the knob turns it), then press the knob when done
-    if (i === 6) return '<div class="m3side' + (FEATURES.fitBones ? ' withfit' : '') + '"><ol>' +
+    if (i === 6) return '<div class="m3side"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
-        (FEATURES.fitBones ? '<li class="m3try"><span class="num">3</span><p>Bonus: take the other two bones out of the box, then fit all three together.</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Try fitting bones together</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' : '') +
       '</ol></div>' +
       '<div class="m3view" id="m3view"><span class="m3key"><i></i>Pelvis</span>' + (reduce ? '' : '<div class="m3intro" id="m3intro" aria-hidden="true">' + TURNTIP + '<p class="m3it">' + 'Turn the knob'.split('').map(function (c, n) { return '<span style="--i:' + n + '">' + (c === ' ' ? '&nbsp;' : c) + '</span>'; }).join('') + '</p><small>to rotate the wolf</small></div>') + '<span class="m3hint" id="m3hint">' + TURNTIP + 'Turn the knob to rotate the wolf</span></div>' +
-      '<div class="m3bar">' + kbtn('Done measuring', 'data-act="next"') + '</div>';
+      '<div class="m3bar">' + kbtn('Done measuring', FEATURES.fitBones ? 'data-act="bonus"' : 'data-act="next"') + '</div>';
     // how wide is it: one cream panel over the whole screen; the knob chooses, a press selects
     if (i === 7) return '<div class="rq"><p id="wsq"><b>How wide is it?</b> Pick the range your measurement lies in</p><div class="row" id="ranges">' + ranges.map(function (r, n) { return '<button class="btn alt opt-r" data-range="' + n + '">' + r.t + '</button>'; }).join('') + '</div><p class="knobtip">' + TURNTIP + 'Turn the knob to choose, press it to pick</p><button class="backbtn" type="button" data-act="back" aria-label="Back to the previous screen">&lsaquo; Back</button>' + '</div>';
     if (i === 8) return '<div class="chart"><svg id="pile" viewBox="0 -4 760 322" role="img" aria-label="Your wolf dropped into a cluster of adult male wolf pelvis widths"></svg></div>' +
@@ -1126,7 +1247,7 @@ void main(){
     if (crumpleCtl) { crumpleCtl.stop(); crumpleCtl = null; }
     if (bookCtl) { bookCtl.dispose(); bookCtl = null; }
     if (wolfCtl) { wolfCtl.dispose(); wolfCtl = null; }
-    confirming = false; putStep = 0; lbOpen = false; clearInterval(m3Clock);
+    confirming = false; putStep = 0; lbOpen = false; clearInterval(m3Clock); bonusOn = false; bonusClear();
     bookToken++;
     var t = titles[cur];
     var verdict = '';
@@ -1153,7 +1274,7 @@ void main(){
   }
   function withBack() {} // Back stays out of the knob's list (mouse only)
   function backIndex() { var b = stage.querySelector('.backbtn'); return b ? opts.indexOf(b) : -1; }
-  function goBack() { if (cur <= 0) return; var p = prevOf(cur); if (p === 3) { crank = 0; $('#crank').value = 0; } go(p); }
+  function goBack() { if (bonusOn) { exitBonus(); return; } if (cur <= 0) return; var p = prevOf(cur); if (p === 3) { crank = 0; $('#crank').value = 0; } go(p); }
   function markSel() {
     opts.forEach(function (o, n) { o.classList.toggle('sel', n === sel); });
     if (cur === 4 || cur === 7) opts.forEach(function (o, n) { if (n === sel) bump(o); });
@@ -1477,6 +1598,7 @@ void main(){
     else if (o.dataset.act === 'restart') { go(0); showIntro(); }
     else if (o.dataset.act === 'put') putAway();
     else if (o.dataset.act === 'reveal') openLb();
+    else if (o.dataset.act === 'bonus') enterBonus();
     else if (o.dataset.box !== undefined) pickBox(+o.dataset.box, o);
     else if (o.dataset.range !== undefined) { range = +o.dataset.range; askConfirm(); }
     else if (o.dataset.confirm === 'yes') { if (range === TRUE_RANGE) go(8); else { undoConfirm(); var q = $('#wsq'); if (q) q.innerHTML = '<b>Not quite.</b> Check that you measured between the two green points, then look at your sticky note again.'; } }
@@ -1530,7 +1652,7 @@ void main(){
     }
     if (cur === 8 && pileCtl && !pileCtl.done()) return; // the bubbles settle first
     if (cur === 8 && pileCtl) { pileCtl.explore(d); return; } // then the knob explores the ranges
-    if (cur === 6) { m3dismiss(); SND.tick(); if (wolfCtl) wolfCtl.spin(d * 0.35); return; } // the knob turns the skeleton; Back is a click here
+    if (cur === 6 && !bonusOn) { m3dismiss(); SND.tick(); if (wolfCtl) wolfCtl.spin(d * 0.35); return; } // the knob turns the skeleton; Back is a click here
     if (!opts.length) return;
     stage.classList.remove('arrive');
     if (sel < 0) sel = d > 0 ? 0 : opts.length - 1; else sel = (sel + d + opts.length) % opts.length;
@@ -1557,7 +1679,7 @@ void main(){
       if ((b >= 0 && sel === b) || (px < 0 && atStart)) wheelTurn(px);
       else { wheelStep = 0; setCrank(cur === 3 ? crank + px * CRANK_PER_PX : crank - px * CRANK_PER_PX); }
     }
-    else if (cur === 6 && wolfCtl) wolfCtl.spin(px * 0.004);
+    else if (cur === 6 && wolfCtl && !bonusOn) wolfCtl.spin(px * 0.004);
     else wheelTurn(px);
   }, { passive: false });
   stage.addEventListener('click', function (e) {

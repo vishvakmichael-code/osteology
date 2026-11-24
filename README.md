@@ -27,9 +27,9 @@ Controls: the arrow keys turn the knob, Enter presses it (the small knob inside 
 
 Sound: short tones made in the browser (no audio files) for turning, pressing, a wrong choice, opening and closing the door, packing the box and closing the door. On the chart, colliding circles tap like pebbles (louder when more collide at once), sorting starts with a whoosh and each circle taps as it lands, and the wolf lands with a thump. Add `?mute=1` to the address to turn them off.
 
-## Switched-off features
+## Features that can be switched off
 
-**Fit the bones** (`FEATURES.fitBones` in `index.html`, off): a bonus step 3 on the measure screen, "Bonus: can you put the bones together, like the skeleton?", with a **Try fitting bones together** button. Pressing it opens a fitting screen: the photo of the fitted bones (`images/measure/fitted-bones.jpg`), "Fit the bones together" and a 2-minute timer that starts when the screen opens (red in the last 20 s, ticking in the last 10 s; `M3_SECONDS`). At zero it says "Time's up! Press the knob to go on". The next press closes the screen and selects Done measuring. Preview it with `?fit=1` at the end of the address; to turn it on for everyone, set `fitBones: true`.
+**Fit the bones** (`FIT_BONES_ON` in `index.html`, on): a bonus step 3 on the measure screen, "Bonus: can you put the bones together, like the skeleton?", with a **Try fitting bones together** button. Pressing it opens a fitting screen: the photo of the fitted bones (`images/measure/fitted-bones.jpg`), "Fit the bones together" and a 1 minute 30 second timer that starts when the screen opens (a soft tick-tock every second, a little louder in the last 10 s, red in the last 20 s; `M3_SECONDS`). At zero it says "Time's up! Press the knob to go on". The next press closes the screen and selects Done measuring. To turn it off for everyone, set `FIT_BONES_ON = false`. Add `?fit=0` to the address to see the booth without it, or `?fit=1` to force it on.
 
 ## Folders
 

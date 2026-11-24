@@ -236,6 +236,9 @@
   .m3side p { margin: 0; font: 600 1.25cqw/1.3 var(--sans); color: #FFF6DC; text-align: center; text-wrap: balance; text-shadow: 0 .1cqw .7cqw rgba(0,0,0,.75), 0 0 .3cqw rgba(0,0,0,.6); }
   .m3img { grid-column: 2; position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: .5cqw; overflow: hidden; background: #F5EBC9; }
   .m3side li:first-child .m3img { grid-column: 1 / -1; }
+  /* with the bonus step shown, everything tightens so the bonus button stays above Done measuring */
+  .m3side.withfit ol { gap: .7cqw; } .m3side.withfit li { row-gap: .6cqw; }
+  .m3side.withfit li:nth-child(2) .m3img { aspect-ratio: auto; height: 6.6cqw; }
   .m3img img, .m3img .ph-missing { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .m3img .marks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
   .m3view { grid-column: 1; grid-row: 1 / 3; position: relative; min-height: 0; }
@@ -447,9 +450,10 @@
   // Booth screen: always animate, whatever the OS motion setting says (Windows often reports "reduce" when
   // "Animation effects" is off, on work PCs, VMs and Remote Desktop). Add ?reduce=1 to the URL to turn motion off.
   var reduce = /[?&]reduce=1\b/.test(location.search);
-  // Features that are built but switched off for now. fitBones: step 3 on the measure screen ("Try fitting the bones together")
-  // with the "Try fitting bones together" screen (photo + 2-minute timer). Turn it on here (true), or preview it with ?fit=1 in the address.
-  var FEATURES = { fitBones: /[?&]fit=1\b/.test(location.search) };
+  // Features that can be switched on or off. fitBones (ON): step 3 on the measure screen, "Try fitting bones together",
+  // which opens the fitting screen (photo + 1:30 timer). To turn it off, set FIT_BONES_ON to false; ?fit=0 / ?fit=1 in the address overrides it.
+  var FIT_BONES_ON = true;
+  var FEATURES = { fitBones: /[?&]fit=1\b/.test(location.search) ? true : /[?&]fit=0\b/.test(location.search) ? false : FIT_BONES_ON };
   if (reduce) document.documentElement.classList.add('reduce-motion');
   // Wheel input in pixels, the same scale on every OS and device: a Windows mouse notch (~100 px, or 3 lines in
   // Firefox) and a Mac trackpad swipe (many small events) now move things by how far you actually scrolled.
@@ -518,7 +522,7 @@
   var confirming = false, putStep = 0, lbOpen = false;
   function openLb() {
     if (lbOpen) return; lbOpen = true;
-    stage.insertAdjacentHTML('beforeend', '<div class="lbox fit" id="lbox" role="dialog" aria-label="Fit the bones together"><div class="lgrid"><img src="images/measure/fitted-bones.jpg" alt="The printed hip bones and sacrum fitted together"><div class="lside"><small>Bonus challenge</small><h3>Fit the bones together</h3><p>Use the bones on your table. The photo shows how they fit.</p><div class="m3timer" id="m3timer" role="timer" aria-live="off"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,246,220,.18)" stroke-width="4"/><circle class="tr" cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg><b id="m3time">2:00</b><small id="m3tl">time left</small></div><span class="lclose" id="lclose"><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span>Press the knob when you are done</span></div></div></div>');
+    stage.insertAdjacentHTML('beforeend', '<div class="lbox fit" id="lbox" role="dialog" aria-label="Fit the bones together"><div class="lgrid"><img src="images/measure/fitted-bones.jpg" alt="The printed hip bones and sacrum fitted together"><div class="lside"><small>Bonus challenge</small><h3>Fit the bones together</h3><p>Use the bones on your table. The photo shows how they fit.</p><div class="m3timer" id="m3timer" role="timer" aria-live="off"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,246,220,.18)" stroke-width="4"/><circle class="tr" cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg><b id="m3time">1:30</b><small id="m3tl">time left</small></div><span class="lclose" id="lclose"><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span>Press the knob when you are done</span></div></div></div>');
     m3Timer();
   }
   function closeLb() {
@@ -979,7 +983,7 @@
     if (i === 5) return '<div class="steps3">' + [['Open the box on the table', 'images/workstation/box-closed.jpg'], ['Guess and take the pelvis out of the box!', 'images/workstation/box-open.jpg']].map(function (t) { return '<figure class="st3"><figcaption>' + t[0] + '</figcaption>' + photo(t[1], t[0], 'ph3') + '</figure>'; }).join('') + '</div>' +
       '<div class="foot">' + kbtn('Ready to measure', 'data-act="next"') + '</div>';
     // measure: numbered steps on a dark panel, the 3D skeleton (the knob turns it), then press the knob when done
-    if (i === 6) return '<div class="m3side"><ol>' +
+    if (i === 6) return '<div class="m3side' + (FEATURES.fitBones ? ' withfit' : '') + '"><ol>' +
         '<li><span class="num">1</span><p>Use the scale to measure the points marked in green</p><div class="m3img">' + photo('images/measure/pelvis-top.jpg', 'The pelvis seen from above') + PELVIS_MARKS + '</div></li>' +
         '<li><span class="num">2</span><p>Write the measurement in mm on the sticky note.</p><div class="m3img">' + photo('images/measure/sticky-note.jpg', 'Writing the measurement on a sticky note') + '</div></li>' +
         (FEATURES.fitBones ? '<li class="m3try"><span class="num">3</span><p>Bonus: can you put the bones together, like the skeleton?</p><button class="btn opt-b knb m3rev" data-act="reveal"><span class="kl">Try fitting bones together</span><span class="kp"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="15" cy="15" r="6" fill="currentColor"/></svg></span></button></li>' : '') +
@@ -1174,8 +1178,8 @@ void main(){
     if (cur === 9) { crank = 100; $('#crank').value = 100; applyDoor(1); doorSp = spring(1, 1, 'slow', applyDoor); }
     if (cur === 10) { var s = $('#stk'); if (s) spring(0, 1, 'wobbly', function (p) { s.style.transform = 'scale(' + p + ') rotate(' + ((1 - p) * -40) + 'deg)'; }); }
   }
-  // fitting screen: two minutes on the clock from when it opens; the ring runs down, the last 20 s turn red, and at zero it says time's up
-  var m3Clock = null, M3_SECONDS = 120;
+  // fitting screen: one and a half minutes on the clock from when it opens; the ring runs down, the last 20 s turn red, and at zero it says time's up
+  var m3Clock = null, M3_SECONDS = 90;
   function m3Timer() {
     clearInterval(m3Clock); var t0 = performance.now(), lastS = M3_SECONDS, ring = stage.querySelector('#m3timer .tr');
     m3Clock = setInterval(function () {
@@ -1184,7 +1188,7 @@ void main(){
       $('#m3time').textContent = Math.floor(sec / 60) + ':' + ('0' + sec % 60).slice(-2);
       if (ring) ring.setAttribute('stroke-dashoffset', (119.4 * (1 - left / M3_SECONDS)).toFixed(1));
       box.classList.toggle('low', left <= 20 && left > 0);
-      if (sec !== lastS) { lastS = sec; if (sec <= 10 && sec > 0) SND.tick(); }
+      if (sec !== lastS) { lastS = sec; if (sec > 0) SND.clock(sec % 2, sec <= 10); }
       if (left <= 0) {
         clearInterval(m3Clock); box.classList.add('up'); $('#m3tl').textContent = "time's up";
         var lc = $('#lclose'); if (lc) lc.lastChild.textContent = "Time's up! Press the knob to go on";
@@ -1449,6 +1453,8 @@ void main(){
       tap: function (v) { var now = performance.now(); if (now - lastTap < 75) return; lastTap = now; v = Math.max(0.15, Math.min(1, v || 0.5)); var f = 260 + Math.random() * 160; tone(f, 0, 0.07, 'sine', 0.015 + v * 0.03, f * 0.8, 0.004); },
       whoosh: function () { noise(0, 0.8, 0.035, 220, 0.7, 900); },
       land: function () { tone(140, 0, 0.35, 'sine', 0.22, 70); noise(0, 0.1, 0.05, 300, 1); },
+      // fitting timer: a soft wooden tick-tock every second, a touch louder in the last ten
+      clock: function (tock, last) { var f = tock ? 520 : 640; tone(f, 0, 0.05, 'sine', last ? 0.07 : 0.035, f * 0.85, 0.003); noise(0, 0.025, last ? 0.04 : 0.02, 1200, 3); },
       // exploring the chart: one soft, round note per range, a little higher for each wider range
       note: function (k, soft) { var f = [262, 294, 330, 392][k || 0] || 262; tone(f, 0, 0.5, 'sine', soft ? 0.035 : 0.06, 0, 0.02); tone(f * 2, 0, 0.3, 'sine', soft ? 0.008 : 0.014, 0, 0.02); },
       pop: function (k) { tone(330 + (k || 0) * 45, 0, 0.12, 'sine', 0.06, 440 + (k || 0) * 55); },

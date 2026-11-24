@@ -29,7 +29,7 @@ Sound: short tones made in the browser (no audio files) for turning, pressing, a
 
 ## Features that can be switched off
 
-**Fit the bones** (`FIT_BONES_ON` in `index.html`, on): a bonus step 3 on the measure screen, "Bonus: can you put the bones together, like the skeleton?", with a **Try fitting bones together** button. Pressing it opens a fitting screen: the photo of the fitted bones (`images/measure/fitted-bones.jpg`), "Fit the bones together" and a 1 minute 30 second timer that starts when the screen opens (a soft tick-tock every second, a little louder in the last 10 s, red in the last 20 s; `M3_SECONDS`). At zero it says "Time's up! Press the knob to go on". The next press closes the screen and selects Done measuring. To turn it off for everyone, set `FIT_BONES_ON = false`. Add `?fit=0` to the address to see the booth without it, or `?fit=1` to force it on.
+**Fit the bones** (`FIT_BONES_ON` in `index.html`, on): a bonus step 3 on the measure screen, "Bonus: take the other two bones out of the box, then fit all three together.", with a **Try fitting bones together** button. Pressing it opens a fitting screen: the photo of the fitted bones (`images/measure/fitted-bones.jpg`), "Fit the bones together" and a 1 minute 30 second timer that starts when the screen opens (a soft tick-tock every second, a little louder in the last 10 s, red in the last 20 s; `M3_SECONDS`). At zero it says "Time's up! Press the knob to go on". The next press closes the screen and selects Done measuring. To turn it off for everyone, set `FIT_BONES_ON = false`. Add `?fit=0` to the address to see the booth without it, or `?fit=1` to force it on.
 
 ## Folders
 

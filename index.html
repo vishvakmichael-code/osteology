@@ -507,9 +507,9 @@
   // Booth screen: always animate, whatever the OS motion setting says (Windows often reports "reduce" when
   // "Animation effects" is off, on work PCs, VMs and Remote Desktop). Add ?reduce=1 to the URL to turn motion off.
   var reduce = /[?&]reduce=1\b/.test(location.search);
-  // Features that can be switched on or off. fitBones (ON): step 3 on the measure screen, "Try fitting bones together",
+  // Features that can be switched on or off. fitBones (OFF): step 3 on the measure screen, "Try fitting bones together",
   // which opens the fitting screen (photo + 1:30 timer). To turn it off, set FIT_BONES_ON to false; ?fit=0 / ?fit=1 in the address overrides it.
-  var FIT_BONES_ON = true;
+  var FIT_BONES_ON = false;
   var FEATURES = { fitBones: /[?&]fit=1\b/.test(location.search) ? true : /[?&]fit=0\b/.test(location.search) ? false : FIT_BONES_ON };
   if (reduce) document.documentElement.classList.add('reduce-motion');
   // Wheel input in pixels, the same scale on every OS and device: a Windows mouse notch (~100 px, or 3 lines in

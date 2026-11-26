@@ -404,6 +404,7 @@
   .fp li.done { color: #FFF6DC; }
   .fp li.done::before { border-color: #E8A94A; background: #E8A94A url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='%232B2A27' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat; }
   .fp li.now { color: #FFF6DC; font-weight: 700; }
+  #phint { display: flex; flex-direction: column; align-items: center; gap: .6cqw; } .phcap { font: 600 1.1cqw/1 var(--sans); color: #FFF6DC; }
   .icorow { display: flex; gap: 1cqw; }
   .chip { font: 600 1.2cqw/1 var(--sans); border: .14cqw dashed #8A8470; border-radius: .5cqw; padding: .8cqw 1.2cqw; align-self: flex-start; }
   .chart > svg { width: 100%; height: auto; display: block; overflow: visible; }
@@ -570,7 +571,7 @@
     ['Measure the width', ''],
     ['How wide is it?', 'Pick the range your measurement lies in.'],
     ['', 'Your wolf dropped in among the adult males.'],
-    ['Fire protocol: put the bones back', 'Museum rule: the bones go back behind a closed door, safe in case of fire.'],
+    ['Fire protocol', 'If a fire starts, a closed door keeps the bones safe.'],
     ['Publish your reading', 'The last step of every study: share your result so others can check it.']
   ];
   // The order the visitor sees the screens in: right after measuring they pack the bones away and close the shelf, then work out the result.
@@ -1121,8 +1122,7 @@
     if (i === 9) return '<div class="row put"><div class="tbl2"><div class="pbox" id="pbox"><i class="lid"></i><b>Box 2</b></div><div class="items bones" id="items">' + BONES + '</div></div>' +
       '<div class="door dshelf shelf2" id="door">' + [['Ursus arctos', ''], ['Canis lupus', ' slot2'], ['Vulpes vulpes', '']].map(function (b, n) {
         return '<div class="bx2' + b[1] + '"' + (b[1] ? ' id="slot"' : '') + '><span class="cb"></span><span class="pill">' + b[0] + '</span></div>'; }).join('') + '<div class="leaf l" id="dl"><i class="cr"><b></b></i></div><div class="leaf r" id="dr"><i class="cr"><b></b></i></div></div></div>' +
-      '<div class="row" style="align-items:center"><span class="sans" style="font-weight:700;font-size:1.1cqw;letter-spacing:.1em;color:#5A5548">DOOR OPEN</span><div class="bar"><i id="cbar"></i></div><b class="sans" id="cpct">100%</b></div>' +
-      '<div class="foot sidefoot"><div class="fp"><b class="fpt"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5c.6 3.2 4.8 5.3 4.8 10a4.8 4.8 0 0 1-9.6 0c0-2.3 1.2-3.7 2.3-4.8.2 1.6 1 2.6 2 3 0-2.9-.6-5.6.5-8.2z\" fill=\"currentColor\"/></svg>Fire protocol</b><ol><li id="fp1" class="now">Bones in the box</li><li id="fp2">Box on the shelf</li><li id="fp3">Door closed</li></ol></div><p id="cmsg" class="msg">Put the bones back in the box.</p>' + kbtn('Put the bones in the box', 'id="putbtn" data-act="put"') + '<span id="phint"></span></div>';
+      '<div class="foot sidefoot"><div class="fp"><b class="fpt"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5c.6 3.2 4.8 5.3 4.8 10a4.8 4.8 0 0 1-9.6 0c0-2.3 1.2-3.7 2.3-4.8.2 1.6 1 2.6 2 3 0-2.9-.6-5.6.5-8.2z\" fill=\"currentColor\"/></svg>3 steps</b><ol><li id="fp1" class="now">Bones in the box</li><li id="fp2">Box on the shelf</li><li id="fp3">Door closed</li></ol></div><p id="cmsg" class="msg" hidden></p>' + kbtn('Pack the bones', 'id="putbtn" data-act="put"') + '<span id="phint"></span></div>';
     return '<div class="pub"><ol>' +
         '<li><img src="images/publish/take-note.jpg" alt="Hands writing a measurement on a pink sticky note"><b>1</b><p>Take your sticky note with your measurement.</p></li>' +
         '<li><img src="images/publish/stick-note.jpg" alt="A sticky note pressed under an empty portrait circle"><b>2</b><p>Stick it under an empty portrait circle on the publishing wall.</p></li>' +
@@ -1339,7 +1339,7 @@ void main(){
     if (cur === 9) {
       if (putStep < 2) { crank = 100; $('#crank').value = 100; return; }
       if (doorSp) doorSp.to(crank / 100);
-      if (crank <= 2 && !stage.dataset.adv) { stage.dataset.adv = '1'; SND.clunk(); var f3 = $('#fp3'); if (f3) { f3.classList.remove('now'); f3.classList.add('done'); } setTimeout(SND.done, 350); var mm = $('#cmsg'); if (mm) mm.textContent = 'Door closed. The bones are safe.'; setTimeout(function () { stage.dataset.adv = ''; if (cur === 9 && crank <= 2) go(nextOf(9)); }, 1100); }
+      if (crank <= 2 && !stage.dataset.adv) { stage.dataset.adv = '1'; SND.clunk(); var f3 = $('#fp3'); if (f3) { f3.classList.remove('now'); f3.classList.add('done'); } setTimeout(SND.done, 350); var mm = $('#cmsg'), ph = $('#phint'); if (ph) ph.innerHTML = ''; if (mm) { mm.hidden = false; mm.textContent = 'The bones are safe from fire.'; } setTimeout(function () { stage.dataset.adv = ''; if (cur === 9 && crank <= 2) go(nextOf(9)); }, 1100); }
       return;
     }
     if (cur === 3) {
@@ -1614,8 +1614,8 @@ void main(){
   function putAway() {
     var it = $('#items'), pb = $('#pbox'), btn = $('#putbtn'), m = $('#cmsg'); if (!it || !pb || !btn) return;
     var f1 = $('#fp1'), f2 = $('#fp2'), f3 = $('#fp3');
-    if (putStep === 0) { SND.pack(); if (f1) { f1.classList.remove('now'); f1.classList.add('done'); } if (f2) f2.classList.add('now'); it.classList.add('packed'); pb.classList.add('full'); btn.querySelector('.kl').textContent = 'Put the box on the shelf'; m.textContent = 'The bones are safe in the box.'; putStep = 1; }
-    else if (putStep === 1) { SND.slide(); if (f2) { f2.classList.remove('now'); f2.classList.add('done'); } if (f3) f3.classList.add('now'); pb.classList.add('gone'); $('#slot').classList.add('in'); btn.parentNode.hidden = true; m.textContent = 'Now turn the knob to close the door. The bones are safe behind it.'; $('#phint').innerHTML = CRANKHINT; putStep = 2; collect(); }
+    if (putStep === 0) { SND.pack(); if (f1) { f1.classList.remove('now'); f1.classList.add('done'); } if (f2) f2.classList.add('now'); it.classList.add('packed'); pb.classList.add('full'); btn.querySelector('.kl').textContent = 'Shelve the box'; putStep = 1; }
+    else if (putStep === 1) { SND.slide(); if (f2) { f2.classList.remove('now'); f2.classList.add('done'); } if (f3) f3.classList.add('now'); pb.classList.add('gone'); $('#slot').classList.add('in'); btn.parentNode.hidden = true; $('#phint').innerHTML = CRANKHINT + '<small class="phcap">Turn the knob</small>'; putStep = 2; collect(); }
   }
   // Pressing a range does not lock it in. The visitor answers yes or no first, and the default is No.
   function askConfirm() {

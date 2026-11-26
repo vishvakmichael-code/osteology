@@ -269,53 +269,54 @@
   .measure3d.bonus .m3hint, .measure3d.bonus .m3key, .measure3d.bonus .m3intro { opacity: 0; transition: opacity .3s; }
   .measure3d.bonus .m3side, .measure3d.bonus .m3bar { opacity: 0; transform: translateX(8cqw); pointer-events: none; }
   .ttl h2 { transition: opacity .25s, transform .25s; } .ttl h2.swap { opacity: 0; transform: translateY(-.6cqw); }
-  .m3bonus { position: absolute; inset: 0; display: grid; grid-template-columns: 35cqw 1fr; column-gap: 2.8cqw; align-items: center; padding: 0 1.2cqw 0 19.6cqw; z-index: 2; }
+  .m3bonus { position: absolute; inset: 0; display: grid; grid-template-columns: 37cqw 1fr; column-gap: 3cqw; align-items: center; padding: 0 1.2cqw 0 19.6cqw; z-index: 2; }
   .m3bonus.out { opacity: 0; transition: opacity .3s; }
   .m3bonus .bdone { position: absolute; left: 3.2cqw; top: calc(50% + 5.4cqw); margin: 0; display: flex; align-items: center; gap: .6cqw; font: 700 1.05cqw/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: #FFF6DC; animation: bin .6s .75s cubic-bezier(.2,.8,.2,1) both; }
   .m3bonus .bdone svg { width: 1.8cqw; height: 1.8cqw; }
   @keyframes bin { from { opacity: 0; transform: translateY(2cqw) scale(.96); } to { opacity: 1; transform: none; } }
-  .bscene { position: relative; height: 24cqw; border-radius: 1cqw; background: radial-gradient(120% 90% at 50% 30%, #86664a, #4a3624); box-shadow: inset 0 0 2.4cqw rgba(0,0,0,.55), 0 1.2cqw 3.6cqw rgba(0,0,0,.45); cursor: pointer; animation: bin .7s .3s cubic-bezier(.2,.8,.2,1) both; }
-  .bpel { position: absolute; left: 42%; top: 22%; width: 52%; filter: drop-shadow(0 .4cqw .6cqw rgba(0,0,0,.45)); z-index: 2; }
+  .bscene { position: relative; height: 18.5cqw; margin-bottom: 1.6cqw; border-radius: 1cqw; background: radial-gradient(120% 90% at 50% 30%, #86664a, #4a3624); box-shadow: inset 0 0 2.4cqw rgba(0,0,0,.55), 0 1.2cqw 3.6cqw rgba(0,0,0,.45); cursor: pointer; animation: bin .7s .3s cubic-bezier(.2,.8,.2,1) both; }
+  .bpel { position: absolute; left: 46%; top: 9%; width: 44%; filter: drop-shadow(0 .4cqw .6cqw rgba(0,0,0,.45)); z-index: 2; }
   .bb { position: absolute; z-index: 3; transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(var(--k, 1)); filter: drop-shadow(0 .3cqw .5cqw rgba(0,0,0,.5));
     transition: left .85s cubic-bezier(.45,0,.2,1), top .85s cubic-bezier(.45,0,.2,1), transform .85s cubic-bezier(.45,0,.2,1), opacity .45s ease; }
-  .bb.sac { width: 13%; } .bb.ver { width: 12%; }
+  .bb.sac { width: 11%; } .bb.ver { width: 10%; }
   .bscene.jump .bb { transition: none; }
   .bscene[data-s="box"] .sac, .bscene[data-s="gone"] .sac { left: 14%; top: 86%; }
   .bscene[data-s="box"] .ver, .bscene[data-s="gone"] .ver { left: 25%; top: 86%; }
-  .bscene[data-s="up"] .sac { left: 14%; top: 40%; --rot: -8deg; } .bscene[data-s="up"] .ver { left: 27%; top: 36%; --rot: 10deg; }
+  .bscene[data-s="up"] .sac { left: 14%; top: 32%; --rot: -8deg; } .bscene[data-s="up"] .ver { left: 27%; top: 28%; --rot: 10deg; }
   .bscene[data-s="up"] .bb { transition-timing-function: cubic-bezier(.2,.7,.3,1); }
-  .bscene[data-s="table"] .sac { left: 54%; top: 86%; } .bscene[data-s="table"] .ver { left: 70%; top: 85%; --rot: 20deg; }
+  .bscene[data-s="table"] .sac { left: 56%; top: 85%; } .bscene[data-s="table"] .ver { left: 72%; top: 84%; --rot: 20deg; }
   .bscene[data-s="fit"] .sac, .bscene[data-s="gone"] .sac { --k: .92; } .bscene[data-s="fit"] .ver { --rot: 45deg; --k: .9; }
-  .bscene[data-s="fit"] .sac { left: 64%; top: 47%; } .bscene[data-s="fit"] .ver { left: 51%; top: 46%; }
+  .bscene[data-s="fit"] .sac { left: 66%; top: 39%; } .bscene[data-s="fit"] .ver { left: 55%; top: 38%; }
   .bscene[data-s="gone"] .bb { opacity: 0; transition: opacity .4s; }
-  .bbox { position: absolute; left: 4%; bottom: 5%; width: 31%; height: 23%; z-index: 4; background: linear-gradient(#cfae72, #a8834a); border: .18cqw solid #5a4326; border-radius: .3cqw; display: grid; place-items: center; box-shadow: 0 .4cqw .8cqw rgba(0,0,0,.35); }
+  .bbox { position: absolute; left: 4%; bottom: 6%; width: 30%; height: 30%; z-index: 4; background: linear-gradient(#cfae72, #a8834a); border: .18cqw solid #5a4326; border-radius: .3cqw; display: grid; place-items: center; box-shadow: 0 .4cqw .8cqw rgba(0,0,0,.35); }
   .bbox b { font: 700 .85cqw var(--sans); letter-spacing: .08em; text-transform: uppercase; background: #FFFBEE; color: #2B2A27; padding: .22cqw .6cqw; border-radius: .2cqw; }
   .bbox .blid { position: absolute; left: -.18cqw; right: -.18cqw; top: -1.5cqw; height: 1.5cqw; background: linear-gradient(#2a1d12, #45321f); border: .18cqw solid #5a4326; border-bottom: 0; clip-path: polygon(7% 0, 93% 0, 100% 100%, 0 100%); }
-  .bglow { position: absolute; left: 62%; top: 47%; width: 34%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%) scale(.5); opacity: 0; pointer-events: none; z-index: 1; background: radial-gradient(closest-side, rgba(232,169,74,.55), rgba(232,169,74,0)); }
+  .bglow { position: absolute; left: 64%; top: 40%; width: 30%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%) scale(.5); opacity: 0; pointer-events: none; z-index: 1; background: radial-gradient(closest-side, rgba(232,169,74,.55), rgba(232,169,74,0)); }
   .bscene.glow .bglow { animation: bglow 1.4s ease-out both; }
   @keyframes bglow { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.5); } 35% { opacity: 1; } 100% { opacity: .35; transform: translate(-50%, -50%) scale(1.15); } }
   .bok { position: absolute; left: 68%; top: 86%; transform: translate(-50%, -50%) scale(.6); opacity: 0; z-index: 5; background: #E8A94A; color: #2B2A27; font: 800 1.05cqw/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; padding: .55cqw 1cqw; border-radius: 2cqw; box-shadow: 0 .3cqw 1cqw rgba(0,0,0,.4); transition: transform .45s cubic-bezier(.3,1.6,.5,1), opacity .25s; }
   .bscene.glow .bok { opacity: 1; transform: translate(-50%, -50%) scale(1); transition-delay: .25s; }
-  .bgoal { position: absolute; right: -1.6cqw; top: -2.2cqw; width: 6.6cqw; margin: 0; padding: .4cqw .4cqw .3cqw; background: #FFFBEE; border-radius: .3cqw; transform: rotate(5deg); box-shadow: 0 .6cqw 1.4cqw rgba(0,0,0,.45); z-index: 6; animation: bgoal .6s .9s cubic-bezier(.3,1.4,.5,1) both; }
-  .bgoal img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: .15cqw; }
-  .bgoal figcaption { font: 700 .8cqw/1.4 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: #612826; text-align: center; }
-  @keyframes bgoal { from { opacity: 0; transform: rotate(18deg) translateY(-2cqw) scale(.7); } to { opacity: 1; transform: rotate(5deg); } }
   .breplay { position: absolute; left: 1.2cqw; top: 1cqw; font: 600 .85cqw/1 var(--sans); color: rgba(255,246,220,.6); opacity: 0; transition: opacity .25s; }
   .bscene:hover .breplay { opacity: 1; }
-  .binfo { display: flex; flex-direction: column; align-items: flex-start; color: #FFF6DC; }
-  .binfo > * { animation: bin .6s cubic-bezier(.2,.8,.2,1) both; }
-  .binfo > :nth-child(1) { animation-delay: .45s; } .binfo > :nth-child(2) { animation-delay: .55s; } .binfo > :nth-child(3) { animation-delay: .65s; } .binfo > :nth-child(4) { animation-delay: .8s; }
-  .binfo small { font: 700 1.05cqw/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #E8A94A; }
-  .binfo h3 { margin: .9cqw 0 1.5cqw; font: 400 2.8cqw/1.08 var(--head); text-transform: uppercase; letter-spacing: .02em; text-shadow: 0 .2cqw 1cqw rgba(0,0,0,.5); }
+  .bmain { display: flex; flex-direction: column; align-items: stretch; color: #FFF6DC; }
+  .bmain > * { animation: bin .6s cubic-bezier(.2,.8,.2,1) both; }
+  .bmain > :nth-child(1) { animation-delay: .4s; } .bmain > :nth-child(2) { animation-delay: .5s; } .bmain > :nth-child(3) { animation-delay: .6s; } .bmain > :nth-child(4) { animation-delay: .75s; }
+  .bside { display: flex; flex-direction: column; align-items: center; gap: 1.7cqw; animation: bin .7s .55s cubic-bezier(.2,.8,.2,1) both; }
+  .bside .m3timer { position: static; padding: .6cqw 1.8cqw .6cqw .7cqw; }
+  .bside .m3timer svg { width: 4.6cqw; height: 4.6cqw; } .bside .m3timer b { font-size: 2.8cqw; }
+  .m3timer.up b { color: #E2603A; }
+  .bphoto { margin: 0; padding: .6cqw .6cqw .4cqw; background: #FFFBEE; border-radius: .5cqw; box-shadow: 0 .8cqw 2.4cqw rgba(0,0,0,.5); transform: rotate(1.5deg); transition: box-shadow .4s, transform .5s cubic-bezier(.3,1.4,.5,1); }
+  .bphoto img { display: block; height: 26cqw; width: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: .25cqw; }
+  .bphoto figcaption { font: 700 .9cqw/1.6 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: #612826; text-align: center; }
+  .bphoto.look { transform: rotate(0) scale(1.03); box-shadow: 0 0 0 .3cqw #E8A94A, 0 0 3cqw rgba(232,169,74,.55), 0 .8cqw 2.4cqw rgba(0,0,0,.5); }
+  .bmain small { font: 700 1.05cqw/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #E8A94A; }
+  .bmain h3 { margin: .7cqw 0 1.3cqw; font: 400 2.6cqw/1.08 var(--head); text-transform: uppercase; letter-spacing: .02em; text-shadow: 0 .2cqw 1cqw rgba(0,0,0,.5); }
   .bsteps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .9cqw; }
   .bsteps li { display: flex; align-items: center; gap: 1cqw; font: 600 1.3cqw/1.3 var(--sans); opacity: .5; cursor: pointer; transition: opacity .35s, transform .35s cubic-bezier(.3,1.4,.5,1); text-shadow: 0 .1cqw .6cqw rgba(0,0,0,.6); }
   .bsteps li b { flex: none; width: 2.5cqw; height: 2.5cqw; border-radius: 50%; display: grid; place-items: center; font: 700 1.2cqw/1 var(--sans); background: transparent; color: #FFF6DC; box-shadow: inset 0 0 0 .14cqw rgba(255,246,220,.7); transition: background .3s, color .3s, box-shadow .3s, transform .35s cubic-bezier(.3,1.6,.5,1); }
   .bsteps li.past { opacity: .75; } .bsteps li.past b { background: rgba(255,246,220,.9); color: #2B2A27; box-shadow: none; }
   .bsteps li.on { opacity: 1; transform: translateX(.6cqw); } .bsteps li.on b { background: #E8A94A; color: #2B2A27; box-shadow: 0 0 0 .4cqw rgba(232,169,74,.25); transform: scale(1.12); }
-  .bclock { width: 2cqw; height: 2cqw; flex: none; opacity: 0; transition: opacity .3s; }
-  .bsteps li.on .bclock { opacity: 1; } .bsteps li.on .bcr { animation: bclock 3s linear both; }
-  @keyframes bclock { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 59.7; } }
-  .bbtns { display: flex; align-items: flex-start; gap: 1.2cqw; margin-top: 2cqw; }
+  .bbtns { display: flex; align-items: flex-start; gap: 1.2cqw; }
   .bbtns .kwrap { align-items: center; }
   .bbtns .btn { background: #FFF6DC; color: #2B2A27; border-color: #FFF6DC; font: 700 1.2cqw/1 var(--sans); padding: 1cqw 1.3cqw; white-space: nowrap; transition: transform .25s, opacity .25s; }
   .bbtns .btn.sel { transform: translateY(-.2cqw); box-shadow: 0 0 1.6cqw rgba(232,169,74,.55); }
@@ -591,21 +592,23 @@
   // A small looping demo shows the two other bones coming out of the box and fitting into the pelvis,
   // and the matching instruction lights up as it plays. Click a step to jump to it, click the table to replay.
   var bonusOn = false, bonusT = [], bonusPass = 0;
+  // everything on one page: the demo, the big photo of the fitted bones and the clock, which starts as soon as the stage opens
   var BONUS_HTML = '<div class="m3bonus" id="m3bonus">' +
     '<p class="bdone"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#E8A94A"/><path d="M6.5 12.5l3.6 3.4 7.4-8" fill="none" stroke="#2B2A27" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pelvis measured</p>' +
-    '<div class="bscene" id="bscene" data-s="box" role="img" aria-label="Demo: the two other bones come out of the box and fit into the pelvis">' +
-      '<img class="bpel" src="images/bones/pelvis.png" alt="" draggable="false">' +
-      '<img class="bb sac" src="images/bones/sacrum.png" alt="" draggable="false"><img class="bb ver" src="images/bones/vertebra.png" alt="" draggable="false">' +
-      '<div class="bbox"><i class="blid"></i><b>Box 2</b></div>' +
-      '<span class="bglow"></span><span class="bok">It fits!</span>' +
-      '<figure class="bgoal"><img src="images/measure/fitted-bones.jpg" alt="" draggable="false"><figcaption>Goal</figcaption></figure>' +
-      '<span class="breplay">Click to replay</span>' +
-    '</div>' +
-    '<div class="binfo"><small>Step 3 &middot; Bonus challenge</small><h3>Put the hips back together</h3>' +
+    '<div class="bmain"><small>Step 3 &middot; Bonus challenge</small><h3>Put the hips back together</h3>' +
+      '<div class="bscene" id="bscene" data-s="box" role="img" aria-label="Demo: the two other bones come out of the box and fit into the pelvis">' +
+        '<img class="bpel" src="images/bones/pelvis.png" alt="" draggable="false">' +
+        '<img class="bb sac" src="images/bones/sacrum.png" alt="" draggable="false"><img class="bb ver" src="images/bones/vertebra.png" alt="" draggable="false">' +
+        '<div class="bbox"><i class="blid"></i><b>Box 2</b></div>' +
+        '<span class="bglow"></span><span class="bok">It fits!</span><span class="breplay">Click to replay</span>' +
+      '</div>' +
       '<ol class="bsteps"><li data-k="0"><b>1</b><span>Take the other two bones out of the box.</span></li>' +
-      '<li data-k="1"><b>2</b><span>Fit them to the pelvis, like the photo.</span></li>' +
-      '<li data-k="2"><b>3</b><span>Beat the clock: you have 1:30.</span><svg class="bclock" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="rgba(255,246,220,.25)" stroke-width="3"/><circle class="bcr" cx="12" cy="12" r="9.5" fill="none" stroke="#E8A94A" stroke-width="3" stroke-linecap="round" stroke-dasharray="59.7" transform="rotate(-90 12 12)"/></svg></li></ol>' +
-      '<div class="bbtns">' + kbtn('Try putting the bones together', 'data-act="reveal"') + '<button class="btn opt-b bskip" data-act="next">Skip</button></div>' +
+      '<li data-k="1"><b>2</b><span>Fit them to the pelvis.</span></li>' +
+      '<li data-k="2"><b>3</b><span>Check yours against the photo.</span></li></ol>' +
+    '</div>' +
+    '<div class="bside"><div class="m3timer" id="m3timer" role="timer" aria-live="off"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,246,220,.18)" stroke-width="4"/><circle class="tr" cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="119.4" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg><b id="m3time">1:30</b><small id="m3tl">time left</small></div>' +
+      '<figure class="bphoto" id="bphoto"><img src="images/measure/fitted-bones.jpg" alt="The printed hip bones and sacrum fitted together" draggable="false"><figcaption>How they fit</figcaption></figure>' +
+      '<div class="bbtns">' + kbtn('Done fitting', 'data-act="next"') + '</div>' +
     '</div></div>';
   function bonusStep(k) { stage.querySelectorAll('.bsteps li').forEach(function (li, n) { li.classList.toggle('on', n === k); li.classList.toggle('past', n < k); }); }
   function bonusClear() { bonusT.forEach(clearTimeout); bonusT = []; }
@@ -629,8 +632,8 @@
       bonusAt(t + 1350, function () { sc.classList.add('glow'); if (loud) SND.note(3); });
       t += 2100;
     } else { sc.classList.add('jump'); sc.dataset.s = 'fit'; void sc.offsetWidth; sc.classList.remove('jump'); sc.classList.add('glow'); }
-    bonusAt(t, function () { bonusStep(2); });
-    bonusAt(t + 3200, function () { sc.classList.remove('glow'); sc.dataset.s = 'gone'; });
+    bonusAt(t, function () { bonusStep(2); var ph = $('#bphoto'); if (ph) ph.classList.add('look'); });
+    bonusAt(t + 3200, function () { sc.classList.remove('glow'); sc.dataset.s = 'gone'; var ph = $('#bphoto'); if (ph) ph.classList.remove('look'); });
     bonusAt(t + 3800, function () { bonusPlay(0); });
   }
   function enterBonus() {
@@ -643,9 +646,10 @@
     $('#bscene').addEventListener('click', function () { bonusPlay(0); });
     opts = [].slice.call(bx.querySelectorAll('.opt-b')); sel = 0; markSel();
     bonusT.push(setTimeout(function () { if (bonusOn) bonusPlay(0); }, 700));
+    m3Timer();
   }
   function exitBonus() {
-    var card = $('#card'), bx = $('#m3bonus'); if (!bonusOn) return; bonusOn = false; bonusClear();
+    var card = $('#card'), bx = $('#m3bonus'); if (!bonusOn) return; bonusOn = false; bonusClear(); clearInterval(m3Clock);
     if (card) card.classList.remove('bonus'); if (bx) { bx.classList.add('out'); setTimeout(function () { bx.remove(); }, 350); }
     var h = stage.querySelector('.ttl h2'); if (h) h.textContent = titles[6][0];
     opts = [].slice.call(stage.querySelectorAll('.m3bar .opt-b')); sel = 0; markSel();
@@ -1312,6 +1316,7 @@ void main(){
       if (left <= 0) {
         clearInterval(m3Clock); box.classList.add('up'); $('#m3tl').textContent = "time's up";
         var lc = $('#lclose'); if (lc) lc.lastChild.textContent = "Time's up! Press the knob to go on";
+        var dk = stage.querySelector('#m3bonus .bbtns .kl'); if (dk) dk.textContent = "Time's up! Go on";
         SND.done();
       }
     }, 250);
